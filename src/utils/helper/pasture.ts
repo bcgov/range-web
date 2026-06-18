@@ -1,18 +1,18 @@
 import { NOT_PROVIDED } from '../../constants/strings';
 import uuid from 'uuid-v4';
+import { PlantCommunity } from '../../types';
 import { resetPlantCommunityId } from './plantCommunity';
 
 interface PastureLike {
-  id?: any;
+  id?: string | number;
   name?: string;
-  createdAt?: any;
-  plantCommunities: any[];
-  [key: string]: any;
+  createdAt?: string;
+  plantCommunities: Record<string, unknown>[];
 }
 
 export const getPastureNames = (
   pastureIds: (string | number)[] = [],
-  pasturesMap: Record<string, any> = {},
+  pasturesMap: Record<string, { name?: string } | undefined> = {},
 ): string => {
   const pastureNames = pastureIds.map((pId) => {
     const pasture = pasturesMap[pId];
@@ -31,7 +31,7 @@ export const getPastureNames = (
   }
 };
 
-export const resetPastureId = (pasture: PastureLike): any => ({
+export const resetPastureId = (pasture: PastureLike): PastureLike => ({
   ...pasture,
   id: uuid(),
   createdAt: undefined,
@@ -44,7 +44,7 @@ interface GeneratedPasture {
   graceDays: number;
   pldPercent: number;
   notes: string;
-  plantCommunities: any[];
+  plantCommunities: PlantCommunity[];
   id: string;
 }
 

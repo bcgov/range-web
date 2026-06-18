@@ -8,6 +8,40 @@ import {
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcCrownTotalAUMs } from '../calculation';
 import { extractYearFromScheduleDate } from './date';
+
+interface ValidationError {
+  error: boolean;
+  message: string;
+  elementId?: string;
+}
+
+interface GrazingScheduleEntryLike {
+  dateIn?: string | null;
+  dateOut?: string | null;
+  pastureId?: number | null;
+  livestockTypeId?: number | null;
+  livestockCount?: number | string | null;
+}
+
+interface UsageLike {
+  year: number;
+  totalAnnualUse: number;
+}
+
+interface PastureLike {
+  id: number;
+  pldPercent?: number | null;
+}
+
+interface LivestockTypeLike {
+  id: number;
+  auFactor?: number;
+}
+
+interface ScheduleLike {
+  year?: number;
+  scheduleEntries?: GrazingScheduleEntryLike[];
+}
 /**
  * Validate a grazing schedule entry
  *
@@ -15,8 +49,11 @@ import { extractYearFromScheduleDate } from './date';
  * @param scheduleYear the year of the schedule
  * @returns the error object or undefined
  */
-export const handleGrazingScheduleEntryValidation = (e = {}, scheduleYear) => {
-  if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && !isNaN(parseFloat(e.livestockCount))) {
+export const handleGrazingScheduleEntryValidation = (
+  e: GrazingScheduleEntryLike = {},
+  scheduleYear?: number,
+): ValidationError | undefined => {
+  if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && !isNaN(parseFloat(String(e.livestockCount)))) {
     const entryYear = extractYearFromScheduleDate(e.dateIn);
     if (entryYear !== scheduleYear) {
       return {

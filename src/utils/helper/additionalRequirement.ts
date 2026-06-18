@@ -1,12 +1,13 @@
 import uuid from 'uuid-v4';
 
 interface AdditionalRequirementLike {
-  id?: any;
-  createdAt?: any;
-  [key: string]: any;
+  id?: string | number;
+  createdAt?: string;
 }
 
-export const resetAdditionalRequirementId = (additionalRequirement: AdditionalRequirementLike): any => ({
+export const resetAdditionalRequirementId = (
+  additionalRequirement: AdditionalRequirementLike,
+): AdditionalRequirementLike => ({
   ...additionalRequirement,
   createdAt: undefined,
   id: uuid(),

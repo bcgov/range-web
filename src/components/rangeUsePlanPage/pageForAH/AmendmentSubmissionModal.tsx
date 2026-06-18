@@ -113,7 +113,7 @@ class AmendmentSubmissionModal extends Component<AmendmentSubmissionModalProps, 
           await updateConfirmation({
             planId: plan.id,
             user,
-            confirmationId: currUserConfirmation.id,
+            confirmationId: currUserConfirmation.id!,
             confirmed: true,
             isMinorAmendment: amendmentType.code === AMENDMENT_TYPE.MINOR,
             isOwnSignature,

@@ -1,54 +1,54 @@
 import uuid from 'uuid-v4';
 
-interface PlantCommunityLike {
-  id?: any;
-  createdAt?: any;
-  indicatorPlants: any[];
-  monitoringAreas: any[];
-  plantCommunityActions: any[];
-  [key: string]: any;
+export interface PlantCommunityLike {
+  id?: string | number;
+  createdAt?: string;
+  indicatorPlants: Record<string, unknown>[];
+  monitoringAreas: Record<string, unknown>[];
+  plantCommunityActions: Record<string, unknown>[];
 }
 
 interface IndicatorPlantLike {
-  id?: any;
-  createdAt?: any;
-  [key: string]: any;
+  id?: string | number;
+  createdAt?: string;
 }
 
 interface MonitoringAreaLike {
-  id?: any;
-  createdAt?: any;
-  [key: string]: any;
+  id?: string | number;
+  createdAt?: string;
 }
 
 interface PlantCommunityActionLike {
-  id?: any;
-  createdAt?: any;
-  [key: string]: any;
+  id?: string | number;
+  createdAt?: string;
 }
 
-export const resetPlantCommunityId = (plantCommunity: PlantCommunityLike): any => ({
+export const resetPlantCommunityId = (plantCommunity: Record<string, unknown>): Record<string, unknown> => ({
   ...plantCommunity,
   id: uuid(),
   createdAt: undefined,
-  indicatorPlants: plantCommunity.indicatorPlants.map(resetIndicatorPlantId),
-  monitoringAreas: plantCommunity.monitoringAreas.map(resetMonitoringAreaId),
-  plantCommunityActions: plantCommunity.plantCommunityActions.map(resetPlantCommunityActionId),
+  indicatorPlants: (plantCommunity.indicatorPlants as IndicatorPlantLike[]).map(resetIndicatorPlantId),
+  monitoringAreas: (plantCommunity.monitoringAreas as MonitoringAreaLike[]).map(resetMonitoringAreaId),
+  plantCommunityActions: (plantCommunity.plantCommunityActions as PlantCommunityActionLike[]).map(
+    resetPlantCommunityActionId,
+  ),
 });
 
-export const resetIndicatorPlantId = (indicatorPlant: IndicatorPlantLike): any => ({
+export const resetIndicatorPlantId = (indicatorPlant: IndicatorPlantLike): Record<string, unknown> => ({
   ...indicatorPlant,
   createdAt: undefined,
   id: uuid(),
 });
 
-export const resetMonitoringAreaId = (monitoringArea: MonitoringAreaLike): any => ({
+export const resetMonitoringAreaId = (monitoringArea: MonitoringAreaLike): Record<string, unknown> => ({
   ...monitoringArea,
   createdAt: undefined,
   id: uuid(),
 });
 
-export const resetPlantCommunityActionId = (plantCommunityAction: PlantCommunityActionLike): any => ({
+export const resetPlantCommunityActionId = (
+  plantCommunityAction: PlantCommunityActionLike,
+): Record<string, unknown> => ({
   ...plantCommunityAction,
   createdAt: undefined,
   id: uuid(),

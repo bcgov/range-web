@@ -200,7 +200,7 @@ export const createAmendment = async (plan: any, references: any, staffInitiated
   await axios.put(
     API.UPDATE_PLAN_STATUS(plan.id),
     {
-      statusId: staffInitiated ? staffAmendmentStatus.id : ahAmendmentStatus.id,
+      statusId: staffInitiated ? staffAmendmentStatus!.id : ahAmendmentStatus!.id,
     },
     getAuthHeaderConfig(),
   );
