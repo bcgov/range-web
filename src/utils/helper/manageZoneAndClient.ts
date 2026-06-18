@@ -1,26 +1,24 @@
 import { NOT_ASSIGNED, NO_DESCRIPTION } from '../../constants/strings';
+import { User, District } from '../../types';
 import { getUserFullName } from './user';
 
 interface ZoneLike {
   id: number;
   code: string;
-  user?: any;
+  user?: User;
   description?: string;
-  district: { code: string; [key: string]: any };
-  [key: string]: any;
+  district: District;
 }
 
 interface UserLike {
   id: number;
   email?: string;
-  [key: string]: any;
 }
 
 interface ClientLike {
   clientNumber?: string;
   id: string | number;
   name: string;
-  [key: string]: any;
 }
 
 interface OptionResult {

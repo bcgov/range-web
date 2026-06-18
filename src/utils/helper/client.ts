@@ -1,36 +1,28 @@
 import { CLIENT_TYPE } from '../../constants/variables';
 import { NOT_PROVIDED } from '../../constants/strings';
 import { capitalize } from '..';
+import { PlanConfirmation } from '../../types';
 
 interface ClientLike {
   clientTypeCode?: string;
   id?: string;
   clientNumber?: string;
-  [key: string]: any;
 }
 
-interface UserLike {
+export interface UserLike {
   id?: number;
   clients?: { clientNumber?: string }[];
-  [key: string]: any;
 }
 
 interface ClientAgreementLike {
   agentId?: number;
   clientId?: string;
-  [key: string]: any;
-}
-
-interface ConfirmationLike {
-  clientId?: string;
-  confirmed?: boolean;
-  [key: string]: any;
 }
 
 export const getAgreementHolders = (
   clients: ClientLike[] = [],
 ): { primaryAgreementHolder: ClientLike; otherAgreementHolders: ClientLike[] } => {
-  let primaryAgreementHolder: ClientLike = {};
+  let primaryAgreementHolder: ClientLike = {} as ClientLike;
   const otherAgreementHolders: ClientLike[] = [];
   clients.forEach((client) => {
     if (client.clientTypeCode === CLIENT_TYPE.PRIMARY) {
@@ -43,7 +35,7 @@ export const getAgreementHolders = (
   return { primaryAgreementHolder, otherAgreementHolders };
 };
 
-export const isSingleClient = (clients: any[] = []): boolean => {
+export const isSingleClient = (clients: unknown[] = []): boolean => {
   return clients.length === 1;
 };
 
@@ -73,8 +65,8 @@ export const isAgent = (
 
 export const findConfirmationWithClientNumber = (
   clientNumber: string | undefined,
-  confirmations: ConfirmationLike[] | undefined,
-): ConfirmationLike | undefined => {
+  confirmations: Partial<PlanConfirmation>[] | undefined,
+): Partial<PlanConfirmation> | undefined => {
   if (clientNumber && confirmations) {
     return confirmations.find((confirmation) => confirmation.clientId === clientNumber);
   }
@@ -83,9 +75,9 @@ export const findConfirmationWithClientNumber = (
 
 export const findConfirmationsWithUser = (
   user: UserLike,
-  confirmations: ConfirmationLike[],
+  confirmations: Partial<PlanConfirmation>[],
   clientAgreements: ClientAgreementLike[],
-): ConfirmationLike[] => {
+): Partial<PlanConfirmation>[] => {
   const { clients = [] } = user;
 
   const agencyAgreements = clientAgreements.filter((ca) => ca.agentId === user.id);

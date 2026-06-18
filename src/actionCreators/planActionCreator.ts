@@ -164,7 +164,7 @@ export const createAmendment =
         const createdStatus = findStatusWithCode(references, PLAN_STATUS.CREATED);
         const initialAmendment = amendmentTypes.find((at) => at.code === AMENDMENT_TYPE.INITIAL);
 
-        const newPlan = copyPlanToCreateAmendment(plan, createdStatus.id, initialAmendment!.id);
+        const newPlan = copyPlanToCreateAmendment(plan, createdStatus!.id, initialAmendment!.id);
         const amendment = await dispatch(createRUP(newPlan));
         const { id: amendmentId } = amendment;
 
@@ -174,7 +174,11 @@ export const createAmendment =
         // create a normalized pasture ids map with the old pasture id as a key
         const newPastureIdsMap = normalizePasturesWithOldId(pastures, newPastures);
 
-        const plantCommunities = copyPlantCommunitiesToCreateAmendment(pcs, plantCommunitiesMap, newPastureIdsMap);
+        const plantCommunities = copyPlantCommunitiesToCreateAmendment(
+          pcs as unknown as (number | string)[],
+          plantCommunitiesMap,
+          newPastureIdsMap,
+        );
         const newPlantCommunities = await Promise.all(
           plantCommunities.map((pc: any) => dispatch(createRUPPlantCommunityAndOthers(amendmentId, pc.pastureId, pc))),
         );

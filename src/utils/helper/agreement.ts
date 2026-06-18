@@ -1,10 +1,7 @@
-interface AgreementTypeLike {
-  code: string;
-  [key: string]: any;
-}
+import { AgreementType } from '../../types';
 
-export const isGrazingSchedule = (agreementType: AgreementTypeLike | null | undefined): boolean =>
+export const isGrazingSchedule = (agreementType: AgreementType | null | undefined): boolean =>
   !!(agreementType && agreementType.code.startsWith('E'));
 
-export const isHayCuttingSchedule = (agreementType: AgreementTypeLike | null | undefined): boolean =>
+export const isHayCuttingSchedule = (agreementType: AgreementType | null | undefined): boolean =>
   !!(agreementType && agreementType.code.startsWith('H'));

@@ -264,8 +264,8 @@ function ClientLinkList({ userId }: ClientLinkListProps) {
           <DialogTitle id="alert-dialog-title">Delete client link?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete the link between the user {getUserFullName(user)} ({user.email}) and the
-              client {clientToDelete?.name} (Client #{clientToDelete?.clientNumber} -{' '}
+              Are you sure you want to delete the link between the user {getUserFullName(user as any)} ({user.email})
+              and the client {clientToDelete?.name} (Client #{clientToDelete?.clientNumber} -{' '}
               {clientToDelete?.locationCodes?.join(', ')})?
             </DialogContentText>
           </DialogContent>

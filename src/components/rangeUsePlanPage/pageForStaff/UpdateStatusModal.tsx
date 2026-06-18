@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import { MuiIcon, PrimaryButton } from '../../common';
 import { NUMBER_OF_LIMIT_FOR_NOTE } from '../../../constants/variables';
 import { isNoteRequired, findStatusWithCode, isStatusChangedRequested } from '../../../utils';
+import { Status } from '../../../types';
 
 interface UpdateStatusModalProps {
   header?: string;
@@ -45,7 +46,7 @@ class UpdateStatusModal extends Component<UpdateStatusModalProps, UpdateStatusMo
     const requireNote = isNoteRequired(statusCode);
     const status = findStatusWithCode(references, statusCode);
     this.setState({ loading: true });
-    const body: any = { planId: plan.id, statusId: status.id };
+    const body: any = { planId: plan.id, statusId: status!.id };
     if (requireNote && note) {
       body.note = note;
     }
@@ -70,7 +71,7 @@ class UpdateStatusModal extends Component<UpdateStatusModalProps, UpdateStatusMo
           {requireNote && (
             <div className="rup__update-status-modal__note">
               Add
-              {isStatusChangedRequested({ code: statusCode })
+              {isStatusChangedRequested({ code: statusCode } as Status)
                 ? ' explanation of changes requested. This will be visible to the agreement holder'
                 : ' Note'}
               &nbsp;({NUMBER_OF_LIMIT_FOR_NOTE} characters).

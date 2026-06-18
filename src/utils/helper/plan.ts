@@ -7,17 +7,24 @@ import {
 } from '../../constants/variables';
 import { isAmendment } from './amendment';
 import { isUserAgreementHolder, isUserStaff, isUserDecisionMaker, isUserAgrologist, isUserAdmin } from './user';
-import { findConfirmationsWithUser } from './client';
+import { findConfirmationsWithUser, UserLike } from './client';
+import { Plan, Status, User, PlanConfirmation } from '../../types';
 
-const getAmendmentTypeDescription = (amendmentTypeId: any, amendmentTypes: any[]): string => {
+const getAmendmentTypeDescription = (
+  amendmentTypeId: number | null | undefined,
+  amendmentTypes: { id: number; description?: string }[],
+): string => {
   if (amendmentTypeId && amendmentTypes) {
-    const amendmentType = amendmentTypes.find((at: any) => at.id === amendmentTypeId);
+    const amendmentType = amendmentTypes.find((at) => at.id === amendmentTypeId);
     return amendmentType?.description ?? '';
   }
   return '';
 };
 
-export const getPlanTypeDescription = (plan: any = {}, amendmentTypes: any[]): string => {
+export const getPlanTypeDescription = (
+  plan: Partial<Plan> = {},
+  amendmentTypes: { id: number; description?: string }[],
+): string => {
   const { agreementId, amendmentTypeId } = plan;
   if (!plan.id) return '';
   if (agreementId && amendmentTypeId) {
@@ -38,15 +45,14 @@ export const scrollIntoView = (elementId: string | undefined): void => {
   }
 };
 
-// for plans extending past agreement date, extend usage
-export const appendUsage = (plan: any): any => {
-  const planEndDate = new Date(plan.planEndDate);
-  const agrEndDate = new Date(plan.agreement.agreementEndDate);
+export const appendUsage = (plan: Plan): Plan => {
+  const planEndDate = new Date(plan.planEndDate as string);
+  const agrEndDate = new Date(plan.agreement!.agreementEndDate);
 
-  const newPlan = JSON.parse(JSON.stringify(plan));
+  const newPlan: Plan = JSON.parse(JSON.stringify(plan));
 
   if (planEndDate.getFullYear() > agrEndDate.getFullYear()) {
-    const lastYearOfUsage = plan.agreement.usage[plan.agreement.usage.length - 1];
+    const lastYearOfUsage = plan.agreement!.usage[plan.agreement!.usage.length - 1];
     let lastYearOfUsageID = lastYearOfUsage.id;
     let lastYear = lastYearOfUsage.year;
 
@@ -57,74 +63,82 @@ export const appendUsage = (plan: any): any => {
       tempUsage.id = lastYearOfUsageID;
       tempUsage.year = lastYear;
       tempUsage.fta = false;
-      newPlan.agreement.usage.push(tempUsage);
-    } while (newPlan.agreement.usage[newPlan.agreement.usage.length - 1].year < planEndDate.getFullYear());
+      newPlan.agreement!.usage.push(tempUsage);
+    } while (newPlan.agreement!.usage[newPlan.agreement!.usage.length - 1].year < planEndDate.getFullYear());
   }
 
   return newPlan;
 };
 
-export const isStatusCreated = (status: any): boolean => status && status.code === PLAN_STATUS.CREATED;
+export const isStatusCreated = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.CREATED);
 
-export const isStatusDraft = (status: any): boolean => status && status.code === PLAN_STATUS.DRAFT;
+export const isStatusDraft = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.DRAFT);
 
-export const isStatusStaffDraft = (status: any): boolean => status && status.code === PLAN_STATUS.STAFF_DRAFT;
+export const isStatusStaffDraft = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.STAFF_DRAFT);
 
-// export const isStatusCompleted = (status) => status && status.code === PLAN_STATUS.COMPLETED;
+export const isStatusChangedRequested = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.CHANGE_REQUESTED);
 
-export const isStatusChangedRequested = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.CHANGE_REQUESTED;
+export const isStatusApproved = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.APPROVED);
 
-export const isStatusApproved = (status: any): boolean => status && status.code === PLAN_STATUS.APPROVED;
+export const isStatusNotApproved = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.NOT_APPROVED);
 
-export const isStatusNotApproved = (status: any): boolean => status && status.code === PLAN_STATUS.NOT_APPROVED;
+export const isStatusNotApprovedFWR = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED);
 
-export const isStatusNotApprovedFWR = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED;
+export const isStatusStands = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.STANDS);
 
-export const isStatusStands = (status: any): boolean => status && status.code === PLAN_STATUS.STANDS;
+export const isStatusStandsReview = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.STANDS_REVIEW);
 
-export const isStatusStandsReview = (status: any): boolean => status && status.code === PLAN_STATUS.STANDS_REVIEW;
+export const isStatusStandsNotReviewed = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.STANDS_NOT_REVIEWED);
 
-export const isStatusStandsNotReviewed = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.STANDS_NOT_REVIEWED;
+export const isStatusStandsWM = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.STANDS_WRONGLY_MADE);
 
-export const isStatusStandsWM = (status: any): boolean => status && status.code === PLAN_STATUS.STANDS_WRONGLY_MADE;
+export const isStatusWronglyMakeWE = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT);
 
-export const isStatusWronglyMakeWE = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT;
+export const isStatusSubmittedForReview = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.SUBMITTED_FOR_REVIEW);
 
-export const isStatusSubmittedForReview = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.SUBMITTED_FOR_REVIEW;
+export const isStatusSubmittedForFD = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION);
 
-export const isStatusSubmittedForFD = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION;
+export const isStatusRecommendReady = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.RECOMMEND_READY);
 
-export const isStatusRecommendReady = (status: any): boolean => status && status.code === PLAN_STATUS.RECOMMEND_READY;
+export const isStatusRecommendNotReady = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.RECOMMEND_NOT_READY);
 
-export const isStatusRecommendNotReady = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.RECOMMEND_NOT_READY;
+export const isStatusAwaitingConfirmation = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION);
 
-export const isStatusAwaitingConfirmation = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.AWAITING_CONFIRMATION;
+export const isStatusRecommendForSubmission = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION);
 
-export const isStatusRecommendForSubmission = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.RECOMMEND_FOR_SUBMISSION;
+export const isStatusAmongApprovedStatuses = (status: Status | null | undefined): boolean =>
+  !!(status && status.code && APPROVED_PLAN_STATUSES.includes(status.code));
 
-export const isStatusAmongApprovedStatuses = (status: any): boolean =>
-  status && status.code && APPROVED_PLAN_STATUSES.includes(status.code);
+export const isStatusIndicatingStaffFeedbackNeeded = (status: Status | null | undefined): boolean =>
+  !!(status && status.code && FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.includes(status.code));
 
-export const isStatusIndicatingStaffFeedbackNeeded = (status: any): boolean =>
-  status && status.code && FEEDBACK_REQUIRED_FROM_STAFF_PLAN_STATUSES.includes(status.code);
+export const isStatusMandatoryAmendmentStaff = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF);
 
-export const isStatusMandatoryAmendmentStaff = (status: any): boolean =>
-  status && status.code === PLAN_STATUS.MANDATORY_AMENDMENT_STAFF;
-
-export const isStatusAmendmentAH = (status: any): boolean => status && status.code === PLAN_STATUS.AMENDMENT_AH;
+export const isStatusAmendmentAH = (status: Status | null | undefined): boolean =>
+  !!(status && status.code === PLAN_STATUS.AMENDMENT_AH);
 
 export const isNoteRequired = (statusCode: string): boolean => REQUIRE_NOTES_PLAN_STATUSES.includes(statusCode);
 
-export const canUserSubmitPlan = (plan: any = {}, user: any = {}): boolean | undefined => {
+export const canUserSubmitPlan = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean | undefined => {
   const { status } = plan;
   if (!status || !status.code || !user || !user.roleId) return false;
 
@@ -146,32 +160,32 @@ export const canUserSubmitPlan = (plan: any = {}, user: any = {}): boolean | und
 };
 
 export const canUserSubmitConfirmation = (
-  status: any,
-  user: any,
-  confirmations: any[] = [],
-  clientAgreements: any[] = [],
+  status: Status | null | undefined,
+  user: Partial<User> | undefined,
+  confirmations: Partial<PlanConfirmation>[] = [],
+  clientAgreements: { agentId?: number; clientId?: string }[] = [],
 ): boolean => {
   if (isStatusAwaitingConfirmation(status) && user) {
     if (isUserAdmin(user)) return true;
     const isConfirmed =
-      findConfirmationsWithUser(user, confirmations, clientAgreements ?? [])?.every((ca: any) => ca.confirmed) ?? false;
+      findConfirmationsWithUser(user as UserLike, confirmations, clientAgreements ?? [])?.every((ca) => ca.confirmed) ??
+      false;
 
-    // users who haven't confirmed yet can submit the confirmation
     return !isConfirmed;
   }
   return false;
 };
 
-export const doesStaffOwnPlan = (plan: any = {}, user: any = {}): boolean => {
+export const doesStaffOwnPlan = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean => {
   if (isUserAdmin(user)) return true;
   return plan?.agreement?.zone?.user?.id === user.id;
 };
 
-export const canUserAmendPlan = (plan: any = {}, user: any = {}): boolean => {
+export const canUserAmendPlan = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean => {
   return isStatusAmongApprovedStatuses(plan.status) && (doesStaffOwnPlan(plan, user) || isUserAdmin(user));
 };
 
-export const canUserSaveDraft = (plan: any = {}, user: any = {}): boolean => {
+export const canUserSaveDraft = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean => {
   const canEdit = canUserEditThisPlan(plan, user);
 
   if (isUserAgrologist(user)) {
@@ -181,7 +195,7 @@ export const canUserSaveDraft = (plan: any = {}, user: any = {}): boolean => {
   return canEdit;
 };
 
-export const canUserEditThisPlan = (plan: any = {}, user: any = {}): boolean => {
+export const canUserEditThisPlan = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean => {
   const { status } = plan;
 
   if (isStatusStaffDraft(status) || isStatusSubmittedForReview(status) || isStatusMandatoryAmendmentStaff(status)) {
@@ -207,14 +221,11 @@ export const canUserEditThisPlan = (plan: any = {}, user: any = {}): boolean => 
   return false;
 };
 
-export const canUserAddAttachments = (plan: any = {}, user: any = {}): boolean => {
-  // Allow admins to always add attachments (except when plan is approved)
+export const canUserAddAttachments = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean => {
   if (isUserAdmin(user)) {
     return !isStatusApproved(plan.status);
   }
 
-  // Allow users to add attachments if they can edit the plan OR update status
-  // OR if they are staff/agrologists who can manage the plan
   const canEdit = canUserEditThisPlan(plan, user);
   const canUpdateStatus = canUserUpdateStatus(plan, user);
   const isStaffManagingPlan = (isUserAgrologist(user) || isUserStaff(user)) && doesStaffOwnPlan(plan, user);
@@ -222,19 +233,25 @@ export const canUserAddAttachments = (plan: any = {}, user: any = {}): boolean =
   return (canEdit || canUpdateStatus || isStaffManagingPlan) && !isStatusApproved(plan.status);
 };
 
-export const canUserAttachAdditionalAttachments = (plan: any = {}, user: any = {}): boolean => {
+export const canUserAttachAdditionalAttachments = (
+  plan: Partial<Plan> | undefined,
+  user: Partial<User> | undefined,
+): boolean => {
   if (!plan || !user) return false;
   if (isUserAdmin(user) || isUserAgrologist(user) || isUserAgreementHolder(user)) return true;
   return false;
 };
 
-export const canUserAttachDecisionMaterials = (plan: any = {}, user: any = {}): boolean => {
+export const canUserAttachDecisionMaterials = (
+  plan: Partial<Plan> | undefined,
+  user: Partial<User> | undefined,
+): boolean => {
   if (!plan || !user) return false;
   if (isUserAdmin(user) || isUserAgrologist(user) || isUserDecisionMaker(user)) return true;
   return false;
 };
 
-export const canUserAttachMaps = (plan: any = {}, user: any = {}): boolean | undefined => {
+export const canUserAttachMaps = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean | undefined => {
   if (!plan || !plan.status || !user) {
     return false;
   }
@@ -246,7 +263,7 @@ export const canUserAttachMaps = (plan: any = {}, user: any = {}): boolean | und
   }
 };
 
-export const canUserAddAdditionalReqs = (plan: any = {}, user: any = {}): boolean | undefined => {
+export const canUserAddAdditionalReqs = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean | undefined => {
   if (!plan || !plan.status || !user) {
     return false;
   }
@@ -258,7 +275,7 @@ export const canUserAddAdditionalReqs = (plan: any = {}, user: any = {}): boolea
   }
 };
 
-export const canUserConsiderManagement = (plan: any = {}, user: any = {}): boolean | undefined => {
+export const canUserConsiderManagement = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean | undefined => {
   if (!plan || !plan.status || !user) {
     return false;
   }
@@ -270,7 +287,7 @@ export const canUserConsiderManagement = (plan: any = {}, user: any = {}): boole
   }
 };
 
-export const canUserUpdateStatus = (plan: any = {}, user: any = {}): boolean => {
+export const canUserUpdateStatus = (plan: Partial<Plan> = {}, user: Partial<User> = {}): boolean => {
   const { status } = plan;
   if (!status) return false;
 
@@ -294,7 +311,7 @@ export const canUserUpdateStatus = (plan: any = {}, user: any = {}): boolean => 
   return false;
 };
 
-export const canUserDiscardAmendment = (plan: any, user: any): boolean => {
+export const canUserDiscardAmendment = (plan: Partial<Plan>, user: Partial<User>): boolean => {
   if (!user || !plan) return false;
 
   if (isUserAdmin(user)) {
@@ -312,7 +329,7 @@ export const canUserDiscardAmendment = (plan: any, user: any): boolean => {
   return false;
 };
 
-export const canUserAmendFromLegal = (plan: any, user: any): boolean => {
+export const canUserAmendFromLegal = (plan: Partial<Plan>, user: Partial<User>): boolean => {
   if (!user || !plan) return false;
 
   return (
@@ -321,7 +338,7 @@ export const canUserAmendFromLegal = (plan: any, user: any): boolean => {
   );
 };
 
-export const canUserSubmitAsMandatory = (plan: any, user: any): boolean => {
+export const canUserSubmitAsMandatory = (plan: Partial<Plan>, user: Partial<User>): boolean => {
   if (!user || !plan) return false;
 
   if (isUserDecisionMaker(user) || isUserAdmin(user)) {
@@ -331,32 +348,38 @@ export const canUserSubmitAsMandatory = (plan: any, user: any): boolean => {
   return false;
 };
 
-export const findStatusWithCode = (references: any, statusCode: string | null | undefined): any => {
+export const findStatusWithCode = (
+  references: Record<string, unknown[]>,
+  statusCode: string | null | undefined,
+): Status | undefined => {
   if (references && statusCode) {
-    const planStatusList = references[REFERENCE_KEY.PLAN_STATUS];
-    return planStatusList.find((s: any) => s.code === statusCode);
+    const planStatusList = references[REFERENCE_KEY.PLAN_STATUS] as Status[];
+    return planStatusList.find((s) => s.code === statusCode);
   }
 
   return undefined;
 };
 
-export const isPlanActive = (plan: any): boolean => {
+export const isPlanActive = (plan: Partial<Plan>): boolean => {
   if (!plan) return false;
-  if ([8, 9, 12, 20, 21, 22].indexOf(plan.status.id) !== -1) return true;
-  if (plan.amendmentTypeId && [11, 13, 18].indexOf(plan.status.id) !== -1) return true;
+  if ([8, 9, 12, 20, 21, 22].indexOf(plan.status!.id) !== -1) return true;
+  if (plan.amendmentTypeId && [11, 13, 18].indexOf(plan.status!.id) !== -1) return true;
   return false;
 };
 
 export const getBannerHeaderAndContentForAH = (
-  plan: any,
-  user: any,
-  references: any,
+  plan: Partial<Plan>,
+  user: Partial<User>,
+  references: Record<string, unknown[]>,
 ): { header: string; content: string } => {
   const { status, amendmentTypeId } = plan;
   let header = '';
   let content = '';
 
-  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE];
+  const amendmentTypes = references[REFERENCE_KEY.AMENDMENT_TYPE] as {
+    id: number;
+    description?: string;
+  }[];
   const amendmentType = getAmendmentTypeDescription(amendmentTypeId, amendmentTypes) || 'Amendment';
 
   const planType = isAmendment(amendmentTypeId) ? amendmentType : 'Initial Range Use Plan';
