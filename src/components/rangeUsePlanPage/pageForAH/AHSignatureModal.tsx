@@ -127,8 +127,13 @@ class AHSignatureModal extends Component<AHSignatureModalProps, AHSignatureModal
 
     return (
       <Dialog open={open} onClose={this.onClose} maxWidth="sm" fullWidth>
-        <DialogContent>
-          <IconButton onClick={this.onClose} style={{ float: 'right' }} size="small">
+        <DialogContent sx={{ position: 'relative' }}>
+          <IconButton
+            aria-label="close"
+            onClick={this.onClose}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+            size="small"
+          >
             <MuiIcon name="close" />
           </IconButton>
           <ConfirmationTabs
