@@ -7,6 +7,7 @@ import {
 } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcCrownTotalAUMs } from '../calculation';
+import { extractYearFromScheduleDate } from './date';
 /**
  * Validate a grazing schedule entry
  *
@@ -15,7 +16,7 @@ import { calcCrownTotalAUMs } from '../calculation';
  */
 export const handleGrazingScheduleEntryValidation = (e = {}, scheduleYear) => {
   if (e.dateIn && e.dateOut && e.pastureId && e.livestockTypeId && !isNaN(parseFloat(e.livestockCount))) {
-    const entryYear = new Date(e.dateIn).getFullYear();
+    const entryYear = extractYearFromScheduleDate(e.dateIn);
     if (entryYear !== scheduleYear) {
       return {
         error: true,

@@ -7,6 +7,7 @@ import {
 } from '../../constants/strings';
 import { ELEMENT_ID } from '../../constants/variables';
 import { calcTotalTonnes } from '../calculation/hayCuttingSchedule';
+import { extractYearFromScheduleDate } from './date';
 
 /**
  * Validate a hay cutting schedule entry
@@ -29,7 +30,7 @@ export const handleHayCuttingScheduleEntryValidation = (e = {}, scheduleYear) =>
     e.tonnes !== undefined &&
     e.tonnes !== ''
   ) {
-    const entryYear = new Date(e.dateIn).getFullYear();
+    const entryYear = extractYearFromScheduleDate(e.dateIn);
     if (entryYear !== scheduleYear) {
       return {
         error: true,
