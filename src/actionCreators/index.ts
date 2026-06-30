@@ -1,5 +1,3 @@
-import { normalize } from 'normalizr';
-import * as schema from './schema';
 import * as actions from '../actions';
 import * as reducerTypes from '../constants/reducerTypes';
 import * as API from '../constants/api';
@@ -26,25 +24,6 @@ export * from './grazingScheduleActionCreator';
 export * from './pastureActionCreator';
 export * from './ministerIssueActionCreator';
 export * from './requirementAndConsiderationActionCreator';
-
-export const fetchAgreement =
-  (agreementId: string): AppThunk<Promise<any>> =>
-  (dispatch, getState) => {
-    dispatch(actions.request(reducerTypes.GET_AGREEMENT));
-    return axios.get(API.GET_AGREEMENT(agreementId), createConfigWithHeader(getState)).then(
-      (response: any) => {
-        const agreement = response.data;
-        dispatch(actions.success(reducerTypes.GET_AGREEMENT, agreement));
-        dispatch(actions.storeAgreementWithAllPlans(normalize(agreement, schema.agreement)));
-
-        return agreement;
-      },
-      (err: any) => {
-        dispatch(actions.error(reducerTypes.GET_AGREEMENT, err));
-        throw err;
-      },
-    );
-  };
 
 export const extendSession = (): AppThunk<Promise<void>> => (dispatch) => {
   const data = getDataFromLocalStorage(LOCAL_STORAGE_KEY.AUTH) as any;
@@ -131,39 +110,3 @@ export const updateUser =
       },
     );
   };
-
-// export const searchAgreements = (params) => (dispatch, getState) => {
-//   const { page = 1, limit = DEFAULT_SEARCH_LIMIT } = params;
-//
-//   if (getIsFetchingAgreements(getState())) {
-//     return Promise.resolve();
-//   }
-//   dispatch(actions.request(reducerTypes.SEARCH_AGREEMENTS));
-//
-//   const config = {
-//     ...createConfigWithHeader(getState),
-//     params: {
-//       page: Number(page),
-//       limit: Number(limit),
-//     },
-//   };
-//
-//   return axios.get(API.SEARCH_AGREEMENTS, config).then(
-//     (response) => {
-//       dispatch(
-//         actions.successPagenated(reducerTypes.SEARCH_AGREEMENTS, response.data),
-//       );
-//       const payload = {
-//         ...normalize(response.data.agreements, schema.arrayOfAgreements),
-//         params,
-//       };
-//
-//       dispatch(actions.storeAgreements(payload));
-//       return response.data;
-//     },
-//     (err) => {
-//       dispatch(actions.error(reducerTypes.SEARCH_AGREEMENTS, err));
-//       throw err;
-//     },
-//   );
-// };

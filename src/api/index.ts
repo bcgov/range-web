@@ -4,10 +4,6 @@ import uuid from 'uuid-v4';
 import { axios, getAuthHeaderConfig, sequentialAsyncMap } from '../utils';
 import * as API from '../constants/api';
 
-export const createVersion = async (planId: string | number): Promise<void> => {
-  await axios.post(API.CREATE_RUP_VERSION(planId), {}, getAuthHeaderConfig());
-};
-
 export const saveSchedules = (planId: string | number, schedules: any[], newPastures: any[]): any => {
   return sequentialAsyncMap(schedules, async (schedule: any) => {
     const scheduleEntries = schedule.scheduleEntries.map(

@@ -30,15 +30,6 @@ const addSchedule = (state: SchedulesState, action: ScheduleAction): SchedulesSt
   };
 };
 
-const updateSchedule = (state: SchedulesState, action: ScheduleAction): SchedulesState => {
-  const { grazingSchedule } = action.payload;
-
-  return {
-    ...state,
-    [grazingSchedule!.id]: grazingSchedule!,
-  };
-};
-
 const deleteSchedule = (state: SchedulesState, action: ScheduleAction): SchedulesState => {
   const { grazingScheduleId } = action.payload;
   const newState = { ...state };
@@ -53,8 +44,6 @@ const schedulesReducer = (state: SchedulesState = {}, action: ScheduleAction): S
       return storeSchedules(state, action);
     case actionTypes.SCHEDULE_ADDED:
       return addSchedule(state, action);
-    case actionTypes.SCHEDULE_UPDATED:
-      return updateSchedule(state, action);
     case actionTypes.SCHEDULE_DELETED:
       return deleteSchedule(state, action);
     default:

@@ -66,8 +66,6 @@ export const API_BASE_URL = isBundled ? `${window.location.origin}/api` : DEV_EN
 export const SEARCH_AGREEMENTS = '/v1/agreement/search';
 export const EXPORT_AGREEMENTS = '/v1/agreement/export';
 export const EXPORT_LIVESTOCK = '/v1/agreement/export/livestock';
-export const GET_AGREEMENT = (agreementId: string | number): string => `/v1/agreement/${agreementId}`;
-export const UPDATE_AGREEMENT_ZONE = (agreementId: string | number): string => `/v1/agreement/${agreementId}/zone`;
 
 export const GET_REFERENCES = '/v1/reference';
 export const GET_USERS = '/v1/user';
@@ -77,7 +75,6 @@ export const SEARCH_CLIENTS = '/v1/client/search';
 export const GET_USER_PROFILE = '/v1/user/me';
 export const UPDATE_USER_PROFILE = '/v1/user/me';
 
-export const UPDATE_USER_ID_OF_ZONE = (zoneId: string | number): string => `/v1/zone/${zoneId}/user`;
 export const CREATE_USER_CLIENT_LINK = (userId: string | number): string => `/v1/user/${userId}/client`;
 export const DELETE_USER_CLIENT_LINK = (userId: string | number, clientId: string | number): string =>
   `/v1/user/${userId}/client/${clientId}`;
@@ -87,7 +84,6 @@ export const ASSIGN_DISTRICTS = (userId: string | number): string => `/v1/user/$
 export const GET_USER_DISTRICTS = (userId: string | number): string => `/v1/user/${userId}/districts`;
 export const CREATE_RUP = '/v1/plan';
 export const GET_RUP = (planId: string | number): string => `/v1/plan/${planId}`;
-export const GET_PLAN_PDF = (planId: string | number): string => `/v1/report/${planId}`;
 export const GET_CLIENT_AGREEMENTS = (planId: string | number): string => `/v1/client/agreements/${planId}`;
 export const UPDATE_CLIENT_AGREEMENT = (planId: string | number, clientAgreementId: string | number): string =>
   `/v1/client/agreements/${planId}/${clientAgreementId}`;
@@ -105,7 +101,6 @@ export const UPDATE_CONFIRMATION = (planId: string | number, confirmationId: str
 export const COPY_PLAN = (planId: string | number): string => `/v1/plan/${planId}/copy`;
 export const DISCARD_AMENDMENT = (planId: string | number): string => `v1/plan/${planId}/discard-amendment`;
 
-export const CREATE_RUP_VERSION = (planId: string | number): string => `/v1/plan/${planId}/version`;
 export const GET_RUP_VERSIONS = (planId: string | number): string => `/v1/plan/${planId}/version`;
 export const GET_AGREEMENT_EXEMPTIONS = (agreementId: string | number): string =>
   `/v1/agreement/${agreementId}/exemption`;

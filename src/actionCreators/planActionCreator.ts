@@ -237,29 +237,6 @@ export const createAmendment =
     return makeRequest();
   };
 
-export const fetchRUP =
-  (planId: string | number): AppThunk<Promise<any>> =>
-  (dispatch, getState) => {
-    dispatch(request(reducerTypes.GET_PLAN));
-    const makeRequest = async () => {
-      try {
-        const response = await axios.get(API.GET_RUP(planId), createConfigWithHeader(getState));
-        const planWithAgreement = response.data;
-
-        dispatch(success(reducerTypes.GET_PLAN, planWithAgreement));
-        // store the plan object
-        dispatch(storePlan(normalize(planWithAgreement, schema.plan)));
-
-        // return the agreement data for view
-        return planWithAgreement;
-      } catch (err) {
-        dispatch(error(reducerTypes.GET_PLAN, err));
-        throw err;
-      }
-    };
-    return makeRequest();
-  };
-
 export const updateRUPStatus =
   ({
     planId,
@@ -291,28 +268,6 @@ export const updateRUPStatus =
         if (shouldToast) {
           dispatch(toastErrorMessage(err));
         }
-        throw err;
-      }
-    };
-    return makeRequest();
-  };
-
-export const fetchRupPDF =
-  (planId: string | number): AppThunk<Promise<any>> =>
-  (dispatch, getState) => {
-    dispatch(request(reducerTypes.GET_PLAN_PDF));
-    const makeRequest = async () => {
-      try {
-        const config = {
-          ...createConfigWithHeader(getState),
-          responseType: 'arraybuffer' as const,
-        };
-        const { data } = await axios.get(API.GET_PLAN_PDF(planId), config);
-        dispatch(success(reducerTypes.GET_PLAN_PDF, data));
-        return data;
-      } catch (err) {
-        dispatch(error(reducerTypes.GET_PLAN_PDF, err));
-        dispatch(toastErrorMessage(err));
         throw err;
       }
     };

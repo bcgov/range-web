@@ -123,34 +123,3 @@ export const createOrUpdateRUPMinisterIssueAndActions =
 
     return dispatch(updateRUPMinisterIssueAndActions(planId, issue));
   };
-
-export const deleteRUPMinisterIssue =
-  (planId: string | number, issueId: string | number): AppThunk<Promise<any>> =>
-  (dispatch, getState) => {
-    return axios.delete(API.DELETE_RUP_MINISTER_ISSUE(planId, issueId), createConfigWithHeader(getState)).then(
-      (response: any) => {
-        return response.data;
-      },
-      (err: any) => {
-        throw err;
-      },
-    );
-  };
-
-export const deleteRUPMinisterIssueAction =
-  (planId: string | number, issueId: string | number, actionId: string | number): AppThunk<Promise<any>> =>
-  (dispatch, getState) => {
-    dispatch(request(reducerTypes.DELETE_MINISTER_ISSUE_ACTION));
-    return axios
-      .delete(API.DELETE_RUP_MINISTER_ISSUE_ACTION(planId, issueId, actionId), createConfigWithHeader(getState))
-      .then(
-        (response: any) => {
-          dispatch(success(reducerTypes.DELETE_MINISTER_ISSUE_ACTION, response.data));
-          return response.data;
-        },
-        (err: any) => {
-          dispatch(error(reducerTypes.DELETE_MINISTER_ISSUE_ACTION, err));
-          throw err;
-        },
-      );
-  };

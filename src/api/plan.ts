@@ -144,11 +144,6 @@ const removePlanFromLocalStorage = (planId: string | number): void => {
   localStorage.removeItem(`plan-${planId}`);
 };
 
-export const getPlans = (): any[] =>
-  Object.entries(localStorage)
-    .filter(([key]) => key.match(/(plan-)(.*)/g))
-    .map((entry) => JSON.parse(entry[1]));
-
 export const createNewPlan = (agreement: any): any => {
   const newPlan = {
     id: uuid(),

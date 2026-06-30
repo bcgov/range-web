@@ -24,8 +24,3 @@ export const storeClients = (payload: unknown) => ({
   type: actionTypes.STORE_CLIENTS,
   payload,
 });
-
-export const storeAgreementWithAllPlans = (payload: unknown) => ({
-  type: actionTypes.STORE_AGREEMENT_WITH_ALL_PLANS,
-  payload,
-});

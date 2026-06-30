@@ -16,10 +16,8 @@ import { schema } from 'normalizr';
 
 // Initialize a new schema for agreements
 export const agreement: schema.Entity = new schema.Entity('agreements');
-export const arrayOfAgreements: schema.Array = new schema.Array(agreement);
 
 export const zone: schema.Entity = new schema.Entity('zones');
-export const arrayOfZones: schema.Array = new schema.Array(zone);
 export const user: schema.Entity = new schema.Entity('users');
 export const arrayOfUsers: schema.Array = new schema.Array(user);
 export const client: schema.Entity = new schema.Entity(
@@ -29,7 +27,6 @@ export const client: schema.Entity = new schema.Entity(
     idAttribute: 'id', // 'clientNumber' is the unique id of Client
   },
 );
-export const arrayOfClients: schema.Array = new schema.Array(client);
 
 export const plan: schema.Entity = new schema.Entity('plans');
 export const pasture: schema.Entity = new schema.Entity('pastures');

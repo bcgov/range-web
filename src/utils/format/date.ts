@@ -39,32 +39,3 @@ export const formatDateToNow = (date: string | Date | null | undefined): string 
 
   return `${fromNow}, ${absolute}`;
 };
-
-/**
- * Parse a Date instance to get the month and day
- *
- * @param date The Date instance created by Pikaday
- * @returns object with month and day
- */
-export const parseMonthAndDay = (date: string | Date): { month: number; day: number } => {
-  return {
-    month: moment(date).month() + 1,
-    day: moment(date).date(),
-  };
-};
-
-export const createDateWithMoment = (
-  day: number | null | undefined,
-  month: number | null | undefined,
-  year?: number | null,
-): Date | null => {
-  if (month && day) {
-    return moment()
-      .set('year', year || new Date().getFullYear())
-      .set('month', month - 1)
-      .set('date', day)
-      .toDate();
-  }
-
-  return null;
-};

@@ -72,7 +72,7 @@ class ManualConfirmation extends Component<ManualConfirmationProps, ManualConfir
     const isMinorAmendment = isPlanAmendment(plan) && plan.amendmentTypeId === minorAmendmentType.id;
     this.setState({ isConfirming: true });
     try {
-      const res = await updateRUPConfirmation(plan, user, confirmation.id, true, isMinorAmendment, false, true);
+      await updateRUPConfirmation(plan, user, confirmation.id, true, isMinorAmendment, false, true);
       onSuccess();
     } catch (e) {
       onError(e);

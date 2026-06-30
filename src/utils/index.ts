@@ -115,53 +115,6 @@ export const getErrorMessage = (err: unknown): string => {
 };
 
 /**
- * Download a pdf file through an a tag using a built-in browser feature
- *
- * https://blog.jayway.com/2017/07/13/open-pdf-downloaded-api-javascript/
- *
- * @param blob - The binary array buffer from API
- * @param ref - The React reference of an a tag
- * @param fileName - The name of the downloaded file
- */
-export const downloadPDFBlob = (blob: BlobPart, ref: HTMLAnchorElement, fileName: string): void => {
-  // It is necessary to create a new blob object with mime-type explicitly set
-  // otherwise only Chrome works like it should
-  const newBlob = new Blob([blob], { type: 'application/pdf' });
-
-  // IE doesn't allow using a blob object directly as link href
-  // instead it is necessary to use msSaveOrOpenBlob
-  const nav = window.navigator as Navigator & {
-    msSaveOrOpenBlob?: (blob: Blob) => void;
-  };
-  if (nav && nav.msSaveOrOpenBlob) {
-    nav.msSaveOrOpenBlob(newBlob);
-    return;
-  }
-
-  // For other browsers:
-  // Create a link pointing to the ObjectURL containing the blob.
-  const data = window.URL.createObjectURL(newBlob);
-  const pdfLink = ref;
-
-  pdfLink.href = data;
-  pdfLink.download = fileName;
-
-  // Safari thinks _blank anchor are pop ups. We only want to set _blank
-  // target if the browser does not support the HTML5 download attribute.
-  // This allows you to download files in desktop safari if pop up blocking is enabled.
-  if (typeof pdfLink.download === 'undefined') {
-    pdfLink.setAttribute('target', '_blank');
-  }
-
-  pdfLink.click();
-
-  setTimeout(() => {
-    // For Firefox it is necessary to delay revoking the ObjectURL
-    window.URL.revokeObjectURL(data);
-  }, 100);
-};
-
-/**
  * detect IE
  * @returns version of IE or false, if browser is not Internet Explorer
  */

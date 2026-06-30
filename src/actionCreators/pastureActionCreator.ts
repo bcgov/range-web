@@ -1,8 +1,8 @@
 import * as API from '../constants/api';
 import { axios, createConfigWithHeader } from '../utils';
-import { request, success, error, pastureUpdated, pastureSubmitted } from '../actions';
+import { request, success, error, pastureSubmitted } from '../actions';
 import { toastErrorMessage } from './toastActionCreator';
-import { CREATE_PASTURE, UPDATE_PASTURE } from '../constants/reducerTypes';
+import { CREATE_PASTURE } from '../constants/reducerTypes';
 import type { AppThunk, AppDispatch } from '../configureStore';
 
 export const createRUPPasture =
@@ -26,42 +26,6 @@ export const createRUPPasture =
     };
 
     return makeRequest();
-  };
-
-export const updateRUPPasture =
-  (planId: string | number, pasture: any): AppThunk<Promise<any>> =>
-  (dispatch, getState) => {
-    dispatch(request(UPDATE_PASTURE));
-
-    const makeRequest = async () => {
-      try {
-        const { data } = await axios.put(
-          API.UPDATE_RUP_PASTURE(planId, pasture.id),
-          pasture,
-          createConfigWithHeader(getState),
-        );
-        dispatch(success(UPDATE_PASTURE, data));
-        dispatch(pastureUpdated({ pasture: data }));
-        return data;
-      } catch (err) {
-        dispatch(error(UPDATE_PASTURE, err));
-        dispatch(toastErrorMessage(err));
-        throw err;
-      }
-    };
-
-    return makeRequest();
-  };
-
-export const createOrUpdateRUPPasture =
-  (planId: string | number, pasture: any): AppThunk<void> =>
-  (dispatch: AppDispatch) => {
-    const isEditing = Number.isInteger(pasture.id);
-
-    if (isEditing) dispatch(updateRUPPasture(planId, pasture));
-    else {
-      dispatch(createRUPPasture(planId, pasture));
-    }
   };
 
 export const createRUPPlantCommunityAction =

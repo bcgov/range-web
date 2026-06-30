@@ -3,14 +3,9 @@ export const APP_NAME = 'MyRangeBC';
 // page titles
 const createTitle = (title: string): string => `${title} | ${APP_NAME}`;
 export const LOGIN_TITLE = createTitle('Sign in');
-export const DETAIL_RUP_TITLE = createTitle('View RUP');
-export const SELECT_RUP_TITLE = createTitle('Select RUP');
-export const MANAGE_CLIENT_TITLE = createTitle('Manage Clients');
-export const MANAGE_ZONE_TITLE = createTitle('Manage Zones');
 export const PAGE_NOT_FOUND_TITLE = createTitle('Page Not Found');
 
 export const SELECT_RUP = 'Select RUP';
-export const MANAGE_ZONES = 'Manage Zones';
 export const MANAGE_CLIENTS = 'Manage Clients';
 export const MERGE_ACCOUNT = 'Merge Accounts';
 export const ASSIGN_ROLES_AND_DISTRICTS = 'Assign Roles/Districts';
@@ -18,12 +13,6 @@ export const ASSIGN_ROLES_AND_DISTRICT_BANNER_CONTENT = 'Assign roles or distric
 // Agreement Table
 export const RANGE_NUMBER = 'RAN';
 export const RANGE_NAME = 'Range Name';
-export const AGREEMENT_HOLDER = 'Primary Agreement Holder';
-export const STATUS = 'Status';
-export const STAFF_CONTACT = 'Staff Contact';
-export const EFFECTIVE_DATE = 'Effective Date';
-export const SUBMITTED = 'Submitted';
-export const INITIAL_PLAN = 'Initial Plan';
 
 // RUP View
 export const DOWNLOAD_PDF = 'Download PDF';
@@ -60,14 +49,11 @@ export const LIVESTOCK_DISTRIBUTION_DETAIL_TIP =
 export const ATTACHMENTS = 'Attachments';
 
 // RUP basic information
-export const PLAN_START = 'Plan Start Date';
-export const PLAN_END = 'Plan End Date';
 export const AGREEMENT_DATE = 'Agreement Date';
 export const AGREEMENT_TYPE = 'Agreement Type';
 export const DISTRICT = 'District (Responsible)';
 export const ZONE = 'Zone';
 export const ALTERNATIVE_BUSINESS_NAME = 'Alternative Business Name';
-export const TYPE = 'Type';
 export const NOT_PROVIDED = 'Not provided';
 export const NP = 'N/P';
 export const NO_PLAN = 'No Plan';
@@ -151,14 +137,12 @@ export const ACTION_NOTE =
 
 // Manage Zone
 export const NO_DESCRIPTION = 'No description available';
-export const NOT_ASSIGNED = 'Not assigned';
 
 // messages
 export const UNEXPECTED_ERROR = 'An unexpected error occurred.';
 export const STATUS404 = 'The request is currently not available, please try later.';
 export const STATUS500 = 'Internal server error occurred, please contact the administrator (MyRangeBC@gov.bc.ca).';
 export const UPDATE_PLAN_STATUS_SUCCESS = 'You have successfully updated the status of the range use plan.';
-export const ASSIGN_STAFF_TO_ZONE_SUCCESS = 'You have successfully assigned the staff to the zone.';
 export const SAVE_PLAN_AS_DRAFT_SUCCESS = 'You have successfully saved the range use plan as a draft.';
 export const STAFF_SAVE_PLAN_DRAFT_SUCCESS = 'Your changes have been successfully saved to the range use plan.';
 export const UPDATE_USER_PROFILE_SUCCESS = 'You have successfully update your profile.';
@@ -174,23 +158,12 @@ export const TOTAL_AUMS_EXCEEDS = 'Total AUMs exceeds authorized AUMs.';
 export const SCHEDULE_ENTRY_DATE_OUT_OF_RANGE = 'Schedule entry date(s) must be within the schedule year.';
 export const TOTAL_TONNES_EXCEEDS = 'Total tonnes exceeds authorized tonnes.';
 
-export const NO_RESULTS_FOUND = 'No result founds.';
-export const ERROR_OCCUR = 'Error Occurred!';
 export const REDIRECTING = 'Please wait while redirecting...';
 export const CREATE_AMENDMENT_SUCCESS = 'You have successfully created an amendment';
 export const SIGN_IN_ERROR = 'Error occurred while signing in.';
 export const UPDATE_USER_ERROR = 'Error occurred while updating your profile.';
-export const NO_CLIENT_NUMBER_ASSIGNED =
-  'Your account has not yet been linked to a client number. Please contact your local range staff office.';
-export const GET_USERS_ERROR = 'Error occurred while fetching users';
 
 // modals
-// export const COMPLETED_CONFIRM_HEADER = 'Update Status: Completed';
-// export const COMPLETED_CONFIRM_CONTENT =
-//   'COMPLETE indicates that a RUP has either been APPROVED or DISCARDED. If you change status to COMPLETE you will no longer be able to make edits to this RUP. Would you like to switch this RUP to complete?';
-export const PENDING_CONFIRM_HEADER = 'Update Status: Pending';
-export const PENDING_CONFIRM_CONTENT =
-  'PENDING indicates that a RUP is in edit mode. It is used during initial creation if the decision maker has requested edits before approving. Do not switch the status to PENDING unless the decision maker has requested specific edits. Would you like to switch this RUP to Pending?';
 export const CHANGE_REQUEST_CONFIRM_HEADER = 'Update Status: Change Request';
 export const CHANGE_REQUEST_CONFIRM_CONTENT =
   "Are you sure you want to request changes? All agreement holders will need to review and sign again if they've signed previously.";
@@ -207,7 +180,6 @@ export const APPROVED_CONFIRM_CONTENT = 'Are you sure you want to update the sta
 export const NOT_APPROVED_CONFIRM_HEADER = 'Update Status: Not Approved';
 export const NOT_APPROVED_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const NOT_APPROVED_FWR_CONFIRM_HEADER = 'Return to staff to request changes from agreement holder';
-export const NOT_APPROVED_FWR_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const RECOMMEND_READY_CONFIRM_HEADER = 'Update Status: Recommend Ready';
 export const RECOMMEND_READY_CONFIRM_CONTENT = 'Are you sure you want to update the status?';
 export const RECOMMEND_NOT_READY_CONFIRM_HEADER = 'Update Status: Recommend Not Ready';
@@ -219,27 +191,6 @@ export const AMEND_PLAN_CONFIRM_CONTENT = 'Are you sure you want to amend this r
 export const SUBMIT_PLAN_CONFIRM_HEADER = 'Confirm';
 export const SUBMIT_PLAN_CONFIRM_CONTENT = 'You will not be able to edit this RUP after submission.';
 
-export const UPDATE_CONTACT_CONFIRM_HEADER = 'Confirmation: Update Contact with Zone';
-export const UPDATE_CONTACT_CONFIRM_CONTENT = 'Are you sure you want to update this contact?';
-export const DELETE_SCHEDULE_CONFIRM_HEADER = 'Confirmation: Deleting Grazing Schedule';
-export const DELETE_SCHEDULE_CONFIRM_CONTENT =
-  'This schedule will be permanently deleted. Are you sure you want to delete this schedule?';
-export const DELETE_SCHEDULE_ENTRY_CONFIRM_HEADER = 'Confirmation: Deleting Grazing Schedule Entry';
-export const DELETE_SCHEDULE_ENTRY_CONFIRM_CONTENT =
-  'This schedule entry will be permanently deleted. Are you sure you want to delete this schedule entry?';
-export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_HEADER = 'Confirmation: Deleting Minister Issue Action';
-export const DELETE_MINISTER_ISSUE_ACTION_CONFIRM_CONTENT =
-  'This action will be permanently deleted. Are you sure you want to delete this minister issue action?';
-export const DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_HEADER = 'Confirmation: Deleting Management Consideration';
-export const DELETE_MANAGEMENT_CONSIDERATION_CONFIRM_CONTENT =
-  'This consideration will be permanently deleted. Are you sure you want to delete this management consideration?';
-
-export const UPDATE_CLIENT_ID_CONFIRM_HEADER = 'Confirmation: Link Client';
-export const UPDATE_CLIENT_ID_CONFIRM_CONTENT = 'Are you sure you want to link this user to the client?';
-export const SUBMIT_RUP_CHANGE_CONFIRM_HEADER = 'Ready to Submit?';
-export const SUBMIT_RUP_CHANGE_CONFIRM_CONTENT =
-  'Once submitted you can no longer make edits to the Range Use Plan. Do not submit until you are satisfied with all content.';
-
 export const DRAFT_CONFIRM_HEADER = 'Change to draft status?';
 export const DRAFT_CONFIRM_CONTENT = 'Changing to draft will allow edits.';
 
@@ -247,17 +198,12 @@ export const DRAFT_CONFIRM_CONTENT = 'Changing to draft will allow edits.';
 export const SELECT_RUP_BANNER_HEADER = 'Select Range Use Plan';
 export const SELECT_RUP_BANNER_CONTENT =
   "View details of each range use plan. Enter RAN, agreement holder's name, or staff contact in the search box to find a specific range use plan.";
-export const MANAGE_ZONE_BANNER_HEADER = 'Manage Zones';
-export const MANAGE_ZONE_BANNER_CONTENT = 'Search for range staff and link them to their corresonding zone.';
 export const MANAGE_CLIENT_BANNER_HEADER = 'Manage Clients';
-export const MERGE_ACCOUNT_HEADER = 'Merge Accounts';
 export const MANAGE_CLIENT_BANNER_CONTENT = 'Search for agreement holders and link them to their corresponding client.';
 export const MERGE_ACCOUNT_BANNER_CONTENT_LINE1 =
   'If an agreement holder has logged in to MyRange with multiple BCEIDS, it is advisable to merge these accounts into their most current BCEID user account.  This will make sure they see all the correct agreements on sign in, and all signatures will be marked as their own.';
 export const MERGE_ACCOUNT_BANNER_CONTENT_LINE2 =
   'Note that you can filter using the table below by hitting the 3 dots in each column, you may also select multiple FROM accounts in step 1, and one TO account in step 2.';
-export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_HEADER = 'Assign Role and Districts';
-export const ASSIGN_ROLES_AND_DISTRICTS_BANNER_CONTENT = 'Assign role and districts to user account';
 // tips
 export const CONDITIONS_TIP =
   'Review and update as needed the proposed conditions that would be imposed under FRPA 112 as part of this decision';
@@ -333,5 +279,3 @@ export const EXEMPTION_START_DATE_VALIDATION_MESSAGE =
   'The start date cannot be backdated and the earliest that it can occur is the next day; and, the end date should not be for more than the current grazing schedule.';
 export const EXEMPTION_END_DATE_VALIDATION_MESSAGE = 'End date must be after start date';
 export const EXEMPTION_DURATION_VALIDATION_MESSAGE = 'Exemption period cannot exceed 12 months';
-export const DELETE_ATTACHMENT_CONFIRM_HEADER = 'Delete Attachment';
-export const DELETE_ATTACHMENT_CONFIRM_CONTENT = 'Are you sure you want to delete this attachment?';
