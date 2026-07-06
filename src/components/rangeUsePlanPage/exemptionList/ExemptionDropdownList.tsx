@@ -13,10 +13,10 @@ import { PrimaryButton, MuiIcon } from '../../common';
 import { axios, getAuthHeaderConfig } from '../../../utils';
 import * as API from '../../../constants/api';
 import { useUser } from '../../../providers/UserProvider';
-import { isUserDecisionMaker, isUserAdmin } from '../../../utils/helper/user';
 import useConfirm from '../../../providers/ConfrimationModalProvider';
 import { downloadAttachment } from '../attachments/AttachmentRow';
-import { ATTACHMENT_TYPE, EXEMPTION_STATUS } from '../../../constants/variables';
+import { ATTACHMENT_TYPE } from '../../../constants/variables';
+import { getExemptionActionPermissions } from './exemptionPermissions';
 
 interface ExemptionDropdownListProps {
   exemptions?: any[];
@@ -33,7 +33,6 @@ function ExemptionDropdownList({
 }: ExemptionDropdownListProps) {
   const user = useUser();
   const confirm = useConfirm()!;
-  const isAdminOrDecisionMaker = isUserDecisionMaker(user) || isUserAdmin(user);
   const [submittingId, setSubmittingId] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -97,10 +96,7 @@ function ExemptionDropdownList({
 
   return (
     <TableRow>
-      <TableCell
-        colSpan={isAdminOrDecisionMaker ? 14 : 12}
-        style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}
-      >
+      <TableCell colSpan={14} style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}>
         <Table>
           <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}>
@@ -126,17 +122,18 @@ function ExemptionDropdownList({
                         <TableCell sx={{ color: 'grey', width: 175 }}>Approval Date</TableCell>
                         <TableCell sx={{ color: 'grey', width: 175, textAlign: 'left' }}>Status</TableCell>
                         <TableCell sx={{ color: 'grey', width: 175 }}>Download</TableCell>
-                        {isAdminOrDecisionMaker && (
-                          <>
-                            <TableCell sx={{ color: 'grey', width: 175 }}>Approve/Reject</TableCell>
-                            <TableCell sx={{ color: 'grey', width: 175 }}>View/Edit</TableCell>
-                            <TableCell sx={{ color: 'grey', width: 175 }}>Cancel</TableCell>
-                          </>
-                        )}
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Approve/Reject</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>View/Edit</TableCell>
+                        <TableCell sx={{ color: 'grey', width: 175 }}>Cancel</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {exemptions.map((exemption: any, index: number) => {
+                        const { canApproveReject, canCancel, canEdit, canView } = getExemptionActionPermissions(
+                          user,
+                          exemption.status,
+                        );
+
                         return (
                           <React.Fragment key={index}>
                             <TableRow hover>
@@ -176,71 +173,65 @@ function ExemptionDropdownList({
                                   <MuiIcon name="download" />
                                 </PrimaryButton>
                               </TableCell>
-                              {isAdminOrDecisionMaker && (
-                                <>
-                                  <TableCell>
-                                    {(exemption.status === EXEMPTION_STATUS.PENDING_APPROVAL ||
-                                      exemption.status === EXEMPTION_STATUS.IN_PROGRESS) &&
-                                      (submittingId === exemption.id ? (
-                                        <CircularProgress size={24} />
-                                      ) : (
-                                        <>
-                                          <PrimaryButton
-                                            variant="outlined"
-                                            onClick={() => onTransitionClicked(exemption, 'approve')}
-                                          >
-                                            <MuiIcon name="thumbs up" />
-                                          </PrimaryButton>
-                                          <PrimaryButton
-                                            variant="outlined"
-                                            onClick={() => onTransitionClicked(exemption, 'reject')}
-                                          >
-                                            <MuiIcon name="thumbs down" />
-                                          </PrimaryButton>
-                                        </>
-                                      ))}
-                                  </TableCell>
-                                  <TableCell>
-                                    {exemption.status === EXEMPTION_STATUS.REJECTED ||
-                                    (isAdminOrDecisionMaker &&
-                                      (exemption.status === EXEMPTION_STATUS.PENDING_APPROVAL ||
-                                        exemption.status === EXEMPTION_STATUS.IN_PROGRESS)) ? (
-                                      submittingId === exemption.id ? (
-                                        <CircularProgress size={24} />
-                                      ) : (
-                                        <PrimaryButton
-                                          variant="outlined"
-                                          onClick={() => onEditExemption && onEditExemption(exemption)}
-                                        >
-                                          <MuiIcon name="edit" />
-                                        </PrimaryButton>
-                                      )
-                                    ) : (
+                              <TableCell>
+                                {canApproveReject ? (
+                                  submittingId === exemption.id ? (
+                                    <CircularProgress size={24} />
+                                  ) : (
+                                    <>
                                       <PrimaryButton
                                         variant="outlined"
-                                        onClick={() =>
-                                          onEditExemption && onEditExemption({ ...exemption, viewOnly: true })
-                                        }
+                                        onClick={() => onTransitionClicked(exemption, 'approve')}
                                       >
-                                        <MuiIcon name="eye" />
+                                        <MuiIcon name="thumbs up" />
                                       </PrimaryButton>
-                                    )}
-                                  </TableCell>
-                                  <TableCell>
-                                    {exemption.status !== EXEMPTION_STATUS.CANCELLED &&
-                                      (submittingId === exemption.id ? (
-                                        <CircularProgress size={24} />
-                                      ) : (
-                                        <PrimaryButton
-                                          variant="outlined"
-                                          onClick={() => onTransitionClicked(exemption, 'cancel')}
-                                        >
-                                          <MuiIcon name="x" />
-                                        </PrimaryButton>
-                                      ))}
-                                  </TableCell>
-                                </>
-                              )}
+                                      <PrimaryButton
+                                        variant="outlined"
+                                        onClick={() => onTransitionClicked(exemption, 'reject')}
+                                      >
+                                        <MuiIcon name="thumbs down" />
+                                      </PrimaryButton>
+                                    </>
+                                  )
+                                ) : (
+                                  '-'
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {canEdit ? (
+                                  <PrimaryButton
+                                    variant="outlined"
+                                    onClick={() => onEditExemption && onEditExemption(exemption)}
+                                  >
+                                    <MuiIcon name="edit" />
+                                  </PrimaryButton>
+                                ) : canView ? (
+                                  <PrimaryButton
+                                    variant="outlined"
+                                    onClick={() => onEditExemption && onEditExemption({ ...exemption, viewOnly: true })}
+                                  >
+                                    <MuiIcon name="eye" />
+                                  </PrimaryButton>
+                                ) : (
+                                  '-'
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {canCancel ? (
+                                  submittingId === exemption.id ? (
+                                    <CircularProgress size={24} />
+                                  ) : (
+                                    <PrimaryButton
+                                      variant="outlined"
+                                      onClick={() => onTransitionClicked(exemption, 'cancel')}
+                                    >
+                                      <MuiIcon name="x" />
+                                    </PrimaryButton>
+                                  )
+                                ) : (
+                                  '-'
+                                )}
+                              </TableCell>
                             </TableRow>
                           </React.Fragment>
                         );

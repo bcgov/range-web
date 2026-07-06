@@ -39,7 +39,7 @@ function ExemptionDropdown({ agreementId, open, onEditExemption, onUpdate }: Exe
   if (isValidating) {
     return (
       <TableRow>
-        <TableCell colSpan={13} style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}>
+        <TableCell colSpan={14} style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}>
           <p>Loading...</p>
         </TableCell>
       </TableRow>
