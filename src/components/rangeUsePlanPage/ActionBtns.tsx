@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -8,7 +7,7 @@ import { useFormikContext } from 'formik';
 import { SAVE_DRAFT, SUBMIT, AMEND_PLAN, SIGN_SUBMISSION } from '../../constants/strings';
 import DownloadPDFBtn from './DownloadPDFBtn';
 import UpdateStatusDropdown from './pageForStaff/UpdateStatusDropdown';
-import { MuiIcon } from '../common';
+import { MuiIcon, PrimaryButton } from '../common';
 
 const UntypedUpdateStatusDropdown = UpdateStatusDropdown as any;
 import { useNetworkStatus } from '../../utils/hooks/network';
@@ -66,10 +65,11 @@ const ActionBtns = ({
 
   const downloadPDFBtn = <DownloadPDFBtn key="downloadPDFBtn" onClick={onViewPDFClicked} />;
   const saveDraftBtn = (
-    <Button
+    <PrimaryButton
+      inverted
+      compact
       key="saveDraftBtn"
       type="button"
-      variant="outlined"
       disabled={isSavingPlan || formik.isSubmitting}
       onClick={() => {
         formik.submitForm();
@@ -78,12 +78,13 @@ const ActionBtns = ({
     >
       <MuiIcon name="save" />
       {SAVE_DRAFT}
-    </Button>
+    </PrimaryButton>
   );
   const submitBtn = (
-    <Button
+    <PrimaryButton
+      inverted
+      compact
       key="submitBtn"
-      variant="outlined"
       type="button"
       disabled={!isOnline}
       onClick={async () => {
@@ -98,12 +99,13 @@ const ActionBtns = ({
     >
       <MuiIcon name="check" />
       {SUBMIT}
-    </Button>
+    </PrimaryButton>
   );
   const amendBtn = (
-    <Button
+    <PrimaryButton
+      inverted
+      compact
       key="amendBtn"
-      variant="outlined"
       type="button"
       disabled={!isOnline}
       onClick={() => {
@@ -113,19 +115,20 @@ const ActionBtns = ({
     >
       <MuiIcon name="edit" />
       {AMEND_PLAN}
-    </Button>
+    </PrimaryButton>
   );
   const confirmSubmissionBtn = (
-    <Button
+    <PrimaryButton
+      inverted
+      compact
       key="confirmSubmissionBtn"
       disabled={!isOnline}
       onClick={onSignSubmission}
-      variant="outlined"
       type="button"
       style={{ marginRight: 4 }}
     >
       {SIGN_SUBMISSION}
-    </Button>
+    </PrimaryButton>
   );
 
   const permissions: Required<Permissions> = {
@@ -151,14 +154,15 @@ const ActionBtns = ({
         {permissions.discard && <DiscardAmendmentButton />}
         {permissions.amendFromLegal && <AmendFromLegalButton />}
 
-        <Button
-          variant="outlined"
+        <PrimaryButton
+          inverted
+          compact
           type="button"
-          onClick={(e) => setAnchorEl(e.currentTarget)}
+          onClick={(e: any) => setAnchorEl(e.currentTarget)}
           style={{ marginLeft: 5 }}
         >
           Options
-        </Button>
+        </PrimaryButton>
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
           {downloadPDFBtn}
           {permissions.manageAgents && (

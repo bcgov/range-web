@@ -16,6 +16,9 @@ import PlanForm from '../PlanForm';
 import { createAmendment, savePlan } from '../../../api';
 import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
 import NetworkStatus from '../../common/NetworkStatus';
+import { connect as reduxConnect } from 'react-redux';
+import { toastErrorMessage, toastSuccessMessage, updateRUPStatus } from '../../../actionCreators';
+import { openConfirmationModal } from '../../../actions';
 
 interface PageForAHState {
   isAmendmentSubmissionModalOpen: boolean;
@@ -273,4 +276,9 @@ class PageForAH extends Component<PageForAHProps, PageForAHState> {
   }
 }
 
-export default PageForAH;
+export default reduxConnect(null, {
+  toastErrorMessage,
+  toastSuccessMessage,
+  updateRUPStatus,
+  openConfirmationModal,
+})(PageForAH);

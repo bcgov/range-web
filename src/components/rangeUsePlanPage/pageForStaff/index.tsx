@@ -21,8 +21,10 @@ import PlanForm from '../PlanForm';
 import { canUserEditThisPlan, isPlanAmendment } from '../../../utils';
 import { createAmendment, savePlan, updatePlan } from '../../../api';
 import NetworkStatus from '../../common/NetworkStatus';
-import { connect } from 'formik';
-import { toastErrorMessage, toastSuccessMessage } from '../../../actionCreators';
+import { connect as formikConnect } from 'formik';
+import { connect as reduxConnect } from 'react-redux';
+import { toastErrorMessage, toastSuccessMessage, updateRUPStatus } from '../../../actionCreators';
+import { openConfirmationModal } from '../../../actions';
 
 interface PageForStaffState {
   isPlanSubmissionModalOpen: boolean;
@@ -307,4 +309,9 @@ class PageForStaff extends Component<PageForStaffProps, PageForStaffState> {
   }
 }
 
-export default connect(PageForStaff);
+export default reduxConnect(null, {
+  toastErrorMessage,
+  toastSuccessMessage,
+  updateRUPStatus,
+  openConfirmationModal,
+})(formikConnect(PageForStaff));

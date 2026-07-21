@@ -3,7 +3,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
 import { DISCARD_AMENDMENT } from '../../constants/strings';
 import { useCurrentPlan } from '../../providers/PlanProvider';
 import { useNetworkStatus } from '../../utils/hooks/network';
@@ -53,10 +52,12 @@ const DiscardAmendmentButton = () => {
           will be lost.
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeModal}>Cancel</Button>
-          <Button onClick={handleDiscard} disabled={isDiscarding} variant="contained" color="error">
+          <PrimaryButton inverted onClick={closeModal}>
+            Cancel
+          </PrimaryButton>
+          <PrimaryButton onClick={handleDiscard} disabled={isDiscarding} style={{ marginLeft: 8 }}>
             {isDiscarding ? 'Discarding...' : 'Discard'}
-          </Button>
+          </PrimaryButton>
         </DialogActions>
       </Dialog>
     </>
