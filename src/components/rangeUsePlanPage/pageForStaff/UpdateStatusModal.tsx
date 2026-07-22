@@ -78,6 +78,7 @@ class UpdateStatusModal extends Component<UpdateStatusModalProps, UpdateStatusMo
                 : ' Note'}
               &nbsp;({NUMBER_OF_LIMIT_FOR_NOTE} characters).
               <TextField
+                inputProps={{ 'data-testid': 'update-status-note-input' }}
                 placeholder="Add notes here"
                 onChange={(e) => this.onNoteChange(e, { value: e.target.value })}
                 value={note}
@@ -95,6 +96,7 @@ class UpdateStatusModal extends Component<UpdateStatusModalProps, UpdateStatusMo
             </PrimaryButton>
             <PrimaryButton
               style={{ marginLeft: '15px', marginRight: '0' }}
+              data-testid="update-status-confirm"
               onClick={this.onSubmit}
               disabled={requireNote && !note}
               loading={loading}

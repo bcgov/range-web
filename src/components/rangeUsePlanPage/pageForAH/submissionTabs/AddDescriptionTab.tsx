@@ -29,7 +29,7 @@ function AddDescriptionTab({ currTabId, tab, onClose, handleNoteChange, note, on
       actions={
         <>
           <LeftBtn onClick={onClose} content="Cancel" />
-          <RightBtn onClick={handleNext} content="Next" />
+          <RightBtn onClick={handleNext} content="Next" testId="submission-description-next" />
         </>
       }
       content={
@@ -40,6 +40,7 @@ function AddDescriptionTab({ currTabId, tab, onClose, handleNoteChange, note, on
               agreement holders.
             </div>
             <TextField
+              inputProps={{ 'data-testid': 'submission-description-input' }}
               placeholder={placeholder}
               onChange={(e) => handleNoteChange(e, { value: e.target.value })}
               value={note}

@@ -7,12 +7,14 @@ interface RightBtnProps {
   loading?: boolean;
   content: string;
   primary?: boolean;
+  testId?: string;
 }
 
-function RightBtn({ onClick, disabled = false, content, loading = false }: RightBtnProps) {
+function RightBtn({ onClick, disabled = false, content, loading = false, testId }: RightBtnProps) {
   return (
     <PrimaryButton
       className="rup__multi-tab__tab__btn"
+      data-testid={testId}
       onClick={onClick}
       disabled={disabled}
       loading={loading}

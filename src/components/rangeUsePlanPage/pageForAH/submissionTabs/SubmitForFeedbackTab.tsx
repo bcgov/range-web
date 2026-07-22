@@ -42,7 +42,12 @@ function SubmitForFeedbackTab({
       actions={
         <>
           <LeftBtn onClick={onBackClicked} content="Back" />
-          <RightBtn onClick={handleSubmit} loading={isSubmitting} content="Submit For Feedback" />
+          <RightBtn
+            onClick={handleSubmit}
+            loading={isSubmitting}
+            content="Submit For Feedback"
+            testId="submission-feedback-submit"
+          />
         </>
       }
       content={<div>{text1}</div>}

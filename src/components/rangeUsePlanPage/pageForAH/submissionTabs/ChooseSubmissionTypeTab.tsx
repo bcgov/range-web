@@ -41,7 +41,7 @@ function ChooseSubmissionTypeTab({
       actions={
         <>
           <LeftBtn onClick={back ? onBackClicked : onClose} content={back ? 'Back' : 'Cancel'} />
-          <RightBtn onClick={onNextClicked} disabled={!statusCode} content="Next" />
+          <RightBtn onClick={onNextClicked} disabled={!statusCode} content="Next" testId="submission-type-next" />
         </>
       }
       content={
@@ -51,6 +51,7 @@ function ChooseSubmissionTypeTab({
               <FormControlLabel
                 value={PLAN_STATUS.SUBMITTED_FOR_REVIEW}
                 control={<Radio checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW} />}
+                data-testid="submission-type-feedback"
                 label={
                   <label>
                     <b>Submit for Staff Feedback: </b>
@@ -63,6 +64,7 @@ function ChooseSubmissionTypeTab({
               <FormControlLabel
                 value={PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION}
                 control={<Radio checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION} />}
+                data-testid="submission-type-final-decision"
                 label={
                   <label>
                     <b>Submit for Final Decision: </b>

@@ -22,6 +22,7 @@ interface SubmitForFinalDecisionTabProps {
     text2?: string;
     rightBtn1: string;
     checkbox1?: string;
+    testId?: string;
   };
   clients?: any[];
 }
@@ -61,6 +62,7 @@ function SubmitForFinalDecisionTab({
             loading={isSubmitting}
             disabled={!isAgreed}
             content={rightBtn1}
+            testId={tab.testId}
           />
         </>
       }
@@ -71,6 +73,7 @@ function SubmitForFinalDecisionTab({
           <FormControlLabel
             control={
               <Checkbox
+                inputProps={{ id: 'submission-final-decision-agree' }}
                 checked={isAgreed}
                 onChange={(e) => handleAgreeCheckBoxChange(e, { checked: e.target.checked })}
               />

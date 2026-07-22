@@ -295,6 +295,21 @@ class UpdateStatusDropdown extends Component<UpdateStatusDropdownProps, UpdateSt
 
     const statusDropdownOptions = this.getStatusDropdownOptions(user, plan, isFetchingPlan, status);
 
+    const actionTestIds: Record<string, string> = {
+      [PLAN_STATUS.CHANGE_REQUESTED]: 'plan-action-request-changes',
+      [PLAN_STATUS.RECOMMEND_READY]: 'plan-action-recommend-ready',
+      [PLAN_STATUS.RECOMMEND_NOT_READY]: 'plan-action-recommend-not-ready',
+      [PLAN_STATUS.RECOMMEND_FOR_SUBMISSION]: 'plan-action-recommend-for-submission',
+      [PLAN_STATUS.APPROVED]: 'plan-action-approved',
+      [PLAN_STATUS.NOT_APPROVED_FURTHER_WORK_REQUIRED]: 'plan-action-not-approved-further-work',
+      [PLAN_STATUS.NOT_APPROVED]: 'plan-action-not-approved',
+      [PLAN_STATUS.STAFF_DRAFT]: 'plan-action-draft',
+      [PLAN_STATUS.STANDS]: 'plan-action-stands',
+      [PLAN_STATUS.STANDS_REVIEW]: 'plan-action-stands-review',
+      [PLAN_STATUS.STANDS_WRONGLY_MADE]: 'plan-action-stands-wrongly-made',
+      [PLAN_STATUS.WRONGLY_MADE_WITHOUT_EFFECT]: 'plan-action-wrongly-made-without-effect',
+    };
+
     return (
       <Fragment>
         <>
@@ -304,7 +319,12 @@ class UpdateStatusDropdown extends Component<UpdateStatusDropdownProps, UpdateSt
           </Typography>
           <List dense disablePadding>
             {statusDropdownOptions.map((o: any) => (
-              <ListItemButton key={o.key} onClick={o.onClick} disabled={o.disabled || o.key === 'noOption'}>
+              <ListItemButton
+                key={o.key}
+                onClick={o.onClick}
+                disabled={o.disabled || o.key === 'noOption'}
+                data-testid={actionTestIds[o.key]}
+              >
                 <ListItemText primary={o.text} />
               </ListItemButton>
             ))}

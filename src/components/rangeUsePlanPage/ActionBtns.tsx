@@ -85,6 +85,7 @@ const ActionBtns = ({
       inverted
       compact
       key="submitBtn"
+      data-testid="rup-submit-button"
       type="button"
       disabled={!isOnline}
       onClick={async () => {
@@ -158,6 +159,7 @@ const ActionBtns = ({
           inverted
           compact
           type="button"
+          data-testid="rup-options-button"
           onClick={(e: any) => setAnchorEl(e.currentTarget)}
           style={{ marginLeft: 5 }}
         >

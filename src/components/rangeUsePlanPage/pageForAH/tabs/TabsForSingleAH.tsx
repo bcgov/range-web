@@ -74,6 +74,7 @@ function TabsForSingleAH(props: TabsForSingleAHProps) {
       checkbox1:
         'I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker.',
       rightBtn1: 'Submit Initial RUP',
+      testId: 'submission-final-decision-submit',
     },
     last: {
       id: 'last',

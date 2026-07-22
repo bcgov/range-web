@@ -71,7 +71,12 @@ function RequestSignaturesTab({
       actions={
         <>
           <LeftBtn onClick={onBackClicked} content="Back" />
-          <RightBtn onClick={handleSubmit} loading={isSubmitting} content="Request eSignatures and Submit" />
+          <RightBtn
+            onClick={handleSubmit}
+            loading={isSubmitting}
+            content="Request eSignatures and Submit"
+            testId="submission-request-esignatures-submit"
+          />
         </>
       }
       content={

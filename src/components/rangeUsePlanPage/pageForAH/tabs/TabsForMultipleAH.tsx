@@ -79,6 +79,7 @@ function TabsForMultipleAH(props: TabsForMultipleAHProps) {
       checkbox1:
         'I understand that this submission constitues a legal document and eSignature. This submission will be reviewed by the range staff before it is forwarded to the decision maker.',
       rightBtn1: 'Next',
+      testId: 'submission-final-decision-next',
     },
     requestSignatures: {
       id: 'requestSignatures',

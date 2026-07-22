@@ -85,25 +85,58 @@ In `/semantic` directory, you can also run:
 
 ## Running E2E tests with Cypress
 
-To begin, start the E2E API. This is a separate docker-compose environment from what you may use normally for local development, and must be running for the end-to-end tests to work.
+The E2E suite is configured for the Initial RUP approval workflow and requires DB-backed role switching plus SSO credentials for test users.
+
+### Commands
 
 ```bash
-npm run test:e2e:api:start
-```
-
-> If you want to completely remove the end-to-end API, you can run `npm run test:e2e:api:clean`.
-
-Then, to open Cypress in development mode:
-
-```bash
-npm run test:e2e:dev
-```
-
-Alternatively, if you just want to run the E2E tests in a headless environment:
-
-```bash
+npm run test:e2e:verify
+npm run test:e2e:open
 npm run test:e2e:run
 ```
+
+### Required Cypress environment variables
+
+```bash
+# App/API
+CYPRESS_BASE_URL=
+CYPRESS_API_BASE_URL=
+
+# SSO token endpoint auth
+CYPRESS_SSO_BASE_URL=
+CYPRESS_SSO_REALM_NAME=
+CYPRESS_SSO_CLIENT_ID=
+# optional if your realm client requires it
+CYPRESS_SSO_CLIENT_SECRET=
+
+# Test users
+CYPRESS_AH_USERNAME=
+CYPRESS_AH_PASSWORD=
+CYPRESS_STAFF_USERNAME=
+CYPRESS_STAFF_PASSWORD=
+
+# Role switching task (Postgres)
+CYPRESS_DB_HOST=
+CYPRESS_DB_PORT=
+CYPRESS_DB_NAME=
+CYPRESS_DB_USER=
+CYPRESS_DB_PASSWORD=
+# optional
+CYPRESS_DB_SSL=false
+
+# Plan cloning setup
+CYPRESS_TEMPLATE_PLAN_ID=
+CYPRESS_DESTINATION_AGREEMENT_ID=
+```
+
+### Workflow assumptions
+
+- E2E creates a new plan per scenario by cloning a template plan.
+- Role switches for the shared staff test user are applied by DB update on `users.sso_id`.
+- `CYPRESS_STAFF_USERNAME` must exactly match `users.sso_id` for DB role switching to work.
+- Role changes require logout/login before effective permissions are asserted.
+- Shared staff user role is restored to SA (`role_id=3`) after each test.
+- Scenario failures persist artifacts in `cypress/artifacts/` and screenshots/videos under Cypress defaults.
 
 ### `gulp build`
 

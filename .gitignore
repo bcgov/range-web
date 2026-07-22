@@ -33,6 +33,7 @@ Todo
 cypress.env.json
 cypress/videos
 cypress/screenshots
+cypress/artifacts
 
 *~
 *.swp
