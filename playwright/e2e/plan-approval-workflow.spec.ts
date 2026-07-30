@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { test, expect, request, type APIRequestContext, type Page } from '@playwright/test';
+import { test, request, type APIRequestContext, type Page } from '@playwright/test';
 import { Pool } from 'pg';
 import {
   loginPageAs as runtimeLoginPageAs,
@@ -14,18 +14,7 @@ import {
   setUserRoleById as runtimeSetUserRoleById,
   updatePlanStatusViaDb as runtimeUpdatePlanStatusViaDb,
 } from './support/dbRuntime';
-import {
-  getStatusMap as runtimeGetStatusMap,
-  submitStaffPlanToAh as runtimeSubmitStaffPlanToAh,
-  submitPlanForFinalDecision as runtimeSubmitPlanForFinalDecision,
-  runPlanAction as runtimeRunPlanAction,
-  openPlan as runtimeOpenPlan,
-  waitForPlanSnapshot as runtimeWaitForPlanSnapshot,
-  waitForPlanStatusCode as runtimeWaitForPlanStatusCode,
-  expectRoleActions as runtimeExpectRoleActions,
-  type PlanSnapshot,
-  type AhSubmissionType,
-} from './support/actionRuntime';
+import { type PlanSnapshot } from './support/actionRuntime';
 import { ScenarioContext } from './support/scenarioRuntime';
 
 const E2E_PREFIX = 'E2E-AUTO';
@@ -193,10 +182,6 @@ const cleanupSeedDataByAgreementIds = async ({ agreementIds }: { agreementIds: s
   await runtimeCleanupSeedDataByAgreementIds({ getDbPool, agreementIds, logE2E });
 };
 
-const getStatusMap = async (apiContext: APIRequestContext, token: string) => {
-  return runtimeGetStatusMap(apiContext, token, getApiBaseUrl);
-};
-
 const updatePlanStatusViaDb = async ({
   planId,
   toStatusCode,
@@ -245,226 +230,6 @@ const switchRoleAndRelogin = async ({ page, roleCode }: { page: Page; roleCode: 
     loginPageAs,
     logE2E,
   });
-};
-
-const openPlan = async (page: Page, planId: string) => {
-  await runtimeOpenPlan({ page, planId });
-};
-
-const waitForPlanSnapshot = async (args: {
-  apiContext: APIRequestContext;
-  token: string;
-  planId: string;
-}): Promise<PlanSnapshot> => {
-  return runtimeWaitForPlanSnapshot({ ...args, getApiBaseUrl });
-};
-
-const waitForPlanStatusCode = async (args: {
-  apiContext: APIRequestContext;
-  token: string;
-  planId: string;
-  expectedStatusCode: string;
-  timeoutMs?: number;
-}) => {
-  return runtimeWaitForPlanStatusCode({ ...args, getApiBaseUrl, logE2E });
-};
-
-const submitStaffPlanToAh = async (args: {
-  page: Page;
-  apiContext: APIRequestContext;
-  token: string;
-  planId: string;
-  note: string;
-}) => {
-  await runtimeSubmitStaffPlanToAh({ ...args, getApiBaseUrl, logE2E });
-};
-
-const submitPlanForFinalDecision = async (args: {
-  page: Page;
-  apiContext: APIRequestContext;
-  token: string;
-  planId: string;
-  submissionType?: AhSubmissionType;
-}) => {
-  await runtimeSubmitPlanForFinalDecision({ ...args, getApiBaseUrl, logE2E });
-};
-
-const runPlanAction = async (args: {
-  page: Page;
-  apiContext: APIRequestContext;
-  token: string;
-  planId: string;
-  actionTestId: string;
-  toStatusCode: string;
-  note?: string;
-}) => {
-  await runtimeRunPlanAction({ ...args, getApiBaseUrl, logE2E });
-};
-
-const expectRoleActions = async (page: Page, roleCode: RoleCode, statusCode: string) => {
-  await runtimeExpectRoleActions({ page, roleCode, statusCode });
-};
-
-const assertTransitionSequence = async ({
-  apiContext,
-  token,
-  planSnapshot,
-  expectedStatusCodes,
-}: {
-  apiContext: APIRequestContext;
-  token: string;
-  planSnapshot: PlanSnapshot;
-  expectedStatusCodes: string[];
-}) => {
-  const statusMap = await getStatusMap(apiContext, token);
-  const history = planSnapshot.planStatusHistory || [];
-
-  expect(history.length).toBeGreaterThanOrEqual(expectedStatusCodes.length - 1);
-
-  let transitions = history.map((record) => ({
-    from: record.fromPlanStatusId ? statusMap.byId[record.fromPlanStatusId] : null,
-    to: statusMap.byId[record.toPlanStatusId],
-  }));
-
-  transitions = transitions.filter((transition) => transition.from !== transition.to);
-
-  const expectedTransitions: Array<{ from: string; to: string }> = [];
-  for (let i = 1; i < expectedStatusCodes.length; i += 1) {
-    expectedTransitions.push({ from: expectedStatusCodes[i - 1], to: expectedStatusCodes[i] });
-  }
-
-  const containsExpectedSequence = (candidate: Array<{ from: string | null; to: string }>) => {
-    for (let i = 0; i <= candidate.length - expectedTransitions.length; i += 1) {
-      const window = candidate.slice(i, i + expectedTransitions.length);
-      if (JSON.stringify(window) === JSON.stringify(expectedTransitions)) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const reverseTransitions = [...transitions].reverse();
-  const forwardMatch = containsExpectedSequence(transitions);
-  const reverseMatch = containsExpectedSequence(reverseTransitions);
-
-  expect(forwardMatch || reverseMatch).toBe(true);
-};
-
-const assertTransitionActors = ({
-  planSnapshot,
-  expectedRoleCodes,
-}: {
-  planSnapshot: PlanSnapshot;
-  expectedRoleCodes: Array<string | string[]>;
-}) => {
-  let history = planSnapshot.planStatusHistory || [];
-  history = history.filter((record) => record.fromPlanStatusId !== record.toPlanStatusId);
-  expect(history.length).toBeGreaterThanOrEqual(expectedRoleCodes.length);
-
-  if (isSingleUserMode()) {
-    return;
-  }
-
-  const actualRoleCodes = history.map((record) => {
-    const roleId = record.user?.roleId;
-    if (roleId === 2) return 'DM';
-    if (roleId === 3) return 'SA';
-    if (roleId === 4) return 'AH';
-    return `UNKNOWN_${roleId}`;
-  });
-
-  const roleMatchesAtIndex = (actualRoleCode: string, index: number) => {
-    const expectedRole = expectedRoleCodes[index];
-    if (Array.isArray(expectedRole)) {
-      return expectedRole.includes(actualRoleCode);
-    }
-    return actualRoleCode === expectedRole;
-  };
-
-  const containsExpectedSequence = (candidate: string[]) => {
-    for (let i = 0; i <= candidate.length - expectedRoleCodes.length; i += 1) {
-      const window = candidate.slice(i, i + expectedRoleCodes.length);
-      const matches = window.every((actualRoleCode, index) => roleMatchesAtIndex(actualRoleCode, index));
-      if (matches) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const forwardMatch = containsExpectedSequence(actualRoleCodes);
-  const reverseMatch = containsExpectedSequence([...actualRoleCodes].reverse());
-
-  expect(forwardMatch || reverseMatch).toBe(true);
-};
-
-const assertHistoryVisible = async ({ page, planId }: { page: Page; planId: string }) => {
-  await openPlan(page, planId);
-  await expect(page.locator('.rup__history')).toBeVisible();
-  await expect(page.locator('.rup__history__record').first()).toBeVisible();
-};
-
-const runSharedSetupToSfd = async ({
-  page,
-  apiContext,
-  testCase,
-}: {
-  page: Page;
-  apiContext: APIRequestContext;
-  testCase: string;
-}) => {
-  let staffToken = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-  const { planId, agreementId } = await createPlanSeedByDb({ testCase });
-
-  await openPlan(page, planId);
-  await submitStaffPlanToAh({ page, apiContext, token: staffToken, planId, note: createE2ENote(testCase, 'SD', 'C') });
-  await waitForPlanStatusCode({
-    apiContext,
-    token: staffToken,
-    planId,
-    expectedStatusCode: 'C',
-  });
-
-  const ahToken = await switchRoleAndRelogin({ page, roleCode: 'AH' });
-  await openPlan(page, planId);
-  await submitPlanForFinalDecision({ page, apiContext, token: ahToken, planId });
-  await waitForPlanStatusCode({
-    apiContext,
-    token: ahToken,
-    planId,
-    expectedStatusCode: 'SFD',
-  });
-
-  staffToken = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-  await openPlan(page, planId);
-  await expectRoleActions(page, 'SA', 'SFD');
-
-  const planSnapshot = await waitForPlanSnapshot({ apiContext, token: staffToken, planId });
-  return { planId, agreementId, planSnapshot, staffToken };
-};
-
-const runSharedSetupToC = async ({
-  page,
-  apiContext,
-  testCase,
-}: {
-  page: Page;
-  apiContext: APIRequestContext;
-  testCase: string;
-}) => {
-  const staffToken = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-  const { planId, agreementId } = await createPlanSeedByDb({ testCase });
-
-  await openPlan(page, planId);
-  await submitStaffPlanToAh({ page, apiContext, token: staffToken, planId, note: createE2ENote(testCase, 'SD', 'C') });
-  await waitForPlanStatusCode({
-    apiContext,
-    token: staffToken,
-    planId,
-    expectedStatusCode: 'C',
-  });
-
-  return { planId, agreementId, staffToken };
 };
 
 test.describe('Initial RUP approval workflow', () => {
@@ -540,308 +305,190 @@ test.describe('Initial RUP approval workflow', () => {
   });
 
   test('covers SD -> C -> SFD -> R -> SFD', async ({ page }) => {
-    const { planId, agreementId, staffToken } = await runSharedSetupToSfd({
+    const ctx = await ScenarioContext.create({
       page,
       apiContext,
+      getApiBaseUrl,
+      logE2E,
+      isSingleUserMode,
+      switchRoleAndRelogin,
+      createPlanSeedByDb,
       testCase: TEST_CASES.CHANGE_LOOP,
     });
-    cleanupAgreementId = agreementId;
+    cleanupAgreementId = ctx.agreementId;
 
-    await runPlanAction({
-      page,
-      apiContext,
-      token: staffToken,
-      planId,
-      actionTestId: 'plan-action-request-changes',
-      toStatusCode: 'R',
-      note: createE2ENote(TEST_CASES.CHANGE_LOOP, 'SFD', 'R'),
-    });
-    await waitForPlanStatusCode({
-      apiContext,
-      token: staffToken,
-      planId,
-      expectedStatusCode: 'R',
-    });
-    const token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
-    await openPlan(page, planId);
-    await submitPlanForFinalDecision({ page, apiContext, token, planId });
-    await waitForPlanStatusCode({
-      apiContext,
-      token,
-      planId,
-      expectedStatusCode: 'SFD',
-    });
+    await ctx.submitToAh();
+    await ctx.waitForStatus('C');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.runAction('plan-action-request-changes', 'R');
+    await ctx.waitForStatus('R');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.takeSnapshot();
+    lastPlanSnapshot = ctx.lastSnapshot;
 
-    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
-    await assertTransitionSequence({
-      apiContext,
-      token,
-      planSnapshot: lastPlanSnapshot,
-      expectedStatusCodes: ['SD', 'C', 'SFD', 'R', 'SFD'],
-    });
-    assertTransitionActors({
-      planSnapshot: lastPlanSnapshot,
-      expectedRoleCodes: ['SA', 'AH', 'SA', 'AH'],
-    });
-    await assertHistoryVisible({ page, planId });
+    await ctx.assertTransitions(['SD', 'C', 'SFD', 'R', 'SFD']);
+    ctx.assertActors(['SA', 'AH', 'SA', 'AH']);
+    await ctx.assertHistoryVisible();
   });
 
   test('covers SD -> C -> SFD -> RNR -> NF', async ({ page }) => {
-    const { planId, agreementId, staffToken } = await runSharedSetupToSfd({
+    const ctx = await ScenarioContext.create({
       page,
       apiContext,
+      getApiBaseUrl,
+      logE2E,
+      isSingleUserMode,
+      switchRoleAndRelogin,
+      createPlanSeedByDb,
       testCase: TEST_CASES.NOT_READY,
     });
-    cleanupAgreementId = agreementId;
+    cleanupAgreementId = ctx.agreementId;
 
-    await runPlanAction({
-      page,
-      apiContext,
-      token: staffToken,
-      planId,
-      actionTestId: 'plan-action-recommend-not-ready',
-      toStatusCode: 'RNR',
-      note: createE2ENote(TEST_CASES.NOT_READY, 'SFD', 'RNR'),
-    });
-    await waitForPlanStatusCode({
-      apiContext,
-      token: staffToken,
-      planId,
-      expectedStatusCode: 'RNR',
-    });
+    await ctx.submitToAh();
+    await ctx.waitForStatus('C');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.runAction('plan-action-recommend-not-ready', 'RNR');
+    await ctx.waitForStatus('RNR');
+    await ctx.as('DM');
+    await ctx.expectActions('RNR');
+    await ctx.runAction('plan-action-not-approved-further-work', 'NF');
+    await ctx.waitForStatus('NF');
+    await ctx.as('SA');
+    await ctx.takeSnapshot();
+    lastPlanSnapshot = ctx.lastSnapshot;
 
-    let token = await switchRoleAndRelogin({ page, roleCode: 'DM' });
-    await openPlan(page, planId);
-    await expectRoleActions(page, 'DM', 'RNR');
-
-    await runPlanAction({
-      page,
-      apiContext,
-      token,
-      planId,
-      actionTestId: 'plan-action-not-approved-further-work',
-      toStatusCode: 'NF',
-      note: createE2ENote(TEST_CASES.NOT_READY, 'RNR', 'NF'),
-    });
-    await waitForPlanStatusCode({
-      apiContext,
-      token,
-      planId,
-      expectedStatusCode: 'NF',
-    });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
-
-    await assertTransitionSequence({
-      apiContext,
-      token,
-      planSnapshot: lastPlanSnapshot,
-      expectedStatusCodes: ['SD', 'C', 'SFD', 'RNR', 'NF'],
-    });
-    assertTransitionActors({
-      planSnapshot: lastPlanSnapshot,
-      expectedRoleCodes: ['SA', 'AH', ['SA', 'AH'], ['SA', 'DM']],
-    });
-    await assertHistoryVisible({ page, planId });
+    await ctx.assertTransitions(['SD', 'C', 'SFD', 'RNR', 'NF']);
+    ctx.assertActors(['SA', 'AH', ['SA', 'AH'], ['SA', 'DM']]);
+    await ctx.assertHistoryVisible();
   });
 
   test('covers SD -> C -> SR -> RFS -> SFD -> RR -> A', async ({ page }) => {
-    const { planId, agreementId } = await runSharedSetupToC({
+    const ctx = await ScenarioContext.create({
       page,
       apiContext,
+      getApiBaseUrl,
+      logE2E,
+      isSingleUserMode,
+      switchRoleAndRelogin,
+      createPlanSeedByDb,
       testCase: TEST_CASES.REVIEW_HAPPY_PATH,
     });
-    cleanupAgreementId = agreementId;
+    cleanupAgreementId = ctx.agreementId;
 
-    let token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
-    await openPlan(page, planId);
-    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'feedback' });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SR' });
+    await ctx.submitToAh();
+    await ctx.waitForStatus('C');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision('feedback');
+    await ctx.waitForStatus('SR');
+    await ctx.as('SA');
+    await ctx.runAction('plan-action-recommend-for-submission', 'RFS');
+    await ctx.waitForStatus('RFS');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.runAction('plan-action-recommend-ready', 'RR');
+    await ctx.waitForStatus('RR');
+    await ctx.as('DM');
+    await ctx.runAction('plan-action-approved', 'A');
+    await ctx.waitForStatus('A');
+    await ctx.as('SA');
+    await ctx.takeSnapshot();
+    lastPlanSnapshot = ctx.lastSnapshot;
 
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    await openPlan(page, planId);
-    await runPlanAction({
-      page,
-      apiContext,
-      token,
-      planId,
-      actionTestId: 'plan-action-recommend-for-submission',
-      toStatusCode: 'RFS',
-      note: createE2ENote(TEST_CASES.REVIEW_HAPPY_PATH, 'SR', 'RFS'),
-    });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'RFS' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
-    await openPlan(page, planId);
-    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'final-decision' });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SFD' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    await openPlan(page, planId);
-    await runPlanAction({
-      page,
-      apiContext,
-      token,
-      planId,
-      actionTestId: 'plan-action-recommend-ready',
-      toStatusCode: 'RR',
-      note: createE2ENote(TEST_CASES.REVIEW_HAPPY_PATH, 'SFD', 'RR'),
-    });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'RR' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'DM' });
-    await openPlan(page, planId);
-    await runPlanAction({
-      page,
-      apiContext,
-      token,
-      planId,
-      actionTestId: 'plan-action-approved',
-      toStatusCode: 'A',
-      note: createE2ENote(TEST_CASES.REVIEW_HAPPY_PATH, 'RR', 'A'),
-    });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'A' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
-
-    await assertTransitionSequence({
-      apiContext,
-      token,
-      planSnapshot: lastPlanSnapshot,
-      expectedStatusCodes: ['SD', 'C', 'SR', 'RFS', 'SFD', 'RR', 'A'],
-    });
-    assertTransitionActors({
-      planSnapshot: lastPlanSnapshot,
-      expectedRoleCodes: ['SA', 'AH', 'SA', 'AH', 'SA', ['SA', 'DM']],
-    });
-    await assertHistoryVisible({ page, planId });
+    await ctx.assertTransitions(['SD', 'C', 'SR', 'RFS', 'SFD', 'RR', 'A']);
+    ctx.assertActors(['SA', 'AH', 'SA', 'AH', 'SA', ['SA', 'DM']]);
+    await ctx.assertHistoryVisible();
   });
 
   test('covers SD -> C -> SR -> RFS -> SFD -> R -> SFD', async ({ page }) => {
-    const { planId, agreementId } = await runSharedSetupToC({
+    const ctx = await ScenarioContext.create({
       page,
       apiContext,
+      getApiBaseUrl,
+      logE2E,
+      isSingleUserMode,
+      switchRoleAndRelogin,
+      createPlanSeedByDb,
       testCase: TEST_CASES.REVIEW_CHANGE_LOOP,
     });
-    cleanupAgreementId = agreementId;
+    cleanupAgreementId = ctx.agreementId;
 
-    let token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
-    await openPlan(page, planId);
-    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'feedback' });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SR' });
+    await ctx.submitToAh();
+    await ctx.waitForStatus('C');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision('feedback');
+    await ctx.waitForStatus('SR');
+    await ctx.as('SA');
+    await ctx.runAction('plan-action-recommend-for-submission', 'RFS');
+    await ctx.waitForStatus('RFS');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.runAction('plan-action-request-changes', 'R');
+    await ctx.waitForStatus('R');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.takeSnapshot();
+    lastPlanSnapshot = ctx.lastSnapshot;
 
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    await openPlan(page, planId);
-    await runPlanAction({
-      page,
-      apiContext,
-      token,
-      planId,
-      actionTestId: 'plan-action-recommend-for-submission',
-      toStatusCode: 'RFS',
-      note: createE2ENote(TEST_CASES.REVIEW_CHANGE_LOOP, 'SR', 'RFS'),
-    });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'RFS' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
-    await openPlan(page, planId);
-    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'final-decision' });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SFD' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    await openPlan(page, planId);
-    await runPlanAction({
-      page,
-      apiContext,
-      token,
-      planId,
-      actionTestId: 'plan-action-request-changes',
-      toStatusCode: 'R',
-      note: createE2ENote(TEST_CASES.REVIEW_CHANGE_LOOP, 'SFD', 'R'),
-    });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'R' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
-    await openPlan(page, planId);
-    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'final-decision' });
-    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SFD' });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
-
-    await assertTransitionSequence({
-      apiContext,
-      token,
-      planSnapshot: lastPlanSnapshot,
-      expectedStatusCodes: ['SD', 'C', 'SR', 'RFS', 'SFD', 'R', 'SFD'],
-    });
-    assertTransitionActors({
-      planSnapshot: lastPlanSnapshot,
-      expectedRoleCodes: ['SA', 'AH', 'SA', 'AH', 'SA', 'AH'],
-    });
-    await assertHistoryVisible({ page, planId });
+    await ctx.assertTransitions(['SD', 'C', 'SR', 'RFS', 'SFD', 'R', 'SFD']);
+    ctx.assertActors(['SA', 'AH', 'SA', 'AH', 'SA', 'AH']);
+    await ctx.assertHistoryVisible();
   });
 
   test('covers SD -> C -> SFD -> RR -> NA', async ({ page }) => {
-    const { planId, agreementId, staffToken } = await runSharedSetupToSfd({
+    const ctx = await ScenarioContext.create({
       page,
       apiContext,
+      getApiBaseUrl,
+      logE2E,
+      isSingleUserMode,
+      switchRoleAndRelogin,
+      createPlanSeedByDb,
       testCase: TEST_CASES.NOT_APPROVED,
     });
-    cleanupAgreementId = agreementId;
+    cleanupAgreementId = ctx.agreementId;
 
-    await runPlanAction({
-      page,
-      apiContext,
-      token: staffToken,
-      planId,
-      actionTestId: 'plan-action-recommend-ready',
-      toStatusCode: 'RR',
-      note: createE2ENote(TEST_CASES.NOT_APPROVED, 'SFD', 'RR'),
-    });
-    await waitForPlanStatusCode({
-      apiContext,
-      token: staffToken,
-      planId,
-      expectedStatusCode: 'RR',
-    });
-
-    let token = await switchRoleAndRelogin({ page, roleCode: 'DM' });
-    await openPlan(page, planId);
+    await ctx.submitToAh();
+    await ctx.waitForStatus('C');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.runAction('plan-action-recommend-ready', 'RR');
+    await ctx.waitForStatus('RR');
+    await ctx.as('DM');
 
     if (!cachedSingleUserRecord) {
       cachedSingleUserRecord = await getSingleUserRecordForDb();
     }
-
     await updatePlanStatusViaDb({
-      planId,
+      planId: ctx.planId,
       toStatusCode: 'NA',
       note: createE2ENote(TEST_CASES.NOT_APPROVED, 'RR', 'NA'),
       userId: cachedSingleUserRecord.id,
     });
 
-    await waitForPlanStatusCode({
-      apiContext,
-      token,
-      planId,
-      expectedStatusCode: 'NA',
-    });
+    await ctx.waitForStatus('NA');
+    await ctx.as('SA');
+    await ctx.takeSnapshot();
+    lastPlanSnapshot = ctx.lastSnapshot;
 
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
-
-    await assertTransitionSequence({
-      apiContext,
-      token,
-      planSnapshot: lastPlanSnapshot,
-      expectedStatusCodes: ['SD', 'C', 'SFD', 'RR', 'NA'],
-    });
-    assertTransitionActors({
-      planSnapshot: lastPlanSnapshot,
-      expectedRoleCodes: ['SA', 'AH', 'SA', ['SA', 'DM']],
-    });
-    await assertHistoryVisible({ page, planId });
+    await ctx.assertTransitions(['SD', 'C', 'SFD', 'RR', 'NA']);
+    ctx.assertActors(['SA', 'AH', 'SA', ['SA', 'DM']]);
+    await ctx.assertHistoryVisible();
   });
 });
