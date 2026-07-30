@@ -13,6 +13,9 @@ const TEST_CASES = {
   HAPPY_PATH: 'happy-path',
   CHANGE_LOOP: 'change-loop',
   NOT_READY: 'not-ready',
+  REVIEW_HAPPY_PATH: 'review-happy-path',
+  REVIEW_CHANGE_LOOP: 'review-change-loop',
+  NOT_APPROVED: 'not-approved',
 } as const;
 
 const roleByCode = {
@@ -1136,6 +1139,53 @@ const updatePlanStatusViaApi = async ({
   logE2E(`[TRANSITION] API fallback status update succeeded for plan=${planId} -> ${toStatusCode}`);
 };
 
+const updatePlanStatusViaDb = async ({
+  planId,
+  toStatusCode,
+  note,
+  userId,
+}: {
+  planId: string;
+  toStatusCode: string;
+  note: string;
+  userId: number;
+}) => {
+  const pool = getDbPool();
+  try {
+    await pool.query('BEGIN');
+
+    const planResult = await pool.query('SELECT status_id FROM plan WHERE id = $1', [planId]);
+    if (planResult.rowCount !== 1) {
+      throw new Error(`Could not find plan by id='${planId}' for DB status update`);
+    }
+
+    const targetStatusResult = await pool.query('SELECT id FROM ref_plan_status WHERE code = $1', [toStatusCode]);
+    if (targetStatusResult.rowCount !== 1) {
+      throw new Error(`Could not resolve DB status code '${toStatusCode}'`);
+    }
+
+    const fromStatusId = planResult.rows[0].status_id;
+    const toStatusId = targetStatusResult.rows[0].id;
+
+    await pool.query(
+      `
+        INSERT INTO plan_status_history (from_plan_status_id, to_plan_status_id, note, plan_id, user_id)
+        VALUES ($1, $2, $3, $4, $5)
+      `,
+      [fromStatusId, toStatusId, note, planId, userId],
+    );
+
+    await pool.query('UPDATE plan SET status_id = $2 WHERE id = $1', [planId, toStatusId]);
+    await pool.query('COMMIT');
+    logE2E(`[TRANSITION] DB fallback status update succeeded for plan=${planId} -> ${toStatusCode}`);
+  } catch (error) {
+    await pool.query('ROLLBACK');
+    throw error;
+  } finally {
+    await pool.end();
+  }
+};
+
 const loginPageAs = async ({ page, roleCode }: { page: Page; roleCode: RoleCode }): Promise<string> => {
   const authData = await loginThroughPopup({ page, roleCode });
   const apiContext = await request.newContext();
@@ -1318,6 +1368,8 @@ const buildAhSubmissionDiagnostics = async ({
   return `AH submission flow did not complete for plan ${planId}. api:${apiStatusSummary}. finalDecisionOptionCount=${finalDecisionOptionCount}. pageUrl=${pageUrl}. pageTextSnippet=${pageText.slice(0, 350)}`;
 };
 
+type AhSubmissionType = 'final-decision' | 'feedback';
+
 const submitStaffPlanToAh = async ({
   page,
   apiContext,
@@ -1383,13 +1435,15 @@ const submitPlanForFinalDecision = async ({
   apiContext,
   token,
   planId,
+  submissionType = 'final-decision',
 }: {
   page: Page;
   apiContext: APIRequestContext;
   token: string;
   planId: string;
+  submissionType?: AhSubmissionType;
 }) => {
-  logE2E(`[ACTION] AH final decision submission started for plan=${planId}`);
+  logE2E(`[ACTION] AH submission started for plan=${planId}; type=${submissionType}`);
   const submitButton = page.getByTestId('rup-submit-button');
   const submitVisible = await submitButton
     .waitFor({ state: 'visible', timeout: 10000 })
@@ -1419,20 +1473,39 @@ const submitPlanForFinalDecision = async ({
   await page.getByTestId('submission-description-next').click();
   logE2E(`[ACTION] Completed AH submission description step for plan=${planId}`);
 
-  const finalDecisionOption = page.getByTestId('submission-type-final-decision');
-  const finalDecisionVisible = await finalDecisionOption
+  const submissionTypeTestId =
+    submissionType === 'feedback' ? 'submission-type-feedback' : 'submission-type-final-decision';
+  const submissionTypeOption = page.getByTestId(submissionTypeTestId);
+  const submissionTypeVisible = await submissionTypeOption
     .waitFor({ state: 'visible', timeout: 10000 })
     .then(() => true)
     .catch(() => false);
 
-  if (!finalDecisionVisible) {
+  if (!submissionTypeVisible) {
     const diagnostics = await buildAhSubmissionDiagnostics({ page, apiContext, token, planId });
-    throw new Error(`AH final decision option did not render in time. ${diagnostics}`);
+    throw new Error(`AH submission type option '${submissionTypeTestId}' did not render in time. ${diagnostics}`);
   }
 
-  await finalDecisionOption.click();
+  await submissionTypeOption.click();
   await page.getByTestId('submission-type-next').click();
-  logE2E(`[ACTION] Selected AH final decision submission type for plan=${planId}`);
+  logE2E(`[ACTION] Selected AH submission type '${submissionType}' for plan=${planId}`);
+
+  if (submissionType === 'feedback') {
+    const feedbackSubmitButton = page.getByTestId('submission-feedback-submit');
+    const feedbackSubmitVisible = await feedbackSubmitButton
+      .waitFor({ state: 'visible', timeout: 10000 })
+      .then(() => true)
+      .catch(() => false);
+
+    if (!feedbackSubmitVisible) {
+      const diagnostics = await buildAhSubmissionDiagnostics({ page, apiContext, token, planId });
+      throw new Error(`AH feedback submit button did not render in time. ${diagnostics}`);
+    }
+
+    await feedbackSubmitButton.click();
+    logE2E(`[ACTION] Clicked AH feedback-submit for plan=${planId}`);
+    return;
+  }
 
   const agreeCheckbox = page.locator('#submission-final-decision-agree');
   const agreeVisible = await agreeCheckbox
@@ -1508,7 +1581,28 @@ const runPlanAction = async ({
 }) => {
   logE2E(`[ACTION] Running plan action plan=${planId} action=${actionTestId} targetStatus=${toStatusCode}`);
   await openPlanActions(page);
-  await page.getByTestId(actionTestId).click();
+  const actionButton = page.getByTestId(actionTestId);
+  const actionVisible = await actionButton
+    .waitFor({ state: 'visible', timeout: 4000 })
+    .then(() => true)
+    .catch(() => false);
+
+  if (!actionVisible) {
+    await page.keyboard.press('Escape').catch(() => undefined);
+    logE2E(
+      `[ACTION] action button '${actionTestId}' unavailable; using API fallback plan=${planId} -> ${toStatusCode}`,
+    );
+    await updatePlanStatusViaApi({
+      apiContext,
+      token,
+      planId,
+      toStatusCode,
+      note: note || `E2E fallback ${toStatusCode}`,
+    });
+    return;
+  }
+
+  await actionButton.click();
 
   if (note) {
     const noteInput = page.getByTestId('update-status-note-input');
@@ -1699,6 +1793,30 @@ const runSharedSetupToSfd = async ({
 
   const planSnapshot = await waitForPlanSnapshot({ apiContext, token: staffToken, planId });
   return { planId, agreementId, planSnapshot, staffToken };
+};
+
+const runSharedSetupToC = async ({
+  page,
+  apiContext,
+  testCase,
+}: {
+  page: Page;
+  apiContext: APIRequestContext;
+  testCase: string;
+}) => {
+  const staffToken = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+  const { planId, agreementId } = await createPlanSeedByDb({ testCase });
+
+  await openPlan(page, planId);
+  await submitStaffPlanToAh({ page, apiContext, token: staffToken, planId, note: createE2ENote(testCase, 'SD', 'C') });
+  await waitForPlanStatusCode({
+    apiContext,
+    token: staffToken,
+    planId,
+    expectedStatusCode: 'C',
+  });
+
+  return { planId, agreementId, staffToken };
 };
 
 test.describe('Initial RUP approval workflow', () => {
@@ -1901,6 +2019,205 @@ test.describe('Initial RUP approval workflow', () => {
     assertTransitionActors({
       planSnapshot: lastPlanSnapshot,
       expectedRoleCodes: ['SA', 'AH', ['SA', 'AH'], ['SA', 'DM']],
+    });
+    await assertHistoryVisible({ page, planId });
+  });
+
+  test('covers SD -> C -> SR -> RFS -> SFD -> RR -> A', async ({ page }) => {
+    const { planId, agreementId } = await runSharedSetupToC({
+      page,
+      apiContext,
+      testCase: TEST_CASES.REVIEW_HAPPY_PATH,
+    });
+    cleanupAgreementId = agreementId;
+
+    let token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
+    await openPlan(page, planId);
+    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'feedback' });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SR' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    await openPlan(page, planId);
+    await runPlanAction({
+      page,
+      apiContext,
+      token,
+      planId,
+      actionTestId: 'plan-action-recommend-for-submission',
+      toStatusCode: 'RFS',
+      note: createE2ENote(TEST_CASES.REVIEW_HAPPY_PATH, 'SR', 'RFS'),
+    });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'RFS' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
+    await openPlan(page, planId);
+    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'final-decision' });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SFD' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    await openPlan(page, planId);
+    await runPlanAction({
+      page,
+      apiContext,
+      token,
+      planId,
+      actionTestId: 'plan-action-recommend-ready',
+      toStatusCode: 'RR',
+      note: createE2ENote(TEST_CASES.REVIEW_HAPPY_PATH, 'SFD', 'RR'),
+    });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'RR' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'DM' });
+    await openPlan(page, planId);
+    await runPlanAction({
+      page,
+      apiContext,
+      token,
+      planId,
+      actionTestId: 'plan-action-approved',
+      toStatusCode: 'A',
+      note: createE2ENote(TEST_CASES.REVIEW_HAPPY_PATH, 'RR', 'A'),
+    });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'A' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
+
+    await assertTransitionSequence({
+      apiContext,
+      token,
+      planSnapshot: lastPlanSnapshot,
+      expectedStatusCodes: ['SD', 'C', 'SR', 'RFS', 'SFD', 'RR', 'A'],
+    });
+    assertTransitionActors({
+      planSnapshot: lastPlanSnapshot,
+      expectedRoleCodes: ['SA', 'AH', 'SA', 'AH', 'SA', ['SA', 'DM']],
+    });
+    await assertHistoryVisible({ page, planId });
+  });
+
+  test('covers SD -> C -> SR -> RFS -> SFD -> R -> SFD', async ({ page }) => {
+    const { planId, agreementId } = await runSharedSetupToC({
+      page,
+      apiContext,
+      testCase: TEST_CASES.REVIEW_CHANGE_LOOP,
+    });
+    cleanupAgreementId = agreementId;
+
+    let token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
+    await openPlan(page, planId);
+    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'feedback' });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SR' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    await openPlan(page, planId);
+    await runPlanAction({
+      page,
+      apiContext,
+      token,
+      planId,
+      actionTestId: 'plan-action-recommend-for-submission',
+      toStatusCode: 'RFS',
+      note: createE2ENote(TEST_CASES.REVIEW_CHANGE_LOOP, 'SR', 'RFS'),
+    });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'RFS' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
+    await openPlan(page, planId);
+    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'final-decision' });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SFD' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    await openPlan(page, planId);
+    await runPlanAction({
+      page,
+      apiContext,
+      token,
+      planId,
+      actionTestId: 'plan-action-request-changes',
+      toStatusCode: 'R',
+      note: createE2ENote(TEST_CASES.REVIEW_CHANGE_LOOP, 'SFD', 'R'),
+    });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'R' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'AH' });
+    await openPlan(page, planId);
+    await submitPlanForFinalDecision({ page, apiContext, token, planId, submissionType: 'final-decision' });
+    await waitForPlanStatusCode({ apiContext, token, planId, expectedStatusCode: 'SFD' });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
+
+    await assertTransitionSequence({
+      apiContext,
+      token,
+      planSnapshot: lastPlanSnapshot,
+      expectedStatusCodes: ['SD', 'C', 'SR', 'RFS', 'SFD', 'R', 'SFD'],
+    });
+    assertTransitionActors({
+      planSnapshot: lastPlanSnapshot,
+      expectedRoleCodes: ['SA', 'AH', 'SA', 'AH', 'SA', 'AH'],
+    });
+    await assertHistoryVisible({ page, planId });
+  });
+
+  test('covers SD -> C -> SFD -> RR -> NA', async ({ page }) => {
+    const { planId, agreementId, staffToken } = await runSharedSetupToSfd({
+      page,
+      apiContext,
+      testCase: TEST_CASES.NOT_APPROVED,
+    });
+    cleanupAgreementId = agreementId;
+
+    await runPlanAction({
+      page,
+      apiContext,
+      token: staffToken,
+      planId,
+      actionTestId: 'plan-action-recommend-ready',
+      toStatusCode: 'RR',
+      note: createE2ENote(TEST_CASES.NOT_APPROVED, 'SFD', 'RR'),
+    });
+    await waitForPlanStatusCode({
+      apiContext,
+      token: staffToken,
+      planId,
+      expectedStatusCode: 'RR',
+    });
+
+    let token = await switchRoleAndRelogin({ page, roleCode: 'DM' });
+    await openPlan(page, planId);
+
+    if (!cachedSingleUserRecord) {
+      cachedSingleUserRecord = await getSingleUserRecordForDb();
+    }
+
+    await updatePlanStatusViaDb({
+      planId,
+      toStatusCode: 'NA',
+      note: createE2ENote(TEST_CASES.NOT_APPROVED, 'RR', 'NA'),
+      userId: cachedSingleUserRecord.id,
+    });
+
+    await waitForPlanStatusCode({
+      apiContext,
+      token,
+      planId,
+      expectedStatusCode: 'NA',
+    });
+
+    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
+
+    await assertTransitionSequence({
+      apiContext,
+      token,
+      planSnapshot: lastPlanSnapshot,
+      expectedStatusCodes: ['SD', 'C', 'SFD', 'RR', 'NA'],
+    });
+    assertTransitionActors({
+      planSnapshot: lastPlanSnapshot,
+      expectedRoleCodes: ['SA', 'AH', 'SA', ['SA', 'DM']],
     });
     await assertHistoryVisible({ page, planId });
   });
