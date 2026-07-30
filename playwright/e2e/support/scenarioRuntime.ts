@@ -96,6 +96,7 @@ export class ScenarioContext {
   }
 
   async submitToAh(noteOverride?: string): Promise<void> {
+    await openPlan({ page: this.page, planId: this.planId });
     await submitStaffPlanToAh({
       page: this.page,
       apiContext: this.apiContext,
@@ -108,6 +109,7 @@ export class ScenarioContext {
   }
 
   async submitFinalDecision(type?: AhSubmissionType): Promise<void> {
+    await openPlan({ page: this.page, planId: this.planId });
     await submitPlanForFinalDecision({
       page: this.page,
       apiContext: this.apiContext,
