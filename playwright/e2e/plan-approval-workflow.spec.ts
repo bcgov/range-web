@@ -2,6 +2,11 @@ import fs from 'fs/promises';
 import path from 'path';
 import { test, expect, request, type APIRequestContext, type Page } from '@playwright/test';
 import { Pool } from 'pg';
+import {
+  loginPageAs as runtimeLoginPageAs,
+  switchRoleAndRelogin as runtimeSwitchRoleAndRelogin,
+  type WorkflowRoleCode,
+} from './support/authRuntime';
 
 const E2E_PREFIX = 'E2E-AUTO';
 
@@ -24,12 +29,7 @@ const roleByCode = {
   AH: 4,
 } as const;
 
-type RoleCode = keyof typeof roleByCode;
-
-type AuthData = {
-  access_token: string;
-  [key: string]: unknown;
-};
+type RoleCode = WorkflowRoleCode;
 
 type PlanStatusHistoryRecord = {
   fromPlanStatusId?: number | null;
@@ -162,141 +162,6 @@ const getDbPool = (): Pool => {
     password: getPrefixedEnv('DB_PASSWORD'),
     ssl: getPrefixedEnv('DB_SSL', false) === 'true' ? { rejectUnauthorized: false } : false,
   });
-};
-
-const waitForLocalStorageAuth = async (page: Page): Promise<AuthData> => {
-  await expect
-    .poll(
-      async () => {
-        try {
-          return await page.evaluate(() => {
-            const raw = window.localStorage.getItem('range-web-auth');
-            if (!raw) return '';
-            try {
-              const parsed = JSON.parse(raw);
-              return parsed?.access_token ? raw : '';
-            } catch {
-              return '';
-            }
-          });
-        } catch {
-          return '';
-        }
-      },
-      { timeout: 90000 },
-    )
-    .not.toEqual('');
-
-  const deadline = Date.now() + 30000;
-  while (Date.now() < deadline) {
-    const authData = await page
-      .evaluate(() => JSON.parse(window.localStorage.getItem('range-web-auth') || '{}'))
-      .catch(() => null as AuthData | null);
-
-    if (authData && typeof authData === 'object' && authData.access_token) {
-      return authData;
-    }
-
-    await page.waitForTimeout(250);
-  }
-
-  throw new Error('Timed out while reading auth data from localStorage after login popup flow.');
-};
-
-const clickFirstVisible = async (page: Page, selectors: string[]): Promise<boolean> => {
-  for (const selector of selectors) {
-    const locator = page.locator(selector).first();
-    if (await locator.count()) {
-      await locator.click();
-      return true;
-    }
-  }
-
-  return false;
-};
-
-const fillLoginPopup = async ({
-  popup,
-  username,
-  password,
-  roleCode,
-}: {
-  popup: Page;
-  username: string;
-  password: string;
-  roleCode: RoleCode;
-}) => {
-  const usernameSelectors = ['#user', '#username', 'input[name="user"]', 'input[name="username"]'];
-  const passwordSelectors = ['#password', 'input[name="password"]'];
-  const submitSelectors = ['#kc-login', 'button[type="submit"]', 'input[type="submit"]'];
-
-  const deadline = Date.now() + 60000;
-  while (Date.now() < deadline) {
-    if (popup.isClosed()) {
-      return;
-    }
-
-    await popup.waitForLoadState('domcontentloaded');
-
-    let usernameLocator = null;
-    for (const selector of usernameSelectors) {
-      const locator = popup.locator(selector).first();
-      if (await locator.count()) {
-        usernameLocator = locator;
-        break;
-      }
-    }
-
-    let passwordLocator = null;
-    for (const selector of passwordSelectors) {
-      const locator = popup.locator(selector).first();
-      if (await locator.count()) {
-        passwordLocator = locator;
-        break;
-      }
-    }
-
-    if (usernameLocator && passwordLocator) {
-      logE2E(`[SSO][${roleCode}] submitting credentials for username=${username}`);
-      await usernameLocator.fill(username);
-      await passwordLocator.fill(password);
-
-      const clicked = await clickFirstVisible(popup, submitSelectors);
-      if (!clicked) {
-        await passwordLocator.press('Enter');
-      }
-
-      return;
-    }
-
-    await popup.waitForTimeout(500);
-  }
-
-  throw new Error('Unable to find login username/password fields in SSO popup.');
-};
-
-const loginThroughPopup = async ({ page, roleCode }: { page: Page; roleCode: RoleCode }): Promise<AuthData> => {
-  const username = getSingleUserUsername();
-  const password = getSingleUserPassword();
-  const loginMode = getSingleUserLoginMode();
-
-  logE2E(`[AUTH] starting popup login for role=${roleCode}`);
-
-  await page.goto('/');
-
-  const popupPromise = page.waitForEvent('popup');
-  if (loginMode === 'bceid') {
-    await page.locator('#login_bceid_button').click();
-  } else {
-    await page.getByRole('button', { name: 'Staff Login' }).click();
-  }
-
-  const popup = await popupPromise;
-  await fillLoginPopup({ popup, username, password, roleCode });
-
-  await popup.waitForEvent('close', { timeout: 90000 }).catch(() => undefined);
-
-  return waitForLocalStorageAuth(page);
 };
 
 const findUserBySsoCandidates = async ({
@@ -1187,55 +1052,32 @@ const updatePlanStatusViaDb = async ({
 };
 
 const loginPageAs = async ({ page, roleCode }: { page: Page; roleCode: RoleCode }): Promise<string> => {
-  const authData = await loginThroughPopup({ page, roleCode });
-  const apiContext = await request.newContext();
-  const userResponse = await apiContext.get(`${getApiBaseUrl()}/v1/user/me`, {
-    headers: { Authorization: `Bearer ${authData.access_token}` },
+  return runtimeLoginPageAs({
+    page,
+    roleCode,
+    username: getSingleUserUsername(),
+    password: getSingleUserPassword(),
+    loginMode: getSingleUserLoginMode(),
+    apiBaseUrl: getApiBaseUrl(),
+    logE2E,
   });
-
-  if (!userResponse.ok()) {
-    throw new Error(`Failed to load user profile (${userResponse.status()})`);
-  }
-
-  const user = await userResponse.json();
-  await apiContext.dispose();
-
-  await page.goto('/');
-  await page.evaluate(
-    ({ auth, profile }) => {
-      window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
-      window.localStorage.setItem('range-web-user', JSON.stringify(profile));
-    },
-    { auth: authData, profile: user },
-  );
-  await page.goto('/select-range-use-plan');
-
-  return authData.access_token;
-};
-
-const clearSession = async (page: Page) => {
-  await page.goto('/');
-  await page.evaluate(() => {
-    window.localStorage.clear();
-    window.sessionStorage.clear();
-  });
-  await page.context().clearCookies();
 };
 
 const switchRoleAndRelogin = async ({ page, roleCode }: { page: Page; roleCode: RoleCode }) => {
-  const roleId = roleByCode[roleCode];
-  if (!roleId) {
-    throw new Error(`switchRoleAndRelogin only supports SA, DM, AH. Received: ${roleCode}`);
-  }
-
-  if (!cachedSingleUserRecord) {
-    cachedSingleUserRecord = await getSingleUserRecordForDb();
-  }
-
-  logE2E(`[AUTH] switching single user to ${roleCode} (roleId=${roleId}) and re-login`);
-  await setUserRoleById({ userId: cachedSingleUserRecord.id, roleId });
-  await clearSession(page);
-  return loginPageAs({ page, roleCode });
+  return runtimeSwitchRoleAndRelogin({
+    page,
+    roleCode,
+    roleByCode,
+    getSingleUserRecord: async () => {
+      if (!cachedSingleUserRecord) {
+        cachedSingleUserRecord = await getSingleUserRecordForDb();
+      }
+      return cachedSingleUserRecord;
+    },
+    setUserRoleById,
+    loginPageAs,
+    logE2E,
+  });
 };
 
 const openPlan = async (page: Page, planId: string) => {
