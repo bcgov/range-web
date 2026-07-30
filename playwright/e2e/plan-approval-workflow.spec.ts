@@ -26,6 +26,7 @@ import {
   type PlanSnapshot,
   type AhSubmissionType,
 } from './support/actionRuntime';
+import { ScenarioContext } from './support/scenarioRuntime';
 
 const E2E_PREFIX = 'E2E-AUTO';
 
@@ -504,63 +505,38 @@ test.describe('Initial RUP approval workflow', () => {
   });
 
   test('covers SD -> C -> SFD -> RR -> A', async ({ page }) => {
-    const { planId, agreementId, staffToken } = await runSharedSetupToSfd({
+    const ctx = await ScenarioContext.create({
       page,
       apiContext,
+      getApiBaseUrl,
+      logE2E,
+      isSingleUserMode,
+      switchRoleAndRelogin,
+      createPlanSeedByDb,
       testCase: TEST_CASES.HAPPY_PATH,
     });
-    cleanupAgreementId = agreementId;
+    cleanupAgreementId = ctx.agreementId;
 
-    await runPlanAction({
-      page,
-      apiContext,
-      token: staffToken,
-      planId,
-      actionTestId: 'plan-action-recommend-ready',
-      toStatusCode: 'RR',
-      note: createE2ENote(TEST_CASES.HAPPY_PATH, 'SFD', 'RR'),
-    });
-    await waitForPlanStatusCode({
-      apiContext,
-      token: staffToken,
-      planId,
-      expectedStatusCode: 'RR',
-    });
+    await ctx.submitToAh();
+    await ctx.waitForStatus('C');
+    await ctx.as('AH');
+    await ctx.submitFinalDecision();
+    await ctx.waitForStatus('SFD');
+    await ctx.as('SA');
+    await ctx.expectActions('SFD');
+    await ctx.runAction('plan-action-recommend-ready', 'RR');
+    await ctx.waitForStatus('RR');
+    await ctx.as('DM');
+    await ctx.expectActions('RR');
+    await ctx.runAction('plan-action-approved', 'A');
+    await ctx.waitForStatus('A');
+    await ctx.as('SA');
+    await ctx.takeSnapshot();
+    lastPlanSnapshot = ctx.lastSnapshot;
 
-    let token = await switchRoleAndRelogin({ page, roleCode: 'DM' });
-    await openPlan(page, planId);
-    await expectRoleActions(page, 'DM', 'RR');
-
-    await runPlanAction({
-      page,
-      apiContext,
-      token,
-      planId,
-      actionTestId: 'plan-action-approved',
-      toStatusCode: 'A',
-      note: createE2ENote(TEST_CASES.HAPPY_PATH, 'RR', 'A'),
-    });
-    await waitForPlanStatusCode({
-      apiContext,
-      token,
-      planId,
-      expectedStatusCode: 'A',
-    });
-
-    token = await switchRoleAndRelogin({ page, roleCode: 'SA' });
-    lastPlanSnapshot = await waitForPlanSnapshot({ apiContext, token, planId });
-
-    await assertTransitionSequence({
-      apiContext,
-      token,
-      planSnapshot: lastPlanSnapshot,
-      expectedStatusCodes: ['SD', 'C', 'SFD', 'RR', 'A'],
-    });
-    assertTransitionActors({
-      planSnapshot: lastPlanSnapshot,
-      expectedRoleCodes: ['SA', 'AH', ['SA', 'AH'], ['SA', 'DM']],
-    });
-    await assertHistoryVisible({ page, planId });
+    await ctx.assertTransitions(['SD', 'C', 'SFD', 'RR', 'A']);
+    ctx.assertActors(['SA', 'AH', ['SA', 'AH'], ['SA', 'DM']]);
+    await ctx.assertHistoryVisible();
   });
 
   test('covers SD -> C -> SFD -> R -> SFD', async ({ page }) => {
