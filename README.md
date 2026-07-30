@@ -83,7 +83,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 In `/semantic` directory, you can also run:
 
-## Running E2E tests with Cypress
+## Running E2E tests with Playwright
 
 The E2E suite is configured for the Initial RUP approval workflow and requires DB-backed role switching plus SSO credentials for test users.
 
@@ -95,48 +95,74 @@ npm run test:e2e:open
 npm run test:e2e:run
 ```
 
-### Required Cypress environment variables
+### Required Playwright environment variables
 
 ```bash
 # App/API
-CYPRESS_BASE_URL=
-CYPRESS_API_BASE_URL=
+PLAYWRIGHT_BASE_URL=
+PLAYWRIGHT_API_BASE_URL=
 
 # SSO token endpoint auth
-CYPRESS_SSO_BASE_URL=
-CYPRESS_SSO_REALM_NAME=
-CYPRESS_SSO_CLIENT_ID=
+PLAYWRIGHT_SSO_BASE_URL=
+PLAYWRIGHT_SSO_REALM_NAME=
+PLAYWRIGHT_SSO_CLIENT_ID=
 # optional if your realm client requires it
-CYPRESS_SSO_CLIENT_SECRET=
+PLAYWRIGHT_SSO_CLIENT_SECRET=
+# optional full token endpoint override (if base+realm does not apply)
+PLAYWRIGHT_SSO_TOKEN_URL=
 
 # Test users
-CYPRESS_AH_USERNAME=
-CYPRESS_AH_PASSWORD=
-CYPRESS_STAFF_USERNAME=
-CYPRESS_STAFF_PASSWORD=
+PLAYWRIGHT_AH_USERNAME=
+PLAYWRIGHT_AH_PASSWORD=
+PLAYWRIGHT_STAFF_USERNAME=
+PLAYWRIGHT_STAFF_PASSWORD=
+
+# optional role-specific SSO overrides when AH/staff differ
+# staff values apply to SA/DM logins
+PLAYWRIGHT_STAFF_SSO_BASE_URL=
+PLAYWRIGHT_STAFF_SSO_REALM_NAME=
+PLAYWRIGHT_STAFF_SSO_CLIENT_ID=
+PLAYWRIGHT_STAFF_SSO_CLIENT_SECRET=
+PLAYWRIGHT_STAFF_SSO_TOKEN_URL=
+
+PLAYWRIGHT_AH_SSO_BASE_URL=
+PLAYWRIGHT_AH_SSO_REALM_NAME=
+PLAYWRIGHT_AH_SSO_CLIENT_ID=
+PLAYWRIGHT_AH_SSO_CLIENT_SECRET=
+PLAYWRIGHT_AH_SSO_TOKEN_URL=
 
 # Role switching task (Postgres)
-CYPRESS_DB_HOST=
-CYPRESS_DB_PORT=
-CYPRESS_DB_NAME=
-CYPRESS_DB_USER=
-CYPRESS_DB_PASSWORD=
+PLAYWRIGHT_DB_HOST=
+PLAYWRIGHT_DB_PORT=
+PLAYWRIGHT_DB_NAME=
+PLAYWRIGHT_DB_USER=
+PLAYWRIGHT_DB_PASSWORD=
 # optional
-CYPRESS_DB_SSL=false
+PLAYWRIGHT_DB_SSL=false
 
-# Plan cloning setup
-CYPRESS_TEMPLATE_PLAN_ID=
-CYPRESS_DESTINATION_AGREEMENT_ID=
+# Optional DB setup override
+PLAYWRIGHT_TEST_DISTRICT_CODE=TST
+# Optional source agreement for deep plan seeding copy
+PLAYWRIGHT_SEED_SOURCE_AGREEMENT_ID=RAN099915
+
+```
+
+You can copy the template and fill values locally:
+
+```bash
+cp .env.playwright.example .env.playwright.local
 ```
 
 ### Workflow assumptions
 
-- E2E creates a new plan per scenario by cloning a template plan.
-- Role switches for the shared staff test user are applied by DB update on `users.sso_id`.
-- `CYPRESS_STAFF_USERNAME` must exactly match `users.sso_id` for DB role switching to work.
+- E2E creates a new agreement/client/plan per scenario directly in DB (`RAN0999XX` agreement range), and copies plan content from `PLAYWRIGHT_SEED_SOURCE_AGREEMENT_ID` (default `RAN099915`).
+- Role switches for the shared staff test user are applied by DB update on `user_account.sso_id`.
+- `PLAYWRIGHT_STAFF_USERNAME` may be either raw username (`bamin`) or full `sso_id` (`idir\bamin`).
+- `PLAYWRIGHT_AH_USERNAME` may be either raw username (`BCEIDTEST1122`) or full `sso_id` (`bceid\bceidtest1122`).
+- The seeded agreement is placed under a zone in district `PLAYWRIGHT_TEST_DISTRICT_CODE` (defaults to `TST`).
 - Role changes require logout/login before effective permissions are asserted.
 - Shared staff user role is restored to SA (`role_id=3`) after each test.
-- Scenario failures persist artifacts in `cypress/artifacts/` and screenshots/videos under Cypress defaults.
+- Scenario failures persist artifacts in `playwright/artifacts/` and traces/videos/screenshots under Playwright outputs.
 
 ### `gulp build`
 

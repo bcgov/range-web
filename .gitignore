@@ -30,13 +30,21 @@ sonar-runner/*
 .vscode/*
 Todo
 .env
+.env.cypress
+.env.cypress.local
+.env.playwright
+.env.playwright.local
 cypress.env.json
 cypress/videos
 cypress/screenshots
 cypress/artifacts
+playwright-report
+test-results
+playwright/artifacts
 
 *~
 *.swp
 *.swo
 
 .idea
+.env.playwright.example
