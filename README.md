@@ -156,12 +156,11 @@ cp .env.playwright.example .env.playwright.local
 ### Workflow assumptions
 
 - E2E creates a new agreement/client/plan per scenario directly in DB (`RAN0999XX` agreement range), and copies plan content from `PLAYWRIGHT_SEED_SOURCE_AGREEMENT_ID` (default `RAN099915`).
-- Role switches for the shared staff test user are applied by DB update on `user_account.sso_id`.
-- `PLAYWRIGHT_STAFF_USERNAME` may be either raw username (`bamin`) or full `sso_id` (`idir\bamin`).
-- `PLAYWRIGHT_AH_USERNAME` may be either raw username (`BCEIDTEST1122`) or full `sso_id` (`bceid\bceidtest1122`).
+- Tests run with a single configured E2E user (`PLAYWRIGHT_E2E_USERNAME` / `PLAYWRIGHT_E2E_PASSWORD`).
+- Role switches for SA/AH/DM are applied by DB update on that user's `user_account.role_id` (resolved by `PLAYWRIGHT_E2E_SSO_ID` when provided, or inferred from username).
 - The seeded agreement is placed under a zone in district `PLAYWRIGHT_TEST_DISTRICT_CODE` (defaults to `TST`).
 - Role changes require logout/login before effective permissions are asserted.
-- Shared staff user role is restored to SA (`role_id=3`) after each test.
+- The shared E2E user role is restored to SA (`role_id=3`) after each test.
 - Scenario failures persist artifacts in `playwright/artifacts/` and traces/videos/screenshots under Playwright outputs.
 
 ### `gulp build`
