@@ -163,6 +163,10 @@ cp .env.playwright.example .env.playwright.local
 - The shared E2E user role is restored to SA (`role_id=3`) after each test.
 - Scenario failures persist artifacts in `playwright/artifacts/` and traces/videos/screenshots under Playwright outputs.
 
+### Refactor baseline
+
+- Refactor parity guardrails and baseline verification commands are documented in `playwright/e2e/BASELINE.md`.
+
 ### `gulp build`
 
 Builds all files for Semantic UI including js, css, and assets. Build tool settings are stored in semantic.json.
