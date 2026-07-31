@@ -49,14 +49,19 @@ Required keys: `USERNAME`, `PASSWORD`, `SSO_ID`, `LOGIN_MODE`. `SSO_CLIENT_SECRE
 ### 3. Grant the Actions ServiceAccount (RBAC)
 
 ```bash
-oc process -f openshift/rbac/e2e.yaml -p SA_NAME=github-actions -p SA_NAMESPACE=3187b2-tools | oc apply -f -
+oc process -f openshift/rbac/e2e.yaml -p SA_NAME=github-cicd -p SA_NAMESPACE=3187b2-tools | oc apply -f -
 ```
 
-Adjust `SA_NAME`/`SA_NAMESPACE` to the ServiceAccount your `OPENSHIFT_TOKEN` belongs to. The roles grant Job/Pod management in `3187b2-test` and read access to builds/ImageStreams in `3187b2-tools`.
+Adjust `SA_NAME`/`SA_NAMESPACE` to the ServiceAccount your `OPENSHIFT_TOKEN` belongs to (the `github-cicd` SA in tools already exists for this). The roles grant Job/Pod management in `3187b2-test` and read access to builds/ImageStreams in `3187b2-tools`.
 
 ### 4. Repo secrets (GitHub)
 
-Set `OPENSHIFT_SERVER` and `OPENSHIFT_TOKEN` on the repo. `OPENSHIFT_TOKEN` is the ServiceAccount token from step 3.
+Set `OPENSHIFT_SERVER` and `OPENSHIFT_TOKEN` on the repo. `OPENSHIFT_TOKEN` is the ServiceAccount token from step 3:
+
+```bash
+secret=$(oc get sa github-cicd -n 3187b2-tools -o jsonpath='{.secrets[*].name}' | tr ' ' '\n' | grep -v dockercfg | head -1)
+oc get secret "$secret" -n 3187b2-tools -o jsonpath='{.data.token}' | base64 -d
+```
 
 ## Manual run (oc)
 
@@ -73,8 +78,8 @@ Watch the suite, then read the result:
 oc logs -c e2e job/range-web-e2e -n 3187b2-test -f
 pod=$(oc get pods -l job-name=range-web-e2e -n 3187b2-test -o jsonpath='{.items[0].metadata.name}')
 oc get pod "$pod" -n 3187b2-test -o jsonpath='{.status.containerStatuses[?(@.name=="e2e")].state.terminated.exitCode}'
-oc cp "$pod:/e2e/playwright-report/." ./playwright-report -c artifact-sync -n 3187b2-test
-oc cp "$pod:/e2e/playwright/artifacts/." ./playwright-artifacts -c artifact-sync -n 3187b2-test
+oc cp "$pod:/e2e/results/report/." ./playwright-report -c artifact-sync -n 3187b2-test
+oc cp "$pod:/e2e/results/artifacts/." ./playwright-artifacts -c artifact-sync -n 3187b2-test
 oc delete job range-web-e2e -n 3187b2-test
 ```
 

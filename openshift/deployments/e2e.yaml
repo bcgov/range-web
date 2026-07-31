@@ -36,6 +36,10 @@ parameters:
     description: Set to true if the database enforces TLS (ssl mode without cert verification)
     value: "false"
     required: true
+  - name: FS_GROUP
+    description: Pod fsGroup for writable shared emptyDir volumes (must fall in the namespace's supplemental group range)
+    value: "1000960000"
+    required: true
 objects:
   - apiVersion: batch/v1
     kind: Job
@@ -53,6 +57,8 @@ objects:
         spec:
           restartPolicy: Never
           activeDeadlineSeconds: 3600
+          securityContext:
+            fsGroup: ${FS_GROUP}
           containers:
             - name: e2e
               image: "${E2E_IMAGE}"
@@ -62,6 +68,12 @@ objects:
                 - test
                 - --workers=1
               env:
+                - name: HOME
+                  value: /tmp
+                - name: PLAYWRIGHT_REPORT_DIR
+                  value: /e2e/results/report
+                - name: PLAYWRIGHT_ARTIFACTS_DIR
+                  value: /e2e/results/artifacts
                 - name: PLAYWRIGHT_BASE_URL
                   value: "${PLAYWRIGHT_BASE_URL}"
                 - name: PLAYWRIGHT_API_BASE_URL
@@ -112,9 +124,7 @@ objects:
                       name: "${POSTGRES_SECRET}"
               volumeMounts:
                 - name: e2e-artifacts
-                  mountPath: /e2e/playwright-report
-                - name: e2e-artifacts
-                  mountPath: /e2e/playwright/artifacts
+                  mountPath: /e2e/results
               resources:
                 limits:
                   cpu: 1000m
@@ -129,9 +139,7 @@ objects:
                 - infinity
               volumeMounts:
                 - name: e2e-artifacts
-                  mountPath: /e2e/playwright-report
-                - name: e2e-artifacts
-                  mountPath: /e2e/playwright/artifacts
+                  mountPath: /e2e/results
               resources:
                 limits:
                   cpu: 100m

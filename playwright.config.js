@@ -23,7 +23,10 @@ module.exports = defineConfig({
     timeout: 15000,
   },
   retries: process.env.CI ? 1 : 0,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  reporter: [
+    ['list'],
+    ['html', { open: 'never', outputFolder: process.env.PLAYWRIGHT_REPORT_DIR || 'playwright-report' }],
+  ],
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL || process.env.CYPRESS_BASE_URL || 'http://localhost:3000',
     trace: 'retain-on-failure',
@@ -31,5 +34,5 @@ module.exports = defineConfig({
     video: 'retain-on-failure',
     ...(process.env.PLAYWRIGHT_NO_SANDBOX === '1' ? { chromiumSandbox: false } : {}),
   },
-  outputDir: 'playwright/artifacts',
+  outputDir: process.env.PLAYWRIGHT_ARTIFACTS_DIR || 'playwright/artifacts',
 });

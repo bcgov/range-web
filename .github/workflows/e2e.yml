@@ -159,8 +159,8 @@ jobs:
         run: |
           pod=$(oc get pods -l job-name=range-web-e2e -n "$NAMESPACE_TEST" -o jsonpath='{.items[0].metadata.name}')
           mkdir -p playwright-report playwright-artifacts
-          oc cp "$pod:/e2e/playwright-report/." playwright-report -c artifact-sync -n "$NAMESPACE_TEST" || true
-          oc cp "$pod:/e2e/playwright/artifacts/." playwright-artifacts -c artifact-sync -n "$NAMESPACE_TEST" || true
+          oc cp "$pod:/e2e/results/report/." playwright-report -c artifact-sync -n "$NAMESPACE_TEST" || true
+          oc cp "$pod:/e2e/results/artifacts/." playwright-artifacts -c artifact-sync -n "$NAMESPACE_TEST" || true
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
