@@ -1,0 +1,13 @@
+FROM mcr.microsoft.com/playwright:v1.62.0-noble
+
+WORKDIR /e2e
+
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci --ignore-scripts && npx playwright install chromium
+
+COPY playwright.config.js ./
+COPY playwright ./playwright
+
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
+CMD ["npx", "playwright", "test"]

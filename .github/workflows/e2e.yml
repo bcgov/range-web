@@ -1,0 +1,182 @@
+name: E2E on OpenShift
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Test web base URL
+        required: false
+        default: https://myrangebc-test.apps.silver.devops.gov.bc.ca
+      api_base_url:
+        description: Test API base URL (origin + /api)
+        required: false
+        default: https://myrangebc-test.apps.silver.devops.gov.bc.ca/api
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-openshift
+  cancel-in-progress: false
+
+env:
+  NAMESPACE_TOOLS: 3187b2-tools
+  NAMESPACE_TEST: 3187b2-test
+  E2E_IMAGE_TAG: latest
+  E2E_BASE_URL: https://myrangebc-test.apps.silver.devops.gov.bc.ca
+  E2E_API_BASE_URL: https://myrangebc-test.apps.silver.devops.gov.bc.ca/api
+
+jobs:
+  wait-for-deploy:
+    name: Wait for test deployment
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    outputs:
+      should_run: ${{ steps.detect.outputs.should_run }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: '4'
+      - uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Wait for tools build
+        run: |
+          build=""
+          for i in $(seq 1 30); do
+            build=$(oc get builds -l buildconfig=range-web -n "$NAMESPACE_TOOLS" -o jsonpath='{.items[-1].metadata.name}' 2>/dev/null || true)
+            if [ -n "$build" ]; then
+              break
+            fi
+            sleep 10
+          done
+          if [ -z "$build" ]; then
+            echo "::error::No build for range-web found in $NAMESPACE_TOOLS"
+            exit 1
+          fi
+          oc logs -f bc/range-web -n "$NAMESPACE_TOOLS"
+          latest_build=$(oc get builds -l buildconfig=range-web -n "$NAMESPACE_TOOLS" --sort-by=.metadata.creationTimestamp -o name | tail -1)
+          phase=$(oc get "$latest_build" -n "$NAMESPACE_TOOLS" -o jsonpath='{.status.phase}')
+          if [ "$phase" != "Complete" ]; then
+            echo "::error::$latest_build ended with phase $phase"
+            exit 1
+          fi
+      - name: Detect promote to test
+        id: detect
+        run: |
+          promoted=""
+          for i in $(seq 1 90); do
+            latest=$(oc get istag range-web-caddy:latest -n "$NAMESPACE_TOOLS" -o jsonpath='{.image.metadata.name}' 2>/dev/null || true)
+            test_tag=$(oc get istag range-web-caddy:test -n "$NAMESPACE_TOOLS" -o jsonpath='{.image.metadata.name}' 2>/dev/null || true)
+            if [ -n "$latest" ] && [ -n "$test_tag" ] && [ "$latest" = "$test_tag" ]; then
+              promoted="true"
+              break
+            fi
+            sleep 20
+          done
+          if [ "$promoted" = "true" ]; then
+            echo "::notice::New image promoted to test; running e2e"
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No promotion to test within 30 minutes; skipping e2e. Promote manually then dispatch the workflow."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Wait for rollout
+        if: steps.detect.outputs.should_run == 'true'
+        run: |
+          oc rollout status deployment/range-web-caddy -n "$NAMESPACE_TEST" --timeout=10m
+
+  e2e:
+    name: Run e2e suite
+    runs-on: ubuntu-latest
+    needs: wait-for-deploy
+    if: github.event_name == 'workflow_dispatch' || needs.wait-for-deploy.outputs.should_run == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: '4'
+      - uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Ensure e2e image exists
+        run: |
+          if ! oc get istag range-web-e2e:latest -n "$NAMESPACE_TOOLS" >/dev/null 2>&1; then
+            echo "::error::range-web-e2e:latest not found in $NAMESPACE_TOOLS. Build it first: oc start-build range-web-e2e -n $NAMESPACE_TOOLS"
+            exit 1
+          fi
+      - name: Create e2e job
+        run: |
+          oc delete job range-web-e2e -n "$NAMESPACE_TEST" --ignore-not-found=true >/dev/null 2>&1 || true
+          oc process -f openshift/deployments/e2e.yaml -n "$NAMESPACE_TEST" \
+            -p E2E_IMAGE="image-registry.openshift-image-registry.svc:5000/$NAMESPACE_TOOLS/range-web-e2e:$E2E_IMAGE_TAG" \
+            -p PLAYWRIGHT_BASE_URL="${{ github.event.inputs.base_url || env.E2E_BASE_URL }}" \
+            -p PLAYWRIGHT_API_BASE_URL="${{ github.event.inputs.api_base_url || env.E2E_API_BASE_URL }}" \
+            | oc create -f - -n "$NAMESPACE_TEST"
+      - name: Wait for suite to finish
+        id: suite
+        run: |
+          pod=""
+          for i in $(seq 1 30); do
+            pod=$(oc get pods -l job-name=range-web-e2e -n "$NAMESPACE_TEST" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+            if [ -n "$pod" ]; then
+              break
+            fi
+            sleep 10
+          done
+          if [ -z "$pod" ]; then
+            echo "::error::e2e job pod never scheduled"
+            exit 1
+          fi
+          exit_code=""
+          for i in $(seq 1 90); do
+            exit_code=$(oc get pod "$pod" -n "$NAMESPACE_TEST" -o jsonpath='{.status.containerStatuses[?(@.name=="e2e")].state.terminated.exitCode}' 2>/dev/null || true)
+            if [ -n "$exit_code" ]; then
+              break
+            fi
+            sleep 30
+          done
+          if [ -z "$exit_code" ]; then
+            echo "::error::Timed out waiting for the e2e suite to finish"
+            exit 1
+          fi
+          echo "::notice::e2e suite finished with exit code $exit_code"
+          echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
+      - name: Capture suite logs
+        if: always()
+        continue-on-error: true
+        run: |
+          oc logs -c e2e job/range-web-e2e -n "$NAMESPACE_TEST" > e2e-logs.txt || true
+      - name: Copy report and traces
+        if: always()
+        continue-on-error: true
+        run: |
+          pod=$(oc get pods -l job-name=range-web-e2e -n "$NAMESPACE_TEST" -o jsonpath='{.items[0].metadata.name}')
+          mkdir -p playwright-report playwright-artifacts
+          oc cp "$pod:/e2e/playwright-report/." playwright-report -c artifact-sync -n "$NAMESPACE_TEST" || true
+          oc cp "$pod:/e2e/playwright/artifacts/." playwright-artifacts -c artifact-sync -n "$NAMESPACE_TEST" || true
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          if-no-files-found: warn
+          path: |
+            e2e-logs.txt
+            playwright-report/
+            playwright-artifacts/
+      - name: Cleanup job
+        if: always()
+        run: |
+          oc delete job range-web-e2e -n "$NAMESPACE_TEST" --ignore-not-found=true
+      - name: Fail on suite failure
+        if: always() && steps.suite.outputs.exit_code != '' && steps.suite.outputs.exit_code != '0'
+        run: |
+          echo "::error::e2e suite failed (exit code ${{ steps.suite.outputs.exit_code }})"
+          exit 1

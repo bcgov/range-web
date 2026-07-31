@@ -84,3 +84,17 @@ src/
 ## Deployment
 
 Docker build → OpenShift with Caddy as static server. Caddy injects env vars into the built JS bundle at serve time using template syntax.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs live as GitHub issues in bcgov/range-web; use the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default triage label vocabulary (needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout — root `CONTEXT.md` + `docs/adr/`. See `docs/agents/domain.md`.

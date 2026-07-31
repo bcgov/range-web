@@ -1,0 +1,77 @@
+kind: Template
+apiVersion: v1
+metadata:
+  name: range-web-e2e-rbac
+  creationTimestamp:
+parameters:
+  - name: SA_NAME
+    description: ServiceAccount used by the e2e GitHub Actions workflow
+    required: true
+    value: github-actions
+  - name: SA_NAMESPACE
+    description: Namespace the ServiceAccount lives in
+    required: true
+    value: "3187b2-tools"
+objects:
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: range-web-e2e
+      namespace: "3187b2-test"
+    rules:
+      - apiGroups: ["batch"]
+        resources: ["jobs"]
+        verbs: ["get", "list", "watch", "create", "delete"]
+      - apiGroups: [""]
+        resources: ["pods"]
+        verbs: ["get", "list", "watch"]
+      - apiGroups: [""]
+        resources: ["pods/log"]
+        verbs: ["get"]
+      - apiGroups: [""]
+        resources: ["pods/exec"]
+        verbs: ["create"]
+      - apiGroups: ["apps"]
+        resources: ["deployments"]
+        verbs: ["get", "list", "watch"]
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: range-web-e2e
+      namespace: "3187b2-test"
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: range-web-e2e
+    subjects:
+      - kind: ServiceAccount
+        name: "${SA_NAME}"
+        namespace: "${SA_NAMESPACE}"
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: range-web-e2e-read
+      namespace: "3187b2-tools"
+    rules:
+      - apiGroups: ["build.openshift.io"]
+        resources: ["buildconfigs", "builds"]
+        verbs: ["get", "list", "watch"]
+      - apiGroups: ["build.openshift.io"]
+        resources: ["builds/log"]
+        verbs: ["get", "list", "watch"]
+      - apiGroups: ["image.openshift.io"]
+        resources: ["imagestreams", "imagestreamtags"]
+        verbs: ["get", "list", "watch"]
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: range-web-e2e-read
+      namespace: "3187b2-tools"
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: range-web-e2e-read
+    subjects:
+      - kind: ServiceAccount
+        name: "${SA_NAME}"
+        namespace: "${SA_NAMESPACE}"

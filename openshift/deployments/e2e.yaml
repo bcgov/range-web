@@ -1,0 +1,144 @@
+kind: Template
+apiVersion: v1
+labels:
+  template: e2e-job-template
+metadata:
+  name: e2e-job
+  creationTimestamp:
+parameters:
+  - name: E2E_IMAGE
+    description: Image that runs the Playwright suite
+    required: true
+    value: "image-registry.openshift-image-registry.svc:5000/3187b2-tools/range-web-e2e:latest"
+  - name: PLAYWRIGHT_BASE_URL
+    description: Public base URL of the deployed web app in the target environment
+    required: true
+  - name: PLAYWRIGHT_API_BASE_URL
+    description: API base URL used by the deployed web app (origin + /api)
+    required: true
+  - name: TEST_DISTRICT_CODE
+    description: District the seeded test agreement is created under
+    value: "TST"
+    required: true
+  - name: SEED_SOURCE_AGREEMENT_ID
+    description: Source agreement used to deep-copy plan seed data
+    value: "RAN099915"
+    required: true
+  - name: E2E_CREDENTIALS_SECRET
+    description: Secret holding the e2e login credentials (USERNAME, PASSWORD, SSO_ID, LOGIN_MODE)
+    value: "e2e-credentials"
+    required: true
+  - name: POSTGRES_SECRET
+    description: Secret holding the Postgres credentials (user, password)
+    value: "range-pg17-test-pguser-app-prod-myra"
+    required: true
+  - name: DB_SSL
+    description: Set to true if the database enforces TLS (ssl mode without cert verification)
+    value: "false"
+    required: true
+objects:
+  - apiVersion: batch/v1
+    kind: Job
+    metadata:
+      name: range-web-e2e
+      labels:
+        name: range-web-e2e
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            name: range-web-e2e
+            job-name: range-web-e2e
+        spec:
+          restartPolicy: Never
+          activeDeadlineSeconds: 3600
+          containers:
+            - name: e2e
+              image: "${E2E_IMAGE}"
+              command:
+                - npx
+                - playwright
+                - test
+                - --workers=1
+              env:
+                - name: PLAYWRIGHT_BASE_URL
+                  value: "${PLAYWRIGHT_BASE_URL}"
+                - name: PLAYWRIGHT_API_BASE_URL
+                  value: "${PLAYWRIGHT_API_BASE_URL}"
+                - name: PLAYWRIGHT_TEST_DISTRICT_CODE
+                  value: "${TEST_DISTRICT_CODE}"
+                - name: PLAYWRIGHT_SEED_SOURCE_AGREEMENT_ID
+                  value: "${SEED_SOURCE_AGREEMENT_ID}"
+                - name: PLAYWRIGHT_NO_SANDBOX
+                  value: "1"
+                - name: PLAYWRIGHT_DB_HOST
+                  value: range-pg17-test-primary
+                - name: PLAYWRIGHT_DB_PORT
+                  value: "5432"
+                - name: PLAYWRIGHT_DB_NAME
+                  value: myra
+                - name: PLAYWRIGHT_DB_SSL
+                  value: "${DB_SSL}"
+                - name: PLAYWRIGHT_E2E_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      key: USERNAME
+                      name: "${E2E_CREDENTIALS_SECRET}"
+                - name: PLAYWRIGHT_E2E_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: PASSWORD
+                      name: "${E2E_CREDENTIALS_SECRET}"
+                - name: PLAYWRIGHT_E2E_SSO_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: SSO_ID
+                      name: "${E2E_CREDENTIALS_SECRET}"
+                - name: PLAYWRIGHT_E2E_LOGIN_MODE
+                  valueFrom:
+                    secretKeyRef:
+                      key: LOGIN_MODE
+                      name: "${E2E_CREDENTIALS_SECRET}"
+                - name: PLAYWRIGHT_DB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: user
+                      name: "${POSTGRES_SECRET}"
+                - name: PLAYWRIGHT_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: "${POSTGRES_SECRET}"
+              volumeMounts:
+                - name: e2e-artifacts
+                  mountPath: /e2e/playwright-report
+                - name: e2e-artifacts
+                  mountPath: /e2e/playwright/artifacts
+              resources:
+                limits:
+                  cpu: 1000m
+                  memory: 2Gi
+                requests:
+                  cpu: 100m
+                  memory: 512Mi
+            - name: artifact-sync
+              image: "${E2E_IMAGE}"
+              command:
+                - sleep
+                - infinity
+              volumeMounts:
+                - name: e2e-artifacts
+                  mountPath: /e2e/playwright-report
+                - name: e2e-artifacts
+                  mountPath: /e2e/playwright/artifacts
+              resources:
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
+                requests:
+                  cpu: 10m
+                  memory: 64Mi
+          volumes:
+            - name: e2e-artifacts
+              emptyDir: {}
