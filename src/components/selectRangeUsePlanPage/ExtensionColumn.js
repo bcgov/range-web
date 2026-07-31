@@ -226,6 +226,15 @@ export default function ExtensionColumn({ user, currentPage, agreement }) {
                   <br />
                   For Decision
                 </PrimaryButton>
+                <Button
+                  style={{ margin: '4px' }}
+                  loading={loading}
+                  onClick={() => {
+                    handleReject(agreement.plan.id);
+                  }}
+                >
+                  Reject Extension
+                </Button>
               </>
             );
           }
