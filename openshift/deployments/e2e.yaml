@@ -34,7 +34,7 @@ parameters:
     required: true
   - name: DB_SSL
     description: Set to true if the database enforces TLS (ssl mode without cert verification)
-    value: "false"
+    value: "true"
     required: true
   - name: FS_GROUP
     description: Pod fsGroup for writable shared emptyDir volumes (must fall in the namespace's supplemental group range)
@@ -67,6 +67,8 @@ objects:
                 - playwright
                 - test
                 - --workers=1
+                - --max-failures=1
+                - --retries=1
               env:
                 - name: HOME
                   value: /tmp
@@ -84,6 +86,8 @@ objects:
                   value: "${SEED_SOURCE_AGREEMENT_ID}"
                 - name: PLAYWRIGHT_NO_SANDBOX
                   value: "1"
+                - name: PLAYWRIGHT_STORAGE_STATE
+                  value: /tmp/range-web-e2e-state.json
                 - name: PLAYWRIGHT_DB_HOST
                   value: range-pg17-test-primary
                 - name: PLAYWRIGHT_DB_PORT

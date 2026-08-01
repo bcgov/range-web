@@ -85,10 +85,10 @@ function ConfirmChoiceTab(props: ConfirmChoiceTabProps) {
                 value={CONFIRMATION_OPTION.CONFIRM}
                 control={<Radio checked={confirmationOption === CONFIRMATION_OPTION.CONFIRM} />}
                 label={
-                  <label>
+                  <span>
                     <b>Confirm and send for final decision: </b>
                     {radio1}
-                  </label>
+                  </span>
                 }
               />
             </div>
@@ -97,10 +97,10 @@ function ConfirmChoiceTab(props: ConfirmChoiceTabProps) {
                 value={CONFIRMATION_OPTION.REQUEST}
                 control={<Radio checked={confirmationOption === CONFIRMATION_OPTION.REQUEST} />}
                 label={
-                  <label>
+                  <span>
                     <b>Request clarification or changes: </b>
                     {radio2}
-                  </label>
+                  </span>
                 }
               />
             </div>

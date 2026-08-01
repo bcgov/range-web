@@ -1,4 +1,4 @@
-import { expect, request, type Page } from '@playwright/test';
+import { request, type Page } from '@playwright/test';
 
 export type WorkflowRoleCode = 'SA' | 'DM' | 'AH';
 
@@ -27,18 +27,20 @@ const fillLoginPopup = async ({
   password,
   roleCode,
   logE2E,
+  timeoutMs = 60000,
 }: {
   popup: Page;
   username: string;
   password: string;
   roleCode: WorkflowRoleCode;
   logE2E: (message: string) => void;
+  timeoutMs?: number;
 }) => {
   const usernameSelectors = ['#user', '#username', 'input[name="user"]', 'input[name="username"]'];
   const passwordSelectors = ['#password', 'input[name="password"]'];
   const submitSelectors = ['#kc-login', 'button[type="submit"]', 'input[type="submit"]'];
 
-  const deadline = Date.now() + 60000;
+  const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     if (popup.isClosed()) {
       return;
@@ -83,44 +85,109 @@ const fillLoginPopup = async ({
   throw new Error('Unable to find login username/password fields in SSO popup.');
 };
 
-export const waitForLocalStorageAuth = async (page: Page): Promise<AuthData> => {
-  await expect
-    .poll(
-      async () => {
-        try {
-          return await page.evaluate(() => {
-            const raw = window.localStorage.getItem('range-web-auth');
-            if (!raw) return '';
-            try {
-              const parsed = JSON.parse(raw);
-              return parsed?.access_token ? raw : '';
-            } catch {
-              return '';
-            }
-          });
-        } catch {
-          return '';
-        }
-      },
-      { timeout: 90000 },
-    )
-    .not.toEqual('');
+const storeAuthAndProfile = async ({
+  page,
+  authData,
+  apiBaseUrl,
+}: {
+  page: Page;
+  authData: AuthData;
+  apiBaseUrl: string;
+}): Promise<void> => {
+  const apiContext = await request.newContext();
+  const userResponse = await apiContext.get(`${apiBaseUrl}/v1/user/me`, {
+    headers: { Authorization: `Bearer ${authData.access_token}` },
+  });
 
-  const deadline = Date.now() + 30000;
+  if (!userResponse.ok()) {
+    throw new Error(`Failed to load user profile (${userResponse.status()})`);
+  }
+
+  const user = await userResponse.json();
+  await apiContext.dispose();
+
+  await page.evaluate(
+    ({ auth, profile }) => {
+      window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
+      window.localStorage.setItem('range-web-user', JSON.stringify(profile));
+    },
+    { auth: authData, profile: user },
+  );
+  await page.goto('/select-range-use-plan');
+};
+
+const readAuthFromLocalStorage = async (page: Page): Promise<AuthData | null> => {
+  try {
+    return await page.evaluate(() => {
+      const raw = window.localStorage.getItem('range-web-auth');
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return parsed?.access_token ? (parsed as AuthData) : null;
+    });
+  } catch {
+    return null;
+  }
+};
+
+const pollForAuthOrFail = async ({
+  page,
+  popup,
+  logE2E,
+  timeoutMs,
+}: {
+  page: Page;
+  popup: Page;
+  logE2E: (message: string) => void;
+  timeoutMs: number;
+}): Promise<AuthData | null> => {
+  const deadline = Date.now() + timeoutMs;
+  let lastUrl = '';
+  let lastUrlChangedAt = Date.now();
+  let closedGraceStart: number | null = null;
+
   while (Date.now() < deadline) {
-    const authData = await page
-      .evaluate(() => JSON.parse(window.localStorage.getItem('range-web-auth') || '{}'))
-      .catch(() => null as AuthData | null);
-
-    if (authData && typeof authData === 'object' && authData.access_token) {
+    const authData = await readAuthFromLocalStorage(page);
+    if (authData) {
       return authData;
     }
 
-    await page.waitForTimeout(250);
+    if (popup.isClosed()) {
+      if (closedGraceStart === null) {
+        closedGraceStart = Date.now();
+        logE2E(`[SSO] popup closed, waiting for auth token in localStorage`);
+      }
+      if (Date.now() - closedGraceStart > 6000) {
+        logE2E(`[SSO] popup closed but auth token never appeared in localStorage`);
+        return null;
+      }
+    } else {
+      closedGraceStart = null;
+
+      let currentUrl = '';
+      try {
+        currentUrl = popup.url();
+      } catch {
+        return null;
+      }
+
+      if (currentUrl !== lastUrl) {
+        lastUrl = currentUrl;
+        lastUrlChangedAt = Date.now();
+      } else if (lastUrl && Date.now() - lastUrlChangedAt > 8000) {
+        logE2E(`[SSO] popup stuck on ${currentUrl.slice(0, 80)} — treating attempt as failed`);
+        return null;
+      }
+    }
+
+    await page.waitForTimeout(1000);
   }
 
-  throw new Error('Timed out while reading auth data from localStorage after login popup flow.');
+  logE2E(`[SSO] timed out waiting for auth token`);
+  return null;
 };
+
+const LOGIN_ATTEMPTS = 4;
+const LOGIN_ATTEMPT_TIMEOUT_MS = 30000;
 
 export const loginThroughPopup = async ({
   page,
@@ -139,21 +206,60 @@ export const loginThroughPopup = async ({
 }): Promise<AuthData> => {
   logE2E(`[AUTH] starting popup login for role=${roleCode}`);
 
-  await page.goto('/');
+  for (let attempt = 1; attempt <= LOGIN_ATTEMPTS; attempt++) {
+    logE2E(`[AUTH] login attempt ${attempt}/${LOGIN_ATTEMPTS}`);
 
-  const popupPromise = page.waitForEvent('popup');
-  if (loginMode === 'bceid') {
-    await page.locator('#login_bceid_button').click();
-  } else {
-    await page.getByRole('button', { name: 'Staff Login' }).click();
+    try {
+      await page.goto('/');
+    } catch (error) {
+      logE2E(
+        `[AUTH] page.goto failed (${error instanceof Error ? error.message.split('\n')[0] : 'unknown'}) — retrying`,
+      );
+      await page.context().clearCookies();
+      continue;
+    }
+
+    const popupPromise = page.waitForEvent('popup');
+    if (loginMode === 'bceid') {
+      await page.locator('#login_bceid_button').click();
+    } else {
+      await page.getByRole('button', { name: 'Staff Login' }).click();
+    }
+
+    const popup = await popupPromise;
+    try {
+      await fillLoginPopup({
+        popup,
+        username,
+        password,
+        roleCode,
+        logE2E,
+        timeoutMs: LOGIN_ATTEMPT_TIMEOUT_MS,
+      });
+    } catch (error) {
+      logE2E(`[AUTH] login fields not found (${error instanceof Error ? error.message : 'unknown'}) — retrying`);
+      await popup.close().catch(() => undefined);
+      await page.context().clearCookies();
+      continue;
+    }
+
+    const authData = await pollForAuthOrFail({
+      page,
+      popup,
+      logE2E,
+      timeoutMs: LOGIN_ATTEMPT_TIMEOUT_MS,
+    });
+    if (authData) {
+      return authData;
+    }
+
+    await popup.close().catch(() => undefined);
+    await page.context().clearCookies();
   }
 
-  const popup = await popupPromise;
-  await fillLoginPopup({ popup, username, password, roleCode, logE2E });
-
-  await popup.waitForEvent('close', { timeout: 90000 }).catch(() => undefined);
-
-  return waitForLocalStorageAuth(page);
+  throw new Error(
+    `SSO login failed after ${LOGIN_ATTEMPTS} attempts. This can happen when the SSO provider intermittently aborts requests; re-run the job to retry.`,
+  );
 };
 
 export const loginPageAs = async ({
@@ -174,27 +280,7 @@ export const loginPageAs = async ({
   logE2E: (message: string) => void;
 }): Promise<string> => {
   const authData = await loginThroughPopup({ page, roleCode, username, password, loginMode, logE2E });
-  const apiContext = await request.newContext();
-  const userResponse = await apiContext.get(`${apiBaseUrl}/v1/user/me`, {
-    headers: { Authorization: `Bearer ${authData.access_token}` },
-  });
-
-  if (!userResponse.ok()) {
-    throw new Error(`Failed to load user profile (${userResponse.status()})`);
-  }
-
-  const user = await userResponse.json();
-  await apiContext.dispose();
-
-  await page.goto('/');
-  await page.evaluate(
-    ({ auth, profile }) => {
-      window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
-      window.localStorage.setItem('range-web-user', JSON.stringify(profile));
-    },
-    { auth: authData, profile: user },
-  );
-  await page.goto('/select-range-use-plan');
+  await storeAuthAndProfile({ page, authData, apiBaseUrl });
 
   return authData.access_token;
 };
@@ -215,6 +301,7 @@ export const switchRoleAndRelogin = async ({
   getSingleUserRecord,
   setUserRoleById,
   loginPageAs,
+  apiBaseUrl,
   logE2E,
 }: {
   page: Page;
@@ -223,6 +310,7 @@ export const switchRoleAndRelogin = async ({
   getSingleUserRecord: () => Promise<{ id: number; sso_id: string }>;
   setUserRoleById: ({ userId, roleId }: { userId: number; roleId: number }) => Promise<void>;
   loginPageAs: ({ page, roleCode }: { page: Page; roleCode: WorkflowRoleCode }) => Promise<string>;
+  apiBaseUrl: string;
   logE2E: (message: string) => void;
 }) => {
   const roleId = roleByCode[roleCode];
@@ -231,8 +319,33 @@ export const switchRoleAndRelogin = async ({
   }
 
   const userRecord = await getSingleUserRecord();
-  logE2E(`[AUTH] switching single user to ${roleCode} (roleId=${roleId}) and re-login`);
+  logE2E(`[AUTH] switching single user to ${roleCode} (roleId=${roleId})`);
   await setUserRoleById({ userId: userRecord.id, roleId });
+
+  const existingAuth = await (async () => {
+    try {
+      await page.goto('/');
+      return await readAuthFromLocalStorage(page);
+    } catch (error) {
+      logE2E(
+        `[AUTH] could not check existing session (${error instanceof Error ? error.message.split('\n')[0] : 'unknown'})`,
+      );
+      return null;
+    }
+  })();
+  if (existingAuth && existingAuth.access_token) {
+    try {
+      await storeAuthAndProfile({ page, authData: existingAuth, apiBaseUrl });
+      logE2E(`[AUTH] reused existing session for ${roleCode}`);
+      return existingAuth.access_token;
+    } catch (error) {
+      logE2E(
+        `[AUTH] session reuse failed (${error instanceof Error ? error.message : 'unknown'}) — falling back to popup login`,
+      );
+      await page.context().clearCookies();
+    }
+  }
+
   await clearSession(page);
   return loginPageAs({ page, roleCode });
 };

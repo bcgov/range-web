@@ -53,10 +53,10 @@ function ChooseSubmissionTypeTab({
                 control={<Radio checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_REVIEW} />}
                 data-testid="submission-type-feedback"
                 label={
-                  <label>
+                  <span>
                     <b>Submit for Staff Feedback: </b>
                     {radio1}
-                  </label>
+                  </span>
                 }
               />
             </div>
@@ -66,10 +66,10 @@ function ChooseSubmissionTypeTab({
                 control={<Radio checked={statusCode === PLAN_STATUS.SUBMITTED_FOR_FINAL_DECISION} />}
                 data-testid="submission-type-final-decision"
                 label={
-                  <label>
+                  <span>
                     <b>Submit for Final Decision: </b>
                     {radio2}
-                  </label>
+                  </span>
                 }
               />
             </div>

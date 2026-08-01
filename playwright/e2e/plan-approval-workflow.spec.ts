@@ -228,6 +228,7 @@ const switchRoleAndRelogin = async ({ page, roleCode }: { page: Page; roleCode: 
     },
     setUserRoleById,
     loginPageAs,
+    apiBaseUrl: getApiBaseUrl(),
     logE2E,
   });
 };

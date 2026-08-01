@@ -70,10 +70,10 @@ function ChooseAmendmentTypeTab(props: ChooseAmendmentTypeTabProps) {
                 value={AMENDMENT_TYPE.MINOR}
                 control={<Radio checked={isMinor} disabled={isAmendmentTypeDecided} />}
                 label={
-                  <label>
+                  <span>
                     <b>Minor Amendment: </b>Otherwise conforms to this Act, the regulations and the standards, and does
                     not materially affect the likelihood of achieving the intended results specified in the plan.
-                  </label>
+                  </span>
                 }
               />
             </div>
@@ -82,10 +82,10 @@ function ChooseAmendmentTypeTab(props: ChooseAmendmentTypeTabProps) {
                 value={AMENDMENT_TYPE.MANDATORY}
                 control={<Radio checked={isMandatory} disabled={isAmendmentTypeDecided} />}
                 label={
-                  <label>
+                  <span>
                     <b>Mandatory Amendment: </b>Does not meet the minor amendment criteria, or has been required by the
                     decision makers.
-                  </label>
+                  </span>
                 }
               />
             </div>
