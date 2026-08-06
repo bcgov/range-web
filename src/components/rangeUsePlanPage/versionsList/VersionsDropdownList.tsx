@@ -7,12 +7,11 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import moment from 'moment';
 import classnames from 'classnames';
 import Status from '../../common/Status';
 import { useUser } from '../../../providers/UserProvider';
 import { PrimaryButton, MuiIcon } from '../../common/';
-import { axios, getAuthHeaderConfig } from '../../../utils';
+import { axios, getAuthHeaderConfig, formatPlanVersionDate } from '../../../utils';
 import * as API from '../../../constants/api';
 import AttachmentsList from './AttachmentsList';
 import { ATTACHMENT_TYPE } from '../../../constants/variables';
@@ -52,13 +51,9 @@ const VersionRow = ({ option, user }: { option: any; user: any }) => {
       <TableRow hover>
         <TableCell>{option.version.amendmentType}</TableCell>
         <TableCell>{option.version.submittedBy}</TableCell>
-        <TableCell>
-          {option.version.createdAt ? moment(option.version.createdAt).format('MMM DD YYYY h:mm a') : ''}
-        </TableCell>
+        <TableCell>{formatPlanVersionDate(option.version.createdAt)}</TableCell>
         <TableCell>{option.version.approvedBy}</TableCell>
-        <TableCell>
-          {option.version.approvedAt === null ? '' : moment(option.version.approvedAt).format('MMM DD YYYY h:mm a')}
-        </TableCell>
+        <TableCell>{formatPlanVersionDate(option.version.approvedAt)}</TableCell>
         <TableCell>
           <Status
             className={classnames('versions_status_icon', {
