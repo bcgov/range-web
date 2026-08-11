@@ -58,7 +58,7 @@ objects:
           restartPolicy: Never
           activeDeadlineSeconds: 3600
           securityContext:
-            fsGroup: ${FS_GROUP}
+            fsGroup: 1000960000
           containers:
             - name: e2e
               image: "${E2E_IMAGE}"
