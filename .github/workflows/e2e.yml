@@ -36,11 +36,18 @@ jobs:
     outputs:
       should_run: ${{ steps.detect.outputs.should_run }}
     steps:
+      - name: Skip wait-for-deploy on manual runs
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "workflow_dispatch: skipping build/promotion wait job"
       - uses: actions/checkout@v4
+        if: github.event_name == 'push'
       - uses: redhat-actions/openshift-tools-installer@v1
+        if: github.event_name == 'push'
         with:
           oc: '4'
       - uses: redhat-actions/oc-login@v1
+        if: github.event_name == 'push'
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
