@@ -47,21 +47,25 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       - name: Wait for tools build
         run: |
-          build=""
-          for i in $(seq 1 30); do
-            build=$(oc get builds -l buildconfig=range-web -n "$NAMESPACE_TOOLS" -o jsonpath='{.items[-1].metadata.name}' 2>/dev/null || true)
-            if [ -n "$build" ]; then
-              break
+          start_epoch=$(date +%s)
+          latest_build=""
+          for i in $(seq 1 60); do
+            latest_build=$(oc get builds -l buildconfig=range-web -n "$NAMESPACE_TOOLS" --sort-by=.metadata.creationTimestamp -o name 2>/dev/null | tail -1 || true)
+            if [ -n "$latest_build" ]; then
+              created=$(oc get "$latest_build" -n "$NAMESPACE_TOOLS" -o jsonpath='{.metadata.creationTimestamp}' 2>/dev/null || true)
+              created_epoch=$(date -d "$created" +%s 2>/dev/null || echo 0)
+              if [ "$created_epoch" -ge "$start_epoch" ]; then
+                break
+              fi
             fi
             sleep 10
           done
-          if [ -z "$build" ]; then
-            echo "::error::No build for range-web found in $NAMESPACE_TOOLS"
+          if [ -z "$latest_build" ]; then
+            echo "::error::No range-web build started after the workflow began"
             exit 1
           fi
-          oc logs -f bc/range-web -n "$NAMESPACE_TOOLS"
-          latest_build=$(oc get builds -l buildconfig=range-web -n "$NAMESPACE_TOOLS" --sort-by=.metadata.creationTimestamp -o name | tail -1)
-          phase=$(oc get "$latest_build" -n "$NAMESPACE_TOOLS" -o jsonpath='{.status.phase}')
+          oc logs -f "$latest_build" -n "$NAMESPACE_TOOLS" 2>&1 || true
+          phase=$(oc get "$latest_build" -n "$NAMESPACE_TOOLS" -o jsonpath='{.status.phase}' 2>/dev/null || true)
           if [ "$phase" != "Complete" ]; then
             echo "::error::$latest_build ended with phase $phase"
             exit 1
