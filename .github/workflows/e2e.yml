@@ -33,7 +33,6 @@ jobs:
   wait-for-deploy:
     name: Wait for test deployment
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     outputs:
       should_run: ${{ steps.detect.outputs.should_run }}
     steps:
@@ -46,6 +45,7 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       - name: Wait for tools build
+        if: github.event_name == 'push'
         run: |
           start_epoch=$(date +%s)
           latest_build=""
@@ -72,6 +72,7 @@ jobs:
           fi
       - name: Detect promote to test
         id: detect
+        if: github.event_name == 'push'
         run: |
           promoted=""
           for i in $(seq 1 90); do
