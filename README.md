@@ -93,6 +93,7 @@ The E2E suite is configured for the Initial RUP approval workflow and requires D
 npm run test:e2e:verify
 npm run test:e2e:open
 npm run test:e2e:run
+npm run test:e2e:extension:harness
 ```
 
 ### Required Playwright environment variables
@@ -166,6 +167,23 @@ cp .env.playwright.example .env.playwright.local
 ### Refactor baseline
 
 - Refactor parity guardrails and baseline verification commands are documented in `playwright/e2e/BASELINE.md`.
+
+### Plan extension harness (ST-001)
+
+- `playwright/e2e/plan-extension-workflow.spec.ts` validates harness readiness for plan extension E2E:
+  - single-user mode is configured,
+  - DB role switching works for SA/AH/DM,
+  - each role can re-login and land on the plan selection page.
+- Run directly with `npm run test:e2e:extension:harness`.
+- This harness test is intentionally setup-focused and does not validate extension business flows yet.
+
+### Plan extension seed utility (ST-002)
+
+- `playwright/e2e/support/planExtensionSeedRuntime.ts` provides deterministic setup for extension scenarios.
+- It reuses baseline deep-plan seeding from `playwright/e2e/support/dbRuntime.ts` and then applies extension-specific shaping:
+  - sets plan end date as `eligible` (within 1 year) or `ineligible` (beyond 1 year),
+  - ensures multi-client agreement coverage (adds at least one additional client by default),
+  - resets extension-related fields on the seeded plan.
 
 ### `gulp build`
 
