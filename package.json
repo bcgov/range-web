@@ -107,6 +107,7 @@
     "build": "GENERATE_SOURCEMAP=false node scripts/build.js",
     "test:e2e:open": "playwright test --ui",
     "test:e2e:run": "playwright test",
+    "test:e2e:extension:harness": "playwright test playwright/e2e/plan-extension-workflow.spec.ts --workers=1 --retries=0",
     "test:e2e:verify": "playwright install chromium",
     "pretest": "prettier --list-different \"**/*.{js,ts,tsx}\"",
     "prettier": "prettier --write \"**/*.{js,ts,tsx}\"",

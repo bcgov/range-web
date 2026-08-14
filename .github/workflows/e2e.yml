@@ -3,6 +3,10 @@ name: E2E on OpenShift
 on:
   workflow_dispatch:
     inputs:
+      test_spec:
+        description: Optional Playwright test spec path (defaults to full suite)
+        required: false
+        default: ''
       base_url:
         description: Test web base URL
         required: false
@@ -117,6 +121,10 @@ jobs:
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Build e2e image
+        if: github.event_name == 'push'
+        run: |
+          oc start-build range-web-e2e -n "$NAMESPACE_TOOLS" --from-dir=. --follow --wait
       - name: Ensure e2e image exists
         run: |
           if ! oc get istag range-web-e2e:latest -n "$NAMESPACE_TOOLS" >/dev/null 2>&1; then
@@ -130,6 +138,7 @@ jobs:
             -p E2E_IMAGE="image-registry.openshift-image-registry.svc:5000/$NAMESPACE_TOOLS/range-web-e2e:$E2E_IMAGE_TAG" \
             -p PLAYWRIGHT_BASE_URL="${{ github.event.inputs.base_url || env.E2E_BASE_URL }}" \
             -p PLAYWRIGHT_API_BASE_URL="${{ github.event.inputs.api_base_url || env.E2E_API_BASE_URL }}" \
+            -p PLAYWRIGHT_TEST_SPEC="${{ github.event.inputs.test_spec || '' }}" \
             | oc create -f - -n "$NAMESPACE_TEST"
       - name: Wait for suite to finish
         id: suite

@@ -16,6 +16,10 @@ parameters:
   - name: PLAYWRIGHT_API_BASE_URL
     description: API base URL used by the deployed web app (origin + /api)
     required: true
+  - name: PLAYWRIGHT_TEST_SPEC
+    description: Optional Playwright spec path or grep expression argument (empty runs full suite)
+    value: ""
+    required: false
   - name: TEST_DISTRICT_CODE
     description: District the seeded test agreement is created under
     value: "TST"
@@ -63,12 +67,14 @@ objects:
             - name: e2e
               image: "${E2E_IMAGE}"
               command:
-                - npx
-                - playwright
-                - test
-                - --workers=1
-                - --max-failures=1
-                - --retries=1
+                - /bin/bash
+                - -lc
+                - |-
+                  if [ -n "${PLAYWRIGHT_TEST_SPEC:-}" ]; then
+                    npx playwright test "${PLAYWRIGHT_TEST_SPEC}" --workers=1 --max-failures=1 --retries=1
+                  else
+                    npx playwright test --workers=1 --max-failures=1 --retries=1
+                  fi
               env:
                 - name: HOME
                   value: /tmp

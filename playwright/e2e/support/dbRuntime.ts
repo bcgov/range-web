@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import { randomInt } from 'crypto';
 
 type GetDbPool = () => Pool;
 
@@ -148,6 +149,7 @@ export const createPlanSeedByDb = async ({
   testCase,
   e2ePrefix,
   singleUserSsoCandidates,
+  singleUserId,
   districtCode,
   sourceAgreementId,
 }: {
@@ -155,6 +157,7 @@ export const createPlanSeedByDb = async ({
   testCase: string;
   e2ePrefix: string;
   singleUserSsoCandidates: string[];
+  singleUserId?: number;
   districtCode: string;
   sourceAgreementId: string;
 }): Promise<{ planId: string; agreementId: string; clientNumber: string }> => {
@@ -164,11 +167,20 @@ export const createPlanSeedByDb = async ({
   try {
     await client.query('BEGIN');
 
-    const singleUser = await findUserBySsoCandidates({
-      client,
-      candidates: singleUserSsoCandidates,
-      roleLabel: 'E2E',
-    });
+    const singleUser = singleUserId
+      ? ((await client.query('SELECT id, sso_id FROM user_account WHERE id = $1', [singleUserId])).rows[0] as {
+          id: number;
+          sso_id: string;
+        })
+      : await findUserBySsoCandidates({
+          client,
+          candidates: singleUserSsoCandidates,
+          roleLabel: 'E2E',
+        });
+
+    if (!singleUser) {
+      throw new Error(`Could not find E2E user by id='${singleUserId}'`);
+    }
 
     const districtResult = await client.query('SELECT id FROM ref_district WHERE code = $1', [districtCode]);
     if (districtResult.rowCount !== 1) {
@@ -230,7 +242,7 @@ export const createPlanSeedByDb = async ({
 
     let agreementId = '';
     for (let i = 0; i < 100; i += 1) {
-      const suffix = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+      const suffix = String(randomInt(100)).padStart(2, '0');
       const candidate = `RAN0999${suffix}`;
       const exists = await client.query('SELECT 1 FROM agreement WHERE forest_file_id = $1', [candidate]);
       if (exists.rowCount === 0) {
@@ -829,15 +841,16 @@ export const updatePlanStatusViaDb = async ({
   logE2E: (message: string) => void;
 }) => {
   const pool = getDbPool();
+  const client = await pool.connect();
   try {
-    await pool.query('BEGIN');
+    await client.query('BEGIN');
 
-    const planResult = await pool.query('SELECT status_id FROM plan WHERE id = $1', [planId]);
+    const planResult = await client.query('SELECT status_id FROM plan WHERE id = $1', [planId]);
     if (planResult.rowCount !== 1) {
       throw new Error(`Could not find plan by id='${planId}' for DB status update`);
     }
 
-    const targetStatusResult = await pool.query('SELECT id FROM ref_plan_status WHERE code = $1', [toStatusCode]);
+    const targetStatusResult = await client.query('SELECT id FROM ref_plan_status WHERE code = $1', [toStatusCode]);
     if (targetStatusResult.rowCount !== 1) {
       throw new Error(`Could not resolve DB status code '${toStatusCode}'`);
     }
@@ -845,7 +858,7 @@ export const updatePlanStatusViaDb = async ({
     const fromStatusId = planResult.rows[0].status_id;
     const toStatusId = targetStatusResult.rows[0].id;
 
-    await pool.query(
+    await client.query(
       `
         INSERT INTO plan_status_history (from_plan_status_id, to_plan_status_id, note, plan_id, user_id)
         VALUES ($1, $2, $3, $4, $5)
@@ -853,13 +866,14 @@ export const updatePlanStatusViaDb = async ({
       [fromStatusId, toStatusId, note, planId, userId],
     );
 
-    await pool.query('UPDATE plan SET status_id = $2 WHERE id = $1', [planId, toStatusId]);
-    await pool.query('COMMIT');
+    await client.query('UPDATE plan SET status_id = $2 WHERE id = $1', [planId, toStatusId]);
+    await client.query('COMMIT');
     logE2E(`[TRANSITION] DB fallback status update succeeded for plan=${planId} -> ${toStatusCode}`);
   } catch (error) {
-    await pool.query('ROLLBACK');
+    await client.query('ROLLBACK');
     throw error;
   } finally {
+    client.release();
     await pool.end();
   }
 };

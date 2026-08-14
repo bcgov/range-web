@@ -7,9 +7,28 @@ export interface PKCEPair {
 
 export const generatePKCE = async (): Promise<PKCEPair> => {
   const VALID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-  const codeVerifier = Array.from({ length: 128 }, () =>
-    VALID_CHARS.charAt(Math.floor(Math.random() * VALID_CHARS.length)),
-  ).join('');
+  const codeVerifierLength = 128;
+  const charsetSize = VALID_CHARS.length;
+  const maxUnbiasedByte = Math.floor(256 / charsetSize) * charsetSize;
+  const verifierChars: string[] = [];
+
+  while (verifierChars.length < codeVerifierLength) {
+    const randomBytes = new Uint8Array(256);
+    crypto.getRandomValues(randomBytes);
+
+    for (const byte of randomBytes) {
+      if (byte >= maxUnbiasedByte) {
+        continue;
+      }
+
+      verifierChars.push(VALID_CHARS.charAt(byte % charsetSize));
+      if (verifierChars.length === codeVerifierLength) {
+        break;
+      }
+    }
+  }
+
+  const codeVerifier = verifierChars.join('');
 
   const encoder = new TextEncoder();
   const data = encoder.encode(codeVerifier);
