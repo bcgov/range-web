@@ -18,6 +18,15 @@ import {
 import { cleanupSeedDataByAgreementIds } from './support/dbRuntime';
 import { createPlanExtensionSeedByDb, simulateExtensionBackgroundJobByDb } from './support/planExtensionSeedRuntime';
 import {
+  approveExtensionVote,
+  createReplacementPlan,
+  extendPlan,
+  fetchPlanById,
+  forwardExtensionForDecision,
+  rejectExtensionVote,
+  type ApiActor,
+} from './support/planExtensionFlowRuntime';
+import {
   assertActionVisibilityByRole,
   assertExtensionState,
   PLAN_EXTENSION_STATUS,
@@ -26,6 +35,33 @@ import {
 
 const logE2E = (message: string) => {
   console.log(`[E2E:EXT] ${message}`);
+};
+
+const loginApiActors = async ({ page }: { page: Page }): Promise<Record<ExtensionRoleCode, ApiActor>> => {
+  const roles: ExtensionRoleCode[] = ['SA', 'AH', 'DM'];
+  const entries: Array<[ExtensionRoleCode, ApiActor]> = [];
+  const userRecord = await getSingleUserRecordForDb();
+
+  for (const roleCode of roles) {
+    await setUserRoleById({ userId: userRecord.id, roleId: extensionRoleByCode[roleCode] });
+    const token = await loginPageAs({ page, roleCode });
+    entries.push([roleCode, { token, roleCode }]);
+  }
+
+  await setUserRoleById({ userId: userRecord.id, roleId: extensionRoleByCode.SA });
+  return Object.fromEntries(entries) as Record<ExtensionRoleCode, ApiActor>;
+};
+
+const makeFutureDate = ({
+  currentPlanEndDate,
+  yearsToAdd,
+}: {
+  currentPlanEndDate: string;
+  yearsToAdd: number;
+}): string => {
+  const value = new Date(`${currentPlanEndDate}T00:00:00Z`);
+  value.setUTCFullYear(value.getUTCFullYear() + yearsToAdd);
+  return value.toISOString().slice(0, 10);
 };
 
 const loginPageAs = async ({ page, roleCode }: { page: Page; roleCode: ExtensionRoleCode }): Promise<string> => {
@@ -82,7 +118,7 @@ test.describe('Plan extension workflow harness', () => {
     }
   });
 
-  test('simulates extension background job artifacts', async () => {
+  test('simulates extension background job artifacts', async ({ page }) => {
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -117,6 +153,16 @@ test.describe('Plan extension workflow harness', () => {
     expect(Number(planRow.rows[0].extension_status)).toBe(1);
     expect(Number(planRow.rows[0].extension_required_votes)).toBe(result.requiredVotes);
     expect(Number(planRow.rows[0].extension_received_votes)).toBe(0);
+
+    const planSnapshot = await fetchPlanById({
+      apiContext,
+      token: await loginPageAs({ page, roleCode: 'SA' }),
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    expect(planSnapshot.extensionStatus).toBe(PLAN_EXTENSION_STATUS.AWAITING_VOTES);
+    expect(planSnapshot.extensionRequiredVotes).toBe(result.requiredVotes);
+    expect(planSnapshot.extensionReceivedVotes).toBe(0);
   });
 
   test('shared extension assertion helpers validate states and role action expectations', async () => {
@@ -161,5 +207,421 @@ test.describe('Plan extension workflow harness', () => {
       plan: planSnapshot,
       expected: { canApprove: true, canReject: true, canForward: false, canVote: false },
     });
+  });
+
+  test('PE-001 eligible plan initializes extension and ineligible plan does not', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+
+    const eligibleSeed = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe001-eligible',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    const ineligibleSeed = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe001-ineligible',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'ineligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(eligibleSeed.agreementId, ineligibleSeed.agreementId);
+
+    const eligibleJobResult = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: eligibleSeed.planId,
+      agreementId: eligibleSeed.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+    expect(eligibleJobResult.requiredVotes).toBeGreaterThanOrEqual(2);
+
+    const eligiblePlan = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: eligibleSeed.planId,
+    });
+
+    assertExtensionState({
+      plan: eligiblePlan,
+      expected: {
+        extensionStatus: PLAN_EXTENSION_STATUS.AWAITING_VOTES,
+        extensionRequiredVotes: eligibleJobResult.requiredVotes,
+        extensionReceivedVotes: 0,
+      },
+    });
+
+    const ineligiblePlan = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: ineligibleSeed.planId,
+    });
+
+    assertExtensionState({
+      plan: ineligiblePlan,
+      expected: {
+        extensionStatus: null,
+        extensionRequiredVotes: 0,
+        extensionReceivedVotes: 0,
+      },
+    });
+  });
+
+  test('PE-002 AH unanimous yes enables staff forward', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+    const seeded = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe002',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(seeded.agreementId);
+
+    const jobResult = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: seeded.planId,
+      agreementId: seeded.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+
+    for (const extensionRequestId of jobResult.extensionRequestIds) {
+      await approveExtensionVote({
+        apiContext,
+        token: actors.AH.token,
+        getApiBaseUrl,
+        planId: seeded.planId,
+        extensionRequestId,
+      });
+    }
+
+    const approvedPlan = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+
+    assertExtensionState({
+      plan: approvedPlan,
+      expected: {
+        extensionStatus: PLAN_EXTENSION_STATUS.AWAITING_VOTES,
+        extensionRequiredVotes: jobResult.requiredVotes,
+        extensionReceivedVotes: jobResult.requiredVotes,
+      },
+    });
+
+    assertActionVisibilityByRole({
+      role: 'SA',
+      plan: approvedPlan,
+      isStaffOwner: true,
+      expected: { canForward: true },
+    });
+  });
+
+  test('PE-003 staff forwards to awaiting extension and DM can act', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+    const seeded = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe003',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(seeded.agreementId);
+
+    const jobResult = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: seeded.planId,
+      agreementId: seeded.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+    for (const extensionRequestId of jobResult.extensionRequestIds) {
+      await approveExtensionVote({
+        apiContext,
+        token: actors.AH.token,
+        getApiBaseUrl,
+        planId: seeded.planId,
+        extensionRequestId,
+      });
+    }
+
+    await forwardExtensionForDecision({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+
+    const planAfterForward = await fetchPlanById({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertExtensionState({
+      plan: planAfterForward,
+      expected: { extensionStatus: PLAN_EXTENSION_STATUS.AWAITING_EXTENSION },
+    });
+    assertActionVisibilityByRole({
+      role: 'DM',
+      plan: planAfterForward,
+      expected: { canApprove: true, canReject: true },
+    });
+  });
+
+  test('PE-004 DM extends plan with expected date behavior', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+    const seeded = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe004',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(seeded.agreementId);
+
+    const jobResult = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: seeded.planId,
+      agreementId: seeded.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+    for (const extensionRequestId of jobResult.extensionRequestIds) {
+      await approveExtensionVote({
+        apiContext,
+        token: actors.AH.token,
+        getApiBaseUrl,
+        planId: seeded.planId,
+        extensionRequestId,
+      });
+    }
+    await forwardExtensionForDecision({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+
+    const beforeExtend = await fetchPlanById({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    const defaultExpectedDate = makeFutureDate({ currentPlanEndDate: beforeExtend.planEndDate, yearsToAdd: 5 });
+
+    const extendResponse = await extendPlan({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+      endDate: defaultExpectedDate,
+    });
+    expect(String(extendResponse.planId)).toBe(seeded.planId);
+
+    const afterExtend = await fetchPlanById({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+
+    assertExtensionState({
+      plan: afterExtend,
+      expected: {
+        extensionStatus: PLAN_EXTENSION_STATUS.EXTENDED,
+      },
+    });
+    expect(afterExtend.planEndDate).toContain(defaultExpectedDate);
+    expect(afterExtend.extensionDate).not.toBeNull();
+  });
+
+  test('PE-005 AH rejection sets Agreement Holder Rejected and allows replacement plan', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+    const seeded = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe005',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(seeded.agreementId);
+
+    const jobResult = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: seeded.planId,
+      agreementId: seeded.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+
+    await rejectExtensionVote({
+      apiContext,
+      token: actors.AH.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+      extensionRequestId: jobResult.extensionRequestIds[0],
+    });
+
+    const afterReject = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertExtensionState({
+      plan: afterReject,
+      expected: { extensionStatus: PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED },
+    });
+
+    const replacement = await createReplacementPlan({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    expect(replacement.replacementPlan.id).toBeGreaterThan(0);
+  });
+
+  test('PE-006 Staff rejection sets Staff Rejected and allows replacement plan', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+    const seeded = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe006',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(seeded.agreementId);
+
+    const jobResult = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: seeded.planId,
+      agreementId: seeded.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+
+    const rejectResult = await rejectExtensionVote({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+      extensionRequestId: jobResult.extensionRequestIds[0],
+    });
+    expect(rejectResult.extensionStatus).toBe(PLAN_EXTENSION_STATUS.STAFF_REJECTED);
+
+    const afterReject = await fetchPlanById({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertExtensionState({
+      plan: afterReject,
+      expected: { extensionStatus: PLAN_EXTENSION_STATUS.STAFF_REJECTED },
+    });
+
+    const replacement = await createReplacementPlan({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    expect(replacement.replacementPlan.id).toBeGreaterThan(0);
+  });
+
+  test('PE-007 DM rejection sets District Manager Rejected and allows replacement plan', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+    const seeded = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'pe007',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(seeded.agreementId);
+
+    const jobResult = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: seeded.planId,
+      agreementId: seeded.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+    for (const extensionRequestId of jobResult.extensionRequestIds) {
+      await approveExtensionVote({
+        apiContext,
+        token: actors.AH.token,
+        getApiBaseUrl,
+        planId: seeded.planId,
+        extensionRequestId,
+      });
+    }
+    await forwardExtensionForDecision({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+
+    const rejectResult = await rejectExtensionVote({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+      extensionRequestId: jobResult.extensionRequestIds[0],
+    });
+    expect(rejectResult.extensionStatus).toBe(PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED);
+
+    const afterReject = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertExtensionState({
+      plan: afterReject,
+      expected: { extensionStatus: PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED },
+    });
+
+    const replacement = await createReplacementPlan({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    expect(replacement.replacementPlan.id).toBeGreaterThan(0);
   });
 });
