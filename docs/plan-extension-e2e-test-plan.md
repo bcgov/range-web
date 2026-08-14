@@ -135,6 +135,46 @@ And replacement plan creation option is visible to applicable non-AH roles
 - [ ] **ST-014 CI Integration**: Wire tests into CI job(s), including seed prerequisites and artifact capture (screenshots/video/logs) on failure.
 - [ ] **ST-015 Documentation and Traceability**: Map each test file/test case ID to PE-001..PE-007 and link execution notes back to issue #1379.
 
+## Automated Traceability Map
+
+### Spec files
+
+- `playwright/e2e/plan-extension-workflow.spec.ts` — extension harness, seed/job simulation, scenario coverage, and matrix validation
+
+### Support/runtime modules
+
+- `playwright/e2e/support/extensionRuntime.ts` — shared env parsing, role mapping, single-user mode checks, DB pool helpers
+- `playwright/e2e/support/planExtensionSeedRuntime.ts` — deterministic extension seed setup and background-job simulation
+- `playwright/e2e/support/planExtensionFlowRuntime.ts` — API action helpers for approve/reject/forward/extend/replacement operations
+- `playwright/e2e/support/planExtensionAssertions.ts` — reusable extension state and role-action assertion helpers
+
+### Test case ID mapping
+
+- **ST-001** → `boots role-switch harness for SA/AH/DM`
+- **ST-002** → seed utility coverage in `simulates extension background job artifacts` setup path
+- **ST-003** → `simulateExtensionBackgroundJobByDb` used in PE scenarios and dedicated simulation test
+- **ST-004** → `shared extension assertion helpers validate states and role action expectations`
+- **PE-001 / ST-005** → `PE-001 eligible plan initializes extension and ineligible plan does not`
+- **PE-002 / ST-006** → `PE-002 AH unanimous yes enables staff forward`
+- **PE-003 / ST-007** → `PE-003 staff forwards to awaiting extension and DM can act`
+- **PE-004 / ST-008** → `PE-004 DM extends plan with expected date behavior`
+- **PE-005 / ST-009** → `PE-005 AH rejection sets Agreement Holder Rejected and allows replacement plan`
+- **PE-006 / ST-010** → `PE-006 Staff rejection sets Staff Rejected and allows replacement plan`
+- **PE-007 / ST-011** → `PE-007 DM rejection sets District Manager Rejected and allows replacement plan`
+- **ST-012** → `cross-role matrix validation for core extension stages`
+- **ST-013** → retry hardening in `playwright/e2e/support/planExtensionFlowRuntime.ts`
+- **ST-014** → targeted spec execution support in `.github/workflows/e2e.yml` and `openshift/deployments/e2e.yaml`
+
+### Execution commands
+
+- Full local extension suite: `npm run test:e2e:extension:harness`
+- Targeted OpenShift/GitHub run: `workflow_dispatch` input `test_spec=playwright/e2e/plan-extension-workflow.spec.ts`
+
+### Issue linkage
+
+- Parent issue: `#1379`
+- Subtasks: `#1381` through `#1395`
+
 ## Exit Criteria
 
 - Scenarios `PE-001` through `PE-007` pass in CI.
