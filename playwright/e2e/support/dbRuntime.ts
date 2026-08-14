@@ -840,15 +840,16 @@ export const updatePlanStatusViaDb = async ({
   logE2E: (message: string) => void;
 }) => {
   const pool = getDbPool();
+  const client = await pool.connect();
   try {
-    await pool.query('BEGIN');
+    await client.query('BEGIN');
 
-    const planResult = await pool.query('SELECT status_id FROM plan WHERE id = $1', [planId]);
+    const planResult = await client.query('SELECT status_id FROM plan WHERE id = $1', [planId]);
     if (planResult.rowCount !== 1) {
       throw new Error(`Could not find plan by id='${planId}' for DB status update`);
     }
 
-    const targetStatusResult = await pool.query('SELECT id FROM ref_plan_status WHERE code = $1', [toStatusCode]);
+    const targetStatusResult = await client.query('SELECT id FROM ref_plan_status WHERE code = $1', [toStatusCode]);
     if (targetStatusResult.rowCount !== 1) {
       throw new Error(`Could not resolve DB status code '${toStatusCode}'`);
     }
@@ -856,7 +857,7 @@ export const updatePlanStatusViaDb = async ({
     const fromStatusId = planResult.rows[0].status_id;
     const toStatusId = targetStatusResult.rows[0].id;
 
-    await pool.query(
+    await client.query(
       `
         INSERT INTO plan_status_history (from_plan_status_id, to_plan_status_id, note, plan_id, user_id)
         VALUES ($1, $2, $3, $4, $5)
@@ -864,13 +865,14 @@ export const updatePlanStatusViaDb = async ({
       [fromStatusId, toStatusId, note, planId, userId],
     );
 
-    await pool.query('UPDATE plan SET status_id = $2 WHERE id = $1', [planId, toStatusId]);
-    await pool.query('COMMIT');
+    await client.query('UPDATE plan SET status_id = $2 WHERE id = $1', [planId, toStatusId]);
+    await client.query('COMMIT');
     logE2E(`[TRANSITION] DB fallback status update succeeded for plan=${planId} -> ${toStatusCode}`);
   } catch (error) {
-    await pool.query('ROLLBACK');
+    await client.query('ROLLBACK');
     throw error;
   } finally {
+    client.release();
     await pool.end();
   }
 };

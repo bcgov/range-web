@@ -12,7 +12,7 @@ type LoginMode = 'staff' | 'bceid';
 const clickFirstVisible = async (page: Page, selectors: string[]): Promise<boolean> => {
   for (const selector of selectors) {
     const locator = page.locator(selector).first();
-    if (await locator.count()) {
+    if ((await locator.count()) > 0 && (await locator.isVisible().catch(() => false))) {
       await locator.click();
       return true;
     }
@@ -95,25 +95,28 @@ const storeAuthAndProfile = async ({
   apiBaseUrl: string;
 }): Promise<void> => {
   const apiContext = await request.newContext();
-  const userResponse = await apiContext.get(`${apiBaseUrl}/v1/user/me`, {
-    headers: { Authorization: `Bearer ${authData.access_token}` },
-  });
+  try {
+    const userResponse = await apiContext.get(`${apiBaseUrl}/v1/user/me`, {
+      headers: { Authorization: `Bearer ${authData.access_token}` },
+    });
 
-  if (!userResponse.ok()) {
-    throw new Error(`Failed to load user profile (${userResponse.status()})`);
+    if (!userResponse.ok()) {
+      throw new Error(`Failed to load user profile (${userResponse.status()})`);
+    }
+
+    const user = await userResponse.json();
+
+    await page.evaluate(
+      ({ auth, profile }) => {
+        window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
+        window.localStorage.setItem('range-web-user', JSON.stringify(profile));
+      },
+      { auth: authData, profile: user },
+    );
+    await page.goto('/select-range-use-plan');
+  } finally {
+    await apiContext.dispose();
   }
-
-  const user = await userResponse.json();
-  await apiContext.dispose();
-
-  await page.evaluate(
-    ({ auth, profile }) => {
-      window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
-      window.localStorage.setItem('range-web-user', JSON.stringify(profile));
-    },
-    { auth: authData, profile: user },
-  );
-  await page.goto('/select-range-use-plan');
 };
 
 const readAuthFromLocalStorage = async (page: Page): Promise<AuthData | null> => {
