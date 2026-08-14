@@ -26,6 +26,18 @@ type PlanExtensionSeedResult = {
   eligibility: ExtensionEligibility;
 };
 
+type SimulateExtensionBackgroundJobArgs = {
+  getDbPool: GetDbPool;
+  planId: string;
+  agreementId: string;
+  fallbackUserId: number;
+};
+
+type ExtensionRequestSeedResult = {
+  extensionRequestIds: number[];
+  requiredVotes: number;
+};
+
 const getUserIdBySsoCandidates = async ({
   db,
   candidates,
@@ -209,6 +221,86 @@ export const createPlanExtensionSeedByDb = async ({
       planEndDate: String(planUpdate.rows[0].plan_end_date),
       eligibility,
     };
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
+    await pool.end();
+  }
+};
+
+export const simulateExtensionBackgroundJobByDb = async ({
+  getDbPool,
+  planId,
+  agreementId,
+  fallbackUserId,
+}: SimulateExtensionBackgroundJobArgs): Promise<ExtensionRequestSeedResult> => {
+  const pool = getDbPool();
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
+
+    const clientLinks = await client.query(
+      `
+        SELECT ca.client_id, ucl.user_id
+        FROM client_agreement ca
+        LEFT JOIN user_client_link ucl
+          ON ucl.client_id = ca.client_id
+          AND ucl.active = true
+          AND ucl.type = 'owner'
+        WHERE ca.agreement_id = $1
+        ORDER BY ca.client_id ASC
+      `,
+      [agreementId],
+    );
+
+    if (clientLinks.rowCount === 0) {
+      throw new Error(`No clients found on agreement ${agreementId}`);
+    }
+
+    await client.query('DELETE FROM plan_extension_requests WHERE plan_id = $1', [planId]);
+
+    const extensionRequestIds: number[] = [];
+    for (const row of clientLinks.rows as Array<{ client_id: string; user_id: number | null }>) {
+      const inserted = await client.query(
+        `
+          INSERT INTO plan_extension_requests (
+            plan_id,
+            client_id,
+            user_id,
+            email,
+            requested_extension,
+            created_at,
+            updated_at
+          )
+          VALUES ($1, $2, $3, NULL, NULL, NOW(), NOW())
+          RETURNING id
+        `,
+        [planId, row.client_id, row.user_id || fallbackUserId],
+      );
+      extensionRequestIds.push(Number(inserted.rows[0].id));
+    }
+
+    const requiredVotes = extensionRequestIds.length;
+    await client.query(
+      `
+        UPDATE plan
+        SET extension_status = 1,
+            extension_required_votes = $2,
+            extension_received_votes = 0,
+            extension_rejected_by = NULL,
+            extension_date = NULL,
+            replacement_plan_id = NULL,
+            replacement_of = NULL
+        WHERE id = $1
+      `,
+      [planId, requiredVotes],
+    );
+
+    await client.query('COMMIT');
+    return { extensionRequestIds, requiredVotes };
   } catch (error) {
     await client.query('ROLLBACK');
     throw error;
