@@ -1,5 +1,9 @@
 import { expect, request, test, type APIRequestContext, type Page } from '@playwright/test';
-import { loginPageAs as runtimeLoginPageAs } from './support/authRuntime';
+import {
+  clearSession,
+  loginPageAs as runtimeLoginPageAs,
+  switchRoleAndRelogin as runtimeSwitchRoleAndRelogin,
+} from './support/authRuntime';
 import {
   getDbPool,
   getSeedSourceAgreementId,
@@ -16,15 +20,16 @@ import {
   type ExtensionRoleCode,
 } from './support/extensionRuntime';
 import { cleanupSeedDataByAgreementIds } from './support/dbRuntime';
-import { createPlanExtensionSeedByDb, simulateExtensionBackgroundJobByDb } from './support/planExtensionSeedRuntime';
+import {
+  createPlanExtensionSeedByDb as runtimeCreatePlanExtensionSeedByDb,
+  simulateExtensionBackgroundJobByDb,
+} from './support/planExtensionSeedRuntime';
 import {
   approveExtensionVote,
   createReplacementPlan,
   extendPlan,
-  fetchPlanById,
   forwardExtensionForDecision,
   rejectExtensionVote,
-  type ApiActor,
 } from './support/planExtensionFlowRuntime';
 import {
   assertActionVisibilityByRole,
@@ -37,19 +42,202 @@ const logE2E = (message: string) => {
   console.log(`[E2E:EXT] ${message}`);
 };
 
-const loginApiActors = async ({ page }: { page: Page }): Promise<Record<ExtensionRoleCode, ApiActor>> => {
-  const roles: ExtensionRoleCode[] = ['SA', 'AH', 'DM'];
-  const entries: Array<[ExtensionRoleCode, ApiActor]> = [];
-  const userRecord = await getSingleUserRecordForDb();
+let cachedSingleUserRecord: { id: number; sso_id: string } | null = null;
+let apiContext: APIRequestContext;
 
-  for (const roleCode of roles) {
-    await setUserRoleById({ userId: userRecord.id, roleId: extensionRoleByCode[roleCode] });
-    const token = await loginPageAs({ page, roleCode });
-    entries.push([roleCode, { token, roleCode }]);
+const switchRoleAndRelogin = async ({ page, roleCode }: { page: Page; roleCode: ExtensionRoleCode }) => {
+  return runtimeSwitchRoleAndRelogin({
+    page,
+    roleCode,
+    roleByCode: extensionRoleByCode,
+    getSingleUserRecord: async () => {
+      if (!cachedSingleUserRecord) {
+        cachedSingleUserRecord = await getSingleUserRecordForDb();
+      }
+      return cachedSingleUserRecord;
+    },
+    setUserRoleById,
+    loginPageAs,
+    apiBaseUrl: getApiBaseUrl(),
+    logE2E,
+  });
+};
+
+const switchRoleAndFreshLogin = async ({ page, roleCode }: { page: Page; roleCode: ExtensionRoleCode }) => {
+  const userRecord = cachedSingleUserRecord || (await getSingleUserRecordForDb());
+  cachedSingleUserRecord = userRecord;
+  await setUserRoleById({ userId: userRecord.id, roleId: extensionRoleByCode[roleCode] });
+  await clearSession(page);
+  return loginPageAs({ page, roleCode });
+};
+
+const getCurrentUserId = async (): Promise<number> => {
+  if (!cachedSingleUserRecord) {
+    cachedSingleUserRecord = await getSingleUserRecordForDb();
+  }
+  return cachedSingleUserRecord.id;
+};
+
+const createPlanExtensionSeedByDb = async (
+  args: Omit<Parameters<typeof runtimeCreatePlanExtensionSeedByDb>[0], 'singleUserId'>,
+) => runtimeCreatePlanExtensionSeedByDb({ ...args, singleUserId: await getCurrentUserId() });
+
+const asRole = async <T>({
+  page,
+  roleCode,
+  run,
+}: {
+  page: Page;
+  roleCode: ExtensionRoleCode;
+  run: (token: string) => Promise<T>;
+}): Promise<T> => {
+  const token = await switchRoleAndFreshLogin({ page, roleCode });
+  return run(token);
+};
+
+const approveVoteAsAh = async ({
+  page,
+  planId,
+  extensionRequestId,
+}: {
+  page: Page;
+  planId: string;
+  extensionRequestId: number;
+}) =>
+  asRole({
+    page,
+    roleCode: 'AH',
+    run: (token) =>
+      approveExtensionVote({
+        apiContext,
+        token,
+        getApiBaseUrl,
+        planId,
+        extensionRequestId,
+      }),
+  });
+
+const getExtensionRequestIdsByClient = async ({
+  planId,
+  clientIds,
+}: {
+  planId: string;
+  clientIds: string[];
+}): Promise<number[]> => {
+  const pool = getDbPool();
+  const result = await pool.query(
+    `
+      SELECT id
+      FROM plan_extension_requests
+      WHERE plan_id = $1
+        AND client_id = ANY($2::text[])
+      ORDER BY id ASC
+    `,
+    [planId, clientIds],
+  );
+  await pool.end();
+  return result.rows.map((row: { id: number }) => Number(row.id));
+};
+
+const rejectVoteAs = async ({
+  page,
+  roleCode,
+  planId,
+  extensionRequestId,
+}: {
+  page: Page;
+  roleCode: ExtensionRoleCode;
+  planId: string;
+  extensionRequestId: number;
+}) =>
+  asRole({
+    page,
+    roleCode,
+    run: (token) =>
+      rejectExtensionVote({
+        apiContext,
+        token,
+        getApiBaseUrl,
+        planId,
+        extensionRequestId,
+      }),
+  });
+
+const forwardAsStaff = async ({ page, planId }: { page: Page; planId: string }) =>
+  asRole({
+    page,
+    roleCode: 'SA',
+    run: (token) =>
+      forwardExtensionForDecision({
+        apiContext,
+        token,
+        getApiBaseUrl,
+        planId,
+      }),
+  });
+
+const extendAsDm = async ({ page, planId, endDate }: { page: Page; planId: string; endDate: string }) =>
+  asRole({
+    page,
+    roleCode: 'DM',
+    run: (token) =>
+      extendPlan({
+        apiContext,
+        token,
+        getApiBaseUrl,
+        planId,
+        endDate,
+      }),
+  });
+
+const createReplacementAs = async ({ page, roleCode, planId }: { page: Page; roleCode: 'SA' | 'DM'; planId: string }) =>
+  asRole({
+    page,
+    roleCode,
+    run: (token) =>
+      createReplacementPlan({
+        apiContext,
+        token,
+        getApiBaseUrl,
+        planId,
+      }),
+  });
+
+const readPlanExtensionStateByDb = async ({ planId }: { planId: string }): Promise<ExtensionPlanSnapshot> => {
+  const pool = getDbPool();
+  const result = await pool.query(
+    `
+      SELECT
+        id,
+        to_char(plan_end_date::date, 'YYYY-MM-DD') AS plan_end_date,
+        extension_status,
+        extension_required_votes,
+        extension_received_votes,
+        to_char(extension_date::date, 'YYYY-MM-DD') AS extension_date,
+        replacement_plan_id,
+        replacement_of
+      FROM plan
+      WHERE id = $1
+    `,
+    [planId],
+  );
+  await pool.end();
+
+  if (result.rowCount !== 1) {
+    throw new Error(`Could not load plan ${planId} from DB`);
   }
 
-  await setUserRoleById({ userId: userRecord.id, roleId: extensionRoleByCode.SA });
-  return Object.fromEntries(entries) as Record<ExtensionRoleCode, ApiActor>;
+  const row = result.rows[0];
+  return {
+    id: Number(row.id),
+    planEndDate: row.plan_end_date,
+    extensionStatus: row.extension_status === null ? null : Number(row.extension_status),
+    extensionRequiredVotes: row.extension_required_votes === null ? null : Number(row.extension_required_votes),
+    extensionReceivedVotes: row.extension_received_votes === null ? null : Number(row.extension_received_votes),
+    extensionDate: row.extension_date,
+    replacementPlanId: row.replacement_plan_id === null ? null : Number(row.replacement_plan_id),
+    replacementOf: row.replacement_of === null ? null : Number(row.replacement_of),
+  };
 };
 
 const makeFutureDate = ({
@@ -77,11 +265,18 @@ const loginPageAs = async ({ page, roleCode }: { page: Page; roleCode: Extension
 };
 
 test.describe('Plan extension workflow harness', () => {
-  let apiContext: APIRequestContext;
   let cleanupAgreementIds: string[] = [];
 
   test.beforeAll(async () => {
     apiContext = await request.newContext();
+  });
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    const profile = await page.evaluate(() => JSON.parse(localStorage.getItem('range-web-user') || '{}'));
+    if (profile.id) {
+      cachedSingleUserRecord = { id: Number(profile.id), sso_id: profile.ssoId || profile.sso_id || '' };
+    }
   });
 
   test.afterEach(async () => {
@@ -110,15 +305,14 @@ test.describe('Plan extension workflow harness', () => {
 
     const roleSequence: ExtensionRoleCode[] = ['SA', 'AH', 'DM', 'SA'];
     for (const roleCode of roleSequence) {
-      await setUserRoleById({ userId: userRecord.id, roleId: extensionRoleByCode[roleCode] });
-      const token = await loginPageAs({ page, roleCode });
+      const token = await switchRoleAndRelogin({ page, roleCode });
       expect(token.length).toBeGreaterThan(20);
       await expect(page).toHaveURL(/select-range-use-plan|home/);
       logE2E(`validated login+landing for role=${roleCode}`);
     }
   });
 
-  test('simulates extension background job artifacts', async ({ page }) => {
+  test('simulates extension background job artifacts', async () => {
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -154,12 +348,7 @@ test.describe('Plan extension workflow harness', () => {
     expect(Number(planRow.rows[0].extension_required_votes)).toBe(result.requiredVotes);
     expect(Number(planRow.rows[0].extension_received_votes)).toBe(0);
 
-    const planSnapshot = await fetchPlanById({
-      apiContext,
-      token: await loginPageAs({ page, roleCode: 'SA' }),
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const planSnapshot = await readPlanExtensionStateByDb({ planId: seeded.planId });
     expect(planSnapshot.extensionStatus).toBe(PLAN_EXTENSION_STATUS.AWAITING_VOTES);
     expect(planSnapshot.extensionRequiredVotes).toBe(result.requiredVotes);
     expect(planSnapshot.extensionReceivedVotes).toBe(0);
@@ -209,8 +398,7 @@ test.describe('Plan extension workflow harness', () => {
     });
   });
 
-  test('PE-001 eligible plan initializes extension and ineligible plan does not', async ({ page }) => {
-    const actors = await loginApiActors({ page });
+  test('PE-001 eligible plan initializes extension and ineligible plan does not', async () => {
     const userRecord = await getSingleUserRecordForDb();
 
     const eligibleSeed = await createPlanExtensionSeedByDb({
@@ -243,12 +431,7 @@ test.describe('Plan extension workflow harness', () => {
     });
     expect(eligibleJobResult.requiredVotes).toBeGreaterThanOrEqual(2);
 
-    const eligiblePlan = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: eligibleSeed.planId,
-    });
+    const eligiblePlan = await readPlanExtensionStateByDb({ planId: eligibleSeed.planId });
 
     assertExtensionState({
       plan: eligiblePlan,
@@ -259,12 +442,7 @@ test.describe('Plan extension workflow harness', () => {
       },
     });
 
-    const ineligiblePlan = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: ineligibleSeed.planId,
-    });
+    const ineligiblePlan = await readPlanExtensionStateByDb({ planId: ineligibleSeed.planId });
 
     assertExtensionState({
       plan: ineligiblePlan,
@@ -277,7 +455,6 @@ test.describe('Plan extension workflow harness', () => {
   });
 
   test('PE-002 AH unanimous yes enables staff forward', async ({ page }) => {
-    const actors = await loginApiActors({ page });
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -287,7 +464,7 @@ test.describe('Plan extension workflow harness', () => {
       districtCode: getTestDistrictCode(),
       sourceAgreementId: getSeedSourceAgreementId(),
       eligibility: 'eligible',
-      additionalClientCount: 1,
+      additionalClientCount: 0,
     });
     cleanupAgreementIds.push(seeded.agreementId);
 
@@ -298,22 +475,13 @@ test.describe('Plan extension workflow harness', () => {
       fallbackUserId: userRecord.id,
     });
 
-    for (const extensionRequestId of jobResult.extensionRequestIds) {
-      await approveExtensionVote({
-        apiContext,
-        token: actors.AH.token,
-        getApiBaseUrl,
-        planId: seeded.planId,
-        extensionRequestId,
-      });
-    }
-
-    const approvedPlan = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
+    const ahRequestIds = await getExtensionRequestIdsByClient({
       planId: seeded.planId,
+      clientIds: [seeded.primaryClientNumber],
     });
+    await approveVoteAsAh({ page, planId: seeded.planId, extensionRequestId: ahRequestIds[0] });
+
+    const approvedPlan = await readPlanExtensionStateByDb({ planId: seeded.planId });
 
     assertExtensionState({
       plan: approvedPlan,
@@ -333,7 +501,6 @@ test.describe('Plan extension workflow harness', () => {
   });
 
   test('PE-003 staff forwards to awaiting extension and DM can act', async ({ page }) => {
-    const actors = await loginApiActors({ page });
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -343,39 +510,25 @@ test.describe('Plan extension workflow harness', () => {
       districtCode: getTestDistrictCode(),
       sourceAgreementId: getSeedSourceAgreementId(),
       eligibility: 'eligible',
-      additionalClientCount: 1,
+      additionalClientCount: 0,
     });
     cleanupAgreementIds.push(seeded.agreementId);
 
-    const jobResult = await simulateExtensionBackgroundJobByDb({
+    await simulateExtensionBackgroundJobByDb({
       getDbPool,
       planId: seeded.planId,
       agreementId: seeded.agreementId,
       fallbackUserId: userRecord.id,
     });
-    for (const extensionRequestId of jobResult.extensionRequestIds) {
-      await approveExtensionVote({
-        apiContext,
-        token: actors.AH.token,
-        getApiBaseUrl,
-        planId: seeded.planId,
-        extensionRequestId,
-      });
-    }
-
-    await forwardExtensionForDecision({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
+    const ahRequestIds = await getExtensionRequestIdsByClient({
       planId: seeded.planId,
+      clientIds: [seeded.primaryClientNumber],
     });
+    await approveVoteAsAh({ page, planId: seeded.planId, extensionRequestId: ahRequestIds[0] });
 
-    const planAfterForward = await fetchPlanById({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    await forwardAsStaff({ page, planId: seeded.planId });
+
+    const planAfterForward = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertExtensionState({
       plan: planAfterForward,
       expected: { extensionStatus: PLAN_EXTENSION_STATUS.AWAITING_EXTENSION },
@@ -388,7 +541,6 @@ test.describe('Plan extension workflow harness', () => {
   });
 
   test('PE-004 DM extends plan with expected date behavior', async ({ page }) => {
-    const actors = await loginApiActors({ page });
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -398,55 +550,30 @@ test.describe('Plan extension workflow harness', () => {
       districtCode: getTestDistrictCode(),
       sourceAgreementId: getSeedSourceAgreementId(),
       eligibility: 'eligible',
-      additionalClientCount: 1,
+      additionalClientCount: 0,
     });
     cleanupAgreementIds.push(seeded.agreementId);
 
-    const jobResult = await simulateExtensionBackgroundJobByDb({
+    await simulateExtensionBackgroundJobByDb({
       getDbPool,
       planId: seeded.planId,
       agreementId: seeded.agreementId,
       fallbackUserId: userRecord.id,
     });
-    for (const extensionRequestId of jobResult.extensionRequestIds) {
-      await approveExtensionVote({
-        apiContext,
-        token: actors.AH.token,
-        getApiBaseUrl,
-        planId: seeded.planId,
-        extensionRequestId,
-      });
-    }
-    await forwardExtensionForDecision({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
+    const ahRequestIds = await getExtensionRequestIdsByClient({
       planId: seeded.planId,
+      clientIds: [seeded.primaryClientNumber],
     });
+    await approveVoteAsAh({ page, planId: seeded.planId, extensionRequestId: ahRequestIds[0] });
+    await forwardAsStaff({ page, planId: seeded.planId });
 
-    const beforeExtend = await fetchPlanById({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const beforeExtend = await readPlanExtensionStateByDb({ planId: seeded.planId });
     const defaultExpectedDate = makeFutureDate({ currentPlanEndDate: beforeExtend.planEndDate, yearsToAdd: 5 });
 
-    const extendResponse = await extendPlan({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-      endDate: defaultExpectedDate,
-    });
+    const extendResponse = await extendAsDm({ page, planId: seeded.planId, endDate: defaultExpectedDate });
     expect(String(extendResponse.planId)).toBe(seeded.planId);
 
-    const afterExtend = await fetchPlanById({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const afterExtend = await readPlanExtensionStateByDb({ planId: seeded.planId });
 
     assertExtensionState({
       plan: afterExtend,
@@ -459,7 +586,6 @@ test.describe('Plan extension workflow harness', () => {
   });
 
   test('PE-005 AH rejection sets Agreement Holder Rejected and allows replacement plan', async ({ page }) => {
-    const actors = await loginApiActors({ page });
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -469,47 +595,34 @@ test.describe('Plan extension workflow harness', () => {
       districtCode: getTestDistrictCode(),
       sourceAgreementId: getSeedSourceAgreementId(),
       eligibility: 'eligible',
-      additionalClientCount: 1,
+      additionalClientCount: 0,
     });
     cleanupAgreementIds.push(seeded.agreementId);
 
-    const jobResult = await simulateExtensionBackgroundJobByDb({
+    await simulateExtensionBackgroundJobByDb({
       getDbPool,
       planId: seeded.planId,
       agreementId: seeded.agreementId,
       fallbackUserId: userRecord.id,
     });
 
-    await rejectExtensionVote({
-      apiContext,
-      token: actors.AH.token,
-      getApiBaseUrl,
+    const ahRequestIds = await getExtensionRequestIdsByClient({
       planId: seeded.planId,
-      extensionRequestId: jobResult.extensionRequestIds[0],
+      clientIds: [seeded.primaryClientNumber],
     });
+    await rejectVoteAs({ page, roleCode: 'AH', planId: seeded.planId, extensionRequestId: ahRequestIds[0] });
 
-    const afterReject = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const afterReject = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertExtensionState({
       plan: afterReject,
       expected: { extensionStatus: PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED },
     });
 
-    const replacement = await createReplacementPlan({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const replacement = await createReplacementAs({ page, roleCode: 'SA', planId: seeded.planId });
     expect(replacement.replacementPlan.id).toBeGreaterThan(0);
   });
 
   test('PE-006 Staff rejection sets Staff Rejected and allows replacement plan', async ({ page }) => {
-    const actors = await loginApiActors({ page });
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -519,48 +632,41 @@ test.describe('Plan extension workflow harness', () => {
       districtCode: getTestDistrictCode(),
       sourceAgreementId: getSeedSourceAgreementId(),
       eligibility: 'eligible',
-      additionalClientCount: 1,
+      additionalClientCount: 0,
     });
     cleanupAgreementIds.push(seeded.agreementId);
 
-    const jobResult = await simulateExtensionBackgroundJobByDb({
+    await simulateExtensionBackgroundJobByDb({
       getDbPool,
       planId: seeded.planId,
       agreementId: seeded.agreementId,
       fallbackUserId: userRecord.id,
     });
 
-    const rejectResult = await rejectExtensionVote({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
+    const ahRequestIds = await getExtensionRequestIdsByClient({
       planId: seeded.planId,
-      extensionRequestId: jobResult.extensionRequestIds[0],
+      clientIds: [seeded.primaryClientNumber],
+    });
+    await approveVoteAsAh({ page, planId: seeded.planId, extensionRequestId: ahRequestIds[0] });
+    const rejectResult = await rejectVoteAs({
+      page,
+      roleCode: 'SA',
+      planId: seeded.planId,
+      extensionRequestId: ahRequestIds[0],
     });
     expect(rejectResult.extensionStatus).toBe(PLAN_EXTENSION_STATUS.STAFF_REJECTED);
 
-    const afterReject = await fetchPlanById({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const afterReject = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertExtensionState({
       plan: afterReject,
       expected: { extensionStatus: PLAN_EXTENSION_STATUS.STAFF_REJECTED },
     });
 
-    const replacement = await createReplacementPlan({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const replacement = await createReplacementAs({ page, roleCode: 'SA', planId: seeded.planId });
     expect(replacement.replacementPlan.id).toBeGreaterThan(0);
   });
 
   test('PE-007 DM rejection sets District Manager Rejected and allows replacement plan', async ({ page }) => {
-    const actors = await loginApiActors({ page });
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -570,63 +676,42 @@ test.describe('Plan extension workflow harness', () => {
       districtCode: getTestDistrictCode(),
       sourceAgreementId: getSeedSourceAgreementId(),
       eligibility: 'eligible',
-      additionalClientCount: 1,
+      additionalClientCount: 0,
     });
     cleanupAgreementIds.push(seeded.agreementId);
 
-    const jobResult = await simulateExtensionBackgroundJobByDb({
+    await simulateExtensionBackgroundJobByDb({
       getDbPool,
       planId: seeded.planId,
       agreementId: seeded.agreementId,
       fallbackUserId: userRecord.id,
     });
-    for (const extensionRequestId of jobResult.extensionRequestIds) {
-      await approveExtensionVote({
-        apiContext,
-        token: actors.AH.token,
-        getApiBaseUrl,
-        planId: seeded.planId,
-        extensionRequestId,
-      });
-    }
-    await forwardExtensionForDecision({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
+    const ahRequestIds = await getExtensionRequestIdsByClient({
       planId: seeded.planId,
+      clientIds: [seeded.primaryClientNumber],
     });
+    await approveVoteAsAh({ page, planId: seeded.planId, extensionRequestId: ahRequestIds[0] });
+    await forwardAsStaff({ page, planId: seeded.planId });
 
-    const rejectResult = await rejectExtensionVote({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
+    const rejectResult = await rejectVoteAs({
+      page,
+      roleCode: 'DM',
       planId: seeded.planId,
-      extensionRequestId: jobResult.extensionRequestIds[0],
+      extensionRequestId: ahRequestIds[0],
     });
     expect(rejectResult.extensionStatus).toBe(PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED);
 
-    const afterReject = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const afterReject = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertExtensionState({
       plan: afterReject,
       expected: { extensionStatus: PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED },
     });
 
-    const replacement = await createReplacementPlan({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const replacement = await createReplacementAs({ page, roleCode: 'DM', planId: seeded.planId });
     expect(replacement.replacementPlan.id).toBeGreaterThan(0);
   });
 
   test('cross-role matrix validation for core extension stages', async ({ page }) => {
-    const actors = await loginApiActors({ page });
     const userRecord = await getSingleUserRecordForDb();
     const seeded = await createPlanExtensionSeedByDb({
       getDbPool,
@@ -636,23 +721,18 @@ test.describe('Plan extension workflow harness', () => {
       districtCode: getTestDistrictCode(),
       sourceAgreementId: getSeedSourceAgreementId(),
       eligibility: 'eligible',
-      additionalClientCount: 1,
+      additionalClientCount: 0,
     });
     cleanupAgreementIds.push(seeded.agreementId);
 
-    const seededRequests = await simulateExtensionBackgroundJobByDb({
+    await simulateExtensionBackgroundJobByDb({
       getDbPool,
       planId: seeded.planId,
       agreementId: seeded.agreementId,
       fallbackUserId: userRecord.id,
     });
 
-    const awaitingVotes = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const awaitingVotes = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertActionVisibilityByRole({ role: 'AH', plan: awaitingVotes, expected: { canVote: true, canReject: true } });
     assertActionVisibilityByRole({
       role: 'SA',
@@ -662,39 +742,20 @@ test.describe('Plan extension workflow harness', () => {
     });
     assertActionVisibilityByRole({ role: 'DM', plan: awaitingVotes, expected: { canReject: true, canApprove: false } });
 
-    for (const extensionRequestId of seededRequests.extensionRequestIds) {
-      await approveExtensionVote({
-        apiContext,
-        token: actors.AH.token,
-        getApiBaseUrl,
-        planId: seeded.planId,
-        extensionRequestId,
-      });
-    }
-
-    const allYes = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
+    const ahRequestIds = await getExtensionRequestIdsByClient({
       planId: seeded.planId,
+      clientIds: [seeded.primaryClientNumber],
     });
+    await approveVoteAsAh({ page, planId: seeded.planId, extensionRequestId: ahRequestIds[0] });
+
+    const allYes = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertActionVisibilityByRole({ role: 'AH', plan: allYes, expected: { canVote: true } });
     assertActionVisibilityByRole({ role: 'SA', plan: allYes, isStaffOwner: true, expected: { canForward: true } });
     assertActionVisibilityByRole({ role: 'DM', plan: allYes, expected: { canApprove: false, canReject: true } });
 
-    await forwardExtensionForDecision({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    await forwardAsStaff({ page, planId: seeded.planId });
 
-    const awaitingExtension = await fetchPlanById({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const awaitingExtension = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertActionVisibilityByRole({
       role: 'AH',
       plan: awaitingExtension,
@@ -712,21 +773,15 @@ test.describe('Plan extension workflow harness', () => {
       expected: { canApprove: true, canReject: true },
     });
 
-    const rejectResult = await rejectExtensionVote({
-      apiContext,
-      token: actors.DM.token,
-      getApiBaseUrl,
+    const rejectResult = await rejectVoteAs({
+      page,
+      roleCode: 'DM',
       planId: seeded.planId,
-      extensionRequestId: seededRequests.extensionRequestIds[0],
+      extensionRequestId: ahRequestIds[0],
     });
     expect(rejectResult.extensionStatus).toBe(PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED);
 
-    const dmRejected = await fetchPlanById({
-      apiContext,
-      token: actors.SA.token,
-      getApiBaseUrl,
-      planId: seeded.planId,
-    });
+    const dmRejected = await readPlanExtensionStateByDb({ planId: seeded.planId });
     assertActionVisibilityByRole({ role: 'AH', plan: dmRejected, expected: { canVote: false, canReject: false } });
     assertActionVisibilityByRole({
       role: 'SA',

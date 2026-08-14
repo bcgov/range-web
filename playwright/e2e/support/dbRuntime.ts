@@ -148,6 +148,7 @@ export const createPlanSeedByDb = async ({
   testCase,
   e2ePrefix,
   singleUserSsoCandidates,
+  singleUserId,
   districtCode,
   sourceAgreementId,
 }: {
@@ -155,6 +156,7 @@ export const createPlanSeedByDb = async ({
   testCase: string;
   e2ePrefix: string;
   singleUserSsoCandidates: string[];
+  singleUserId?: number;
   districtCode: string;
   sourceAgreementId: string;
 }): Promise<{ planId: string; agreementId: string; clientNumber: string }> => {
@@ -164,11 +166,20 @@ export const createPlanSeedByDb = async ({
   try {
     await client.query('BEGIN');
 
-    const singleUser = await findUserBySsoCandidates({
-      client,
-      candidates: singleUserSsoCandidates,
-      roleLabel: 'E2E',
-    });
+    const singleUser = singleUserId
+      ? ((await client.query('SELECT id, sso_id FROM user_account WHERE id = $1', [singleUserId])).rows[0] as {
+          id: number;
+          sso_id: string;
+        })
+      : await findUserBySsoCandidates({
+          client,
+          candidates: singleUserSsoCandidates,
+          roleLabel: 'E2E',
+        });
+
+    if (!singleUser) {
+      throw new Error(`Could not find E2E user by id='${singleUserId}'`);
+    }
 
     const districtResult = await client.query('SELECT id FROM ref_district WHERE code = $1', [districtCode]);
     if (districtResult.rowCount !== 1) {

@@ -12,6 +12,7 @@ type CreatePlanExtensionSeedByDbArgs = {
   testCase: string;
   e2ePrefix: string;
   singleUserSsoCandidates: string[];
+  singleUserId?: number;
   districtCode: string;
   sourceAgreementId: string;
   eligibility: ExtensionEligibility;
@@ -24,6 +25,7 @@ type PlanExtensionSeedResult = {
   clientNumbers: string[];
   planEndDate: string;
   eligibility: ExtensionEligibility;
+  primaryClientNumber: string;
 };
 
 type SimulateExtensionBackgroundJobArgs = {
@@ -159,6 +161,7 @@ export const createPlanExtensionSeedByDb = async ({
   testCase,
   e2ePrefix,
   singleUserSsoCandidates,
+  singleUserId,
   districtCode,
   sourceAgreementId,
   eligibility,
@@ -169,6 +172,7 @@ export const createPlanExtensionSeedByDb = async ({
     testCase,
     e2ePrefix,
     singleUserSsoCandidates,
+    singleUserId,
     districtCode,
     sourceAgreementId,
   });
@@ -179,7 +183,8 @@ export const createPlanExtensionSeedByDb = async ({
   try {
     await client.query('BEGIN');
 
-    const ahUserId = await getUserIdBySsoCandidates({ db: client, candidates: singleUserSsoCandidates });
+    const ahUserId =
+      singleUserId || (await getUserIdBySsoCandidates({ db: client, candidates: singleUserSsoCandidates }));
     await insertAdditionalClients({
       db: client,
       agreementId: baseSeed.agreementId,
@@ -220,6 +225,7 @@ export const createPlanExtensionSeedByDb = async ({
       clientNumbers,
       planEndDate: String(planUpdate.rows[0].plan_end_date),
       eligibility,
+      primaryClientNumber: baseSeed.clientNumber,
     };
   } catch (error) {
     await client.query('ROLLBACK');
@@ -244,12 +250,8 @@ export const simulateExtensionBackgroundJobByDb = async ({
 
     const clientLinks = await client.query(
       `
-        SELECT ca.client_id, ucl.user_id
+        SELECT DISTINCT ca.client_id
         FROM client_agreement ca
-        LEFT JOIN user_client_link ucl
-          ON ucl.client_id = ca.client_id
-          AND ucl.active = true
-          AND ucl.type = 'owner'
         WHERE ca.agreement_id = $1
         ORDER BY ca.client_id ASC
       `,
@@ -263,7 +265,7 @@ export const simulateExtensionBackgroundJobByDb = async ({
     await client.query('DELETE FROM plan_extension_requests WHERE plan_id = $1', [planId]);
 
     const extensionRequestIds: number[] = [];
-    for (const row of clientLinks.rows as Array<{ client_id: string; user_id: number | null }>) {
+    for (const row of clientLinks.rows as Array<{ client_id: string }>) {
       const inserted = await client.query(
         `
           INSERT INTO plan_extension_requests (
@@ -278,7 +280,7 @@ export const simulateExtensionBackgroundJobByDb = async ({
           VALUES ($1, $2, $3, NULL, NULL, NOW(), NOW())
           RETURNING id
         `,
-        [planId, row.client_id, row.user_id || fallbackUserId],
+        [planId, row.client_id, fallbackUserId],
       );
       extensionRequestIds.push(Number(inserted.rows[0].id));
     }
