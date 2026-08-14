@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import { randomInt } from 'crypto';
 
 type GetDbPool = () => Pool;
 
@@ -241,7 +242,7 @@ export const createPlanSeedByDb = async ({
 
     let agreementId = '';
     for (let i = 0; i < 100; i += 1) {
-      const suffix = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+      const suffix = String(randomInt(100)).padStart(2, '0');
       const candidate = `RAN0999${suffix}`;
       const exists = await client.query('SELECT 1 FROM agreement WHERE forest_file_id = $1', [candidate]);
       if (exists.rowCount === 0) {
