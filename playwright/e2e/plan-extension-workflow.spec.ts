@@ -17,6 +17,12 @@ import {
 } from './support/extensionRuntime';
 import { cleanupSeedDataByAgreementIds } from './support/dbRuntime';
 import { createPlanExtensionSeedByDb, simulateExtensionBackgroundJobByDb } from './support/planExtensionSeedRuntime';
+import {
+  assertActionVisibilityByRole,
+  assertExtensionState,
+  PLAN_EXTENSION_STATUS,
+  type ExtensionPlanSnapshot,
+} from './support/planExtensionAssertions';
 
 const logE2E = (message: string) => {
   console.log(`[E2E:EXT] ${message}`);
@@ -111,5 +117,49 @@ test.describe('Plan extension workflow harness', () => {
     expect(Number(planRow.rows[0].extension_status)).toBe(1);
     expect(Number(planRow.rows[0].extension_required_votes)).toBe(result.requiredVotes);
     expect(Number(planRow.rows[0].extension_received_votes)).toBe(0);
+  });
+
+  test('shared extension assertion helpers validate states and role action expectations', async () => {
+    const planSnapshot: ExtensionPlanSnapshot = {
+      id: 999999,
+      planEndDate: '2032-05-01',
+      extensionStatus: PLAN_EXTENSION_STATUS.AWAITING_EXTENSION,
+      extensionRequiredVotes: 2,
+      extensionReceivedVotes: 2,
+      extensionDate: null,
+      replacementPlanId: null,
+      replacementOf: null,
+    };
+
+    assertExtensionState({
+      plan: planSnapshot,
+      expected: {
+        extensionStatus: PLAN_EXTENSION_STATUS.AWAITING_EXTENSION,
+        extensionRequiredVotes: 2,
+        extensionReceivedVotes: 2,
+      },
+    });
+
+    assertActionVisibilityByRole({
+      role: 'AH',
+      plan: planSnapshot,
+      expected: { canVote: false, canApprove: false, canForward: false, canReject: false },
+    });
+
+    assertActionVisibilityByRole({
+      role: 'SA',
+      plan: {
+        ...planSnapshot,
+        extensionStatus: PLAN_EXTENSION_STATUS.AWAITING_VOTES,
+      },
+      isStaffOwner: true,
+      expected: { canForward: true, canApprove: false, canVote: false, canReject: true },
+    });
+
+    assertActionVisibilityByRole({
+      role: 'DM',
+      plan: planSnapshot,
+      expected: { canApprove: true, canReject: true, canForward: false, canVote: false },
+    });
   });
 });
