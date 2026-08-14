@@ -69,6 +69,7 @@ oc get secret "$secret" -n 3187b2-tools -o jsonpath='{.data.token}' | base64 -d
 oc process -f openshift/deployments/e2e.yaml -n 3187b2-test \
   -p PLAYWRIGHT_BASE_URL="https://myrangebc-test.apps.silver.devops.gov.bc.ca" \
   -p PLAYWRIGHT_API_BASE_URL="https://myrangebc-test.apps.silver.devops.gov.bc.ca/api" \
+  -p PLAYWRIGHT_TEST_SPEC="playwright/e2e/plan-extension-workflow.spec.ts" \
   | oc create -f - -n 3187b2-test
 ```
 
@@ -89,7 +90,7 @@ The main container's exit code is the suite result (0 = green). The `artifact-sy
 
 `.github/workflows/e2e.yml`:
 
-- **`workflow_dispatch`** — run immediately against whatever is currently deployed in test. Pass `base_url`/`api_base_url` to override the defaults.
+- **`workflow_dispatch`** — run immediately against whatever is currently deployed in test. Pass `base_url`/`api_base_url` to override the defaults. Optional `test_spec` runs a specific Playwright spec path (for example `playwright/e2e/plan-extension-workflow.spec.ts`).
 - **`push` to `dev`** — waits for the tools build (`oc logs -f bc/range-web`, then checks the build ended `Complete`), then waits up to 30 minutes for the manual promote to test (the `range-web-caddy:test` tag matching the new build). After a promote the deployment image must be rolled to the new digest (e.g. `oc set image deployment/range-web-caddy range-web-caddy=image-registry.openshift-image-registry.svc:5000/3187b2-tools/range-web-caddy@<new-digest>`). The workflow then waits for that `range-web-caddy` rollout and runs the suite. If no promotion happens in the window, the run is **skipped** (neutral) — promote manually, then dispatch.
 - **e2e image guard** — before creating the Job, the workflow fails fast if `range-web-e2e:latest` is missing in tools (`oc start-build range-web-e2e -n 3187b2-tools`).
 
