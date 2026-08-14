@@ -1,5 +1,6 @@
 import { Pool } from 'pg';
 import { createPlanSeedByDb } from './dbRuntime';
+import type { ExtensionPlanSnapshot } from './planExtensionAssertions';
 
 type GetDbPool = () => Pool;
 type QueryResultLike = { rowCount: number; rows: Array<Record<string, unknown>> };
@@ -308,6 +309,82 @@ export const simulateExtensionBackgroundJobByDb = async ({
     throw error;
   } finally {
     client.release();
+    await pool.end();
+  }
+};
+
+export const getExtensionRequestIdsByClient = async ({
+  getDbPool,
+  planId,
+  clientIds,
+}: {
+  getDbPool: GetDbPool;
+  planId: string;
+  clientIds: string[];
+}): Promise<number[]> => {
+  const pool = getDbPool();
+  try {
+    const result = await pool.query(
+      `
+        SELECT id
+        FROM plan_extension_requests
+        WHERE plan_id = $1
+          AND client_id = ANY($2::text[])
+        ORDER BY id ASC
+      `,
+      [planId, clientIds],
+    );
+    if (result.rowCount === 0) {
+      throw new Error(`No plan extension requests found for plan ${planId} and clients [${clientIds.join(', ')}]`);
+    }
+    return result.rows.map((row: { id: number }) => Number(row.id));
+  } finally {
+    await pool.end();
+  }
+};
+
+export const readPlanExtensionStateByDb = async ({
+  getDbPool,
+  planId,
+}: {
+  getDbPool: GetDbPool;
+  planId: string;
+}): Promise<ExtensionPlanSnapshot> => {
+  const pool = getDbPool();
+  try {
+    const result = await pool.query(
+      `
+        SELECT
+          id,
+          to_char(plan_end_date::date, 'YYYY-MM-DD') AS plan_end_date,
+          extension_status,
+          extension_required_votes,
+          extension_received_votes,
+          to_char(extension_date::date, 'YYYY-MM-DD') AS extension_date,
+          replacement_plan_id,
+          replacement_of
+        FROM plan
+        WHERE id = $1
+      `,
+      [planId],
+    );
+
+    if (result.rowCount !== 1) {
+      throw new Error(`Could not load plan ${planId} from DB`);
+    }
+
+    const row = result.rows[0];
+    return {
+      id: Number(row.id),
+      planEndDate: String(row.plan_end_date),
+      extensionStatus: row.extension_status === null ? null : Number(row.extension_status),
+      extensionRequiredVotes: row.extension_required_votes === null ? null : Number(row.extension_required_votes),
+      extensionReceivedVotes: row.extension_received_votes === null ? null : Number(row.extension_received_votes),
+      extensionDate: row.extension_date ? String(row.extension_date) : null,
+      replacementPlanId: row.replacement_plan_id === null ? null : Number(row.replacement_plan_id),
+      replacementOf: row.replacement_of === null ? null : Number(row.replacement_of),
+    };
+  } finally {
     await pool.end();
   }
 };
