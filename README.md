@@ -170,12 +170,11 @@ cp .env.playwright.example .env.playwright.local
 
 ### Plan extension harness (ST-001)
 
-- `playwright/e2e/plan-extension-workflow.spec.ts` validates harness readiness for plan extension E2E:
-  - single-user mode is configured,
-  - DB role switching works for SA/AH/DM,
-  - each role can re-login and land on the plan selection page.
+- `playwright/e2e/plan-extension-workflow.spec.ts` includes both harness readiness and extension workflow coverage:
+  - harness readiness checks (single-user mode, DB role switching for SA/AH/DM, role re-login/landing),
+  - business-flow scenarios PE-001 through PE-007,
+  - cross-role matrix validation for extension states and allowed actions.
 - Run directly with `npm run test:e2e:extension:harness`.
-- This harness test is intentionally setup-focused and does not validate extension business flows yet.
 
 ### Plan extension seed utility (ST-002)
 

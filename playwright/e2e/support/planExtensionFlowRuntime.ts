@@ -191,8 +191,9 @@ export const extendPlan = async ({
   return withApiRetry({
     context: `extend plan ${planId}`,
     operation: async () => {
+      const encodedEndDate = encodeURIComponent(endDate);
       const response = await apiContext.put(
-        `${getApiBaseUrl()}/v1/plan/${planId}/extension/extend?endDate=${endDate}`,
+        `${getApiBaseUrl()}/v1/plan/${planId}/extension/extend?endDate=${encodedEndDate}`,
         {
           headers: authHeaders(token),
           data: {},

@@ -71,6 +71,23 @@ const createClientNumber = ({ seed, index }: { seed: number; index: number }): s
   return `9${base.slice(-7).padStart(7, '0')}`;
 };
 
+const createDeterministicSeed = ({
+  agreementId,
+  ahUserId,
+  testCase,
+}: {
+  agreementId: string;
+  ahUserId: number;
+  testCase: string;
+}): number => {
+  const input = `${agreementId}:${ahUserId}:${testCase}`;
+  let hash = 0;
+  for (let i = 0; i < input.length; i += 1) {
+    hash = (hash * 31 + input.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+};
+
 const listAgreementClientNumbers = async ({
   db,
   agreementId,
@@ -116,13 +133,23 @@ const insertAdditionalClients = async ({
   }
 
   const clientTypeId = Number(clientTypeResult.rows[0].id);
-  const seed = Date.now();
+  const seed = createDeterministicSeed({ agreementId, ahUserId, testCase });
 
   for (let i = 1; i <= additionalClientCount; i += 1) {
-    const clientNumber = createClientNumber({ seed, index: i });
-    const existingClient = await db.query('SELECT 1 FROM ref_client WHERE client_number = $1', [clientNumber]);
-    if (existingClient.rowCount > 0) {
-      continue;
+    let clientNumber = '';
+    for (let offset = 0; offset < 100; offset += 1) {
+      const candidate = createClientNumber({ seed, index: i + offset * additionalClientCount });
+      const existingClient = await db.query('SELECT 1 FROM ref_client WHERE client_number = $1', [candidate]);
+      if (existingClient.rowCount === 0) {
+        clientNumber = candidate;
+        break;
+      }
+    }
+
+    if (!clientNumber) {
+      throw new Error(
+        `Could not allocate deterministic extension client number for agreement=${agreementId}, testCase=${testCase}, slot=${i}`,
+      );
     }
 
     await db.query('INSERT INTO ref_client (client_number, name) VALUES ($1, $2)', [

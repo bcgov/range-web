@@ -69,8 +69,12 @@ objects:
               command:
                 - /bin/bash
                 - -lc
-                - >-
-                  npx playwright test ${PLAYWRIGHT_TEST_SPEC} --workers=1 --max-failures=1 --retries=1
+                - |-
+                  if [ -n "${PLAYWRIGHT_TEST_SPEC:-}" ]; then
+                    npx playwright test "${PLAYWRIGHT_TEST_SPEC}" --workers=1 --max-failures=1 --retries=1
+                  else
+                    npx playwright test --workers=1 --max-failures=1 --retries=1
+                  fi
               env:
                 - name: HOME
                   value: /tmp

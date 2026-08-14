@@ -20,7 +20,7 @@ export const getPrefixedEnv = (suffix: string, required = true): string => {
   return value || '';
 };
 
-export const getApiBaseUrl = (): string => getPrefixedEnv('API_BASE_URL') || 'http://localhost:8000/api';
+export const getApiBaseUrl = (): string => getPrefixedEnv('API_BASE_URL', false) || 'http://localhost:8000/api';
 
 export const getDbPool = (): Pool => {
   return new Pool({
