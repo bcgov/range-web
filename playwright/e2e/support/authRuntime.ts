@@ -106,13 +106,28 @@ const storeAuthAndProfile = async ({
 
     const user = await userResponse.json();
 
-    await page.evaluate(
-      ({ auth, profile }) => {
-        window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
-        window.localStorage.setItem('range-web-user', JSON.stringify(profile));
-      },
-      { auth: authData, profile: user },
-    );
+    const persistAuthWithRetry = async () => {
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          await page.goto('/');
+          await page.evaluate(
+            ({ auth, profile }) => {
+              window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
+              window.localStorage.setItem('range-web-user', JSON.stringify(profile));
+            },
+            { auth: authData, profile: user },
+          );
+          return;
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'unknown';
+          if (attempt === 2 || !message.includes('Execution context was destroyed')) {
+            throw error;
+          }
+        }
+      }
+    };
+
+    await persistAuthWithRetry();
     await page.goto('/select-range-use-plan');
   } finally {
     await apiContext.dispose();
