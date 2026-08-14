@@ -624,4 +624,116 @@ test.describe('Plan extension workflow harness', () => {
     });
     expect(replacement.replacementPlan.id).toBeGreaterThan(0);
   });
+
+  test('cross-role matrix validation for core extension stages', async ({ page }) => {
+    const actors = await loginApiActors({ page });
+    const userRecord = await getSingleUserRecordForDb();
+    const seeded = await createPlanExtensionSeedByDb({
+      getDbPool,
+      testCase: 'matrix',
+      e2ePrefix: 'E2E-EXT',
+      singleUserSsoCandidates: getSingleUserSsoCandidatesForDb(),
+      districtCode: getTestDistrictCode(),
+      sourceAgreementId: getSeedSourceAgreementId(),
+      eligibility: 'eligible',
+      additionalClientCount: 1,
+    });
+    cleanupAgreementIds.push(seeded.agreementId);
+
+    const seededRequests = await simulateExtensionBackgroundJobByDb({
+      getDbPool,
+      planId: seeded.planId,
+      agreementId: seeded.agreementId,
+      fallbackUserId: userRecord.id,
+    });
+
+    const awaitingVotes = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertActionVisibilityByRole({ role: 'AH', plan: awaitingVotes, expected: { canVote: true, canReject: true } });
+    assertActionVisibilityByRole({
+      role: 'SA',
+      plan: awaitingVotes,
+      isStaffOwner: true,
+      expected: { canReject: true, canForward: false },
+    });
+    assertActionVisibilityByRole({ role: 'DM', plan: awaitingVotes, expected: { canReject: true, canApprove: false } });
+
+    for (const extensionRequestId of seededRequests.extensionRequestIds) {
+      await approveExtensionVote({
+        apiContext,
+        token: actors.AH.token,
+        getApiBaseUrl,
+        planId: seeded.planId,
+        extensionRequestId,
+      });
+    }
+
+    const allYes = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertActionVisibilityByRole({ role: 'AH', plan: allYes, expected: { canVote: true } });
+    assertActionVisibilityByRole({ role: 'SA', plan: allYes, isStaffOwner: true, expected: { canForward: true } });
+    assertActionVisibilityByRole({ role: 'DM', plan: allYes, expected: { canApprove: false, canReject: true } });
+
+    await forwardExtensionForDecision({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+
+    const awaitingExtension = await fetchPlanById({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertActionVisibilityByRole({
+      role: 'AH',
+      plan: awaitingExtension,
+      expected: { canVote: false, canReject: false },
+    });
+    assertActionVisibilityByRole({
+      role: 'SA',
+      plan: awaitingExtension,
+      isStaffOwner: true,
+      expected: { canForward: false, canReject: true },
+    });
+    assertActionVisibilityByRole({
+      role: 'DM',
+      plan: awaitingExtension,
+      expected: { canApprove: true, canReject: true },
+    });
+
+    const rejectResult = await rejectExtensionVote({
+      apiContext,
+      token: actors.DM.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+      extensionRequestId: seededRequests.extensionRequestIds[0],
+    });
+    expect(rejectResult.extensionStatus).toBe(PLAN_EXTENSION_STATUS.DISTRICT_MANAGER_REJECTED);
+
+    const dmRejected = await fetchPlanById({
+      apiContext,
+      token: actors.SA.token,
+      getApiBaseUrl,
+      planId: seeded.planId,
+    });
+    assertActionVisibilityByRole({ role: 'AH', plan: dmRejected, expected: { canVote: false, canReject: false } });
+    assertActionVisibilityByRole({
+      role: 'SA',
+      plan: dmRejected,
+      isStaffOwner: true,
+      expected: { canForward: false, canReject: false },
+    });
+    assertActionVisibilityByRole({ role: 'DM', plan: dmRejected, expected: { canApprove: false, canReject: false } });
+  });
 });
