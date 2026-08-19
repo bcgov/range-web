@@ -1,23 +1,11 @@
-kind: Template
-apiVersion: template.openshift.io/v1
-metadata:
-  name: range-web-e2e-rbac
-  creationTimestamp:
-parameters:
-  - name: SA_NAME
-    description: ServiceAccount used by the e2e GitHub Actions workflow
-    required: true
-    value: github-cicd
-  - name: SA_NAMESPACE
-    description: Namespace the ServiceAccount lives in
-    required: true
-    value: "3187b2-tools"
-objects:
+kind: List
+apiVersion: v1
+items:
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     metadata:
       name: range-web-e2e
-      namespace: "3187b2-test"
+      namespace: "3187b2-dev"
     rules:
       - apiGroups: ["batch"]
         resources: ["jobs"]
@@ -38,15 +26,15 @@ objects:
     kind: RoleBinding
     metadata:
       name: range-web-e2e
-      namespace: "3187b2-test"
+      namespace: "3187b2-dev"
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: Role
       name: range-web-e2e
     subjects:
       - kind: ServiceAccount
-        name: "${SA_NAME}"
-        namespace: "${SA_NAMESPACE}"
+        name: github-cicd
+        namespace: 3187b2-tools
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     metadata:
@@ -76,5 +64,5 @@ objects:
       name: range-web-e2e-read
     subjects:
       - kind: ServiceAccount
-        name: "${SA_NAME}"
-        namespace: "${SA_NAMESPACE}"
+        name: github-cicd
+        namespace: 3187b2-tools

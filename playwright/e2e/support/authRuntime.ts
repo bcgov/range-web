@@ -9,6 +9,8 @@ type AuthData = {
 
 type LoginMode = 'staff' | 'bceid';
 
+const POPUP_STUCK_TIMEOUT_MS = 25000;
+
 const clickFirstVisible = async (page: Page, selectors: string[]): Promise<boolean> => {
   for (const selector of selectors) {
     const locator = page.locator(selector).first();
@@ -191,7 +193,7 @@ const pollForAuthOrFail = async ({
       if (currentUrl !== lastUrl) {
         lastUrl = currentUrl;
         lastUrlChangedAt = Date.now();
-      } else if (lastUrl && Date.now() - lastUrlChangedAt > 8000) {
+      } else if (lastUrl && Date.now() - lastUrlChangedAt > POPUP_STUCK_TIMEOUT_MS) {
         logE2E(`[SSO] popup stuck on ${currentUrl.slice(0, 80)} — treating attempt as failed`);
         return null;
       }

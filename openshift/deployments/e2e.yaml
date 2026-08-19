@@ -34,7 +34,7 @@ parameters:
     required: true
   - name: POSTGRES_SECRET
     description: Secret holding the Postgres credentials (user, password)
-    value: "range-pg17-test-pguser-app-prod-myra"
+    value: "range-pg17-dev-pguser-app-prod-myra"
     required: true
   - name: DB_SSL
     description: Set to true if the database enforces TLS (ssl mode without cert verification)
@@ -42,7 +42,7 @@ parameters:
     required: true
   - name: FS_GROUP
     description: Pod fsGroup for writable shared emptyDir volumes (must fall in the namespace's supplemental group range)
-    value: "1000960000"
+    value: "1000950000"
     required: true
 objects:
   - apiVersion: batch/v1
@@ -62,7 +62,7 @@ objects:
           restartPolicy: Never
           activeDeadlineSeconds: 3600
           securityContext:
-            fsGroup: 1000960000
+            fsGroup: 1000950000
           containers:
             - name: e2e
               image: "${E2E_IMAGE}"
@@ -95,7 +95,7 @@ objects:
                 - name: PLAYWRIGHT_STORAGE_STATE
                   value: /tmp/range-web-e2e-state.json
                 - name: PLAYWRIGHT_DB_HOST
-                  value: range-pg17-test-primary
+                  value: range-pg17-dev-primary
                 - name: PLAYWRIGHT_DB_PORT
                   value: "5432"
                 - name: PLAYWRIGHT_DB_NAME
