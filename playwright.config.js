@@ -8,7 +8,7 @@ const getStorageStatePath = () =>
   process.env.PLAYWRIGHT_STORAGE_STATE || path.join(os.tmpdir(), 'range-web-e2e-state.json');
 
 const loadEnvFile = () => {
-  const candidates = ['.env.playwright.local', '.env.playwright', '.env.cypress.local', '.env.cypress'];
+  const candidates = ['.env.playwright.local', '.env.playwright', '.env.cypress.local', '.env.cypress', '.env'];
 
   candidates.forEach((fileName) => {
     const fullPath = path.resolve(__dirname, fileName);

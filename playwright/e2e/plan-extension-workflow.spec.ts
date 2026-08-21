@@ -41,6 +41,9 @@ import {
   PLAN_EXTENSION_STATUS,
   type ExtensionPlanSnapshot,
 } from './support/planExtensionAssertions';
+import { waitForUiAction } from './support/uiRuntime';
+
+const waitForUiObservation = waitForUiAction;
 
 const logE2E = (message: string) => {
   console.log(`[E2E:EXT] ${message}`);
@@ -228,6 +231,43 @@ const createReplacementAs = async ({ page, roleCode, planId }: { page: Page; rol
       }),
   });
 
+const openPlanExtensionInList = async ({ page, agreementId }: { page: Page; agreementId: string }) => {
+  await page.goto('/home');
+
+  const searchAttempts = 10;
+  for (let attempt = 1; attempt <= searchAttempts; attempt += 1) {
+    const searchResponse = page.waitForResponse(
+      (response) =>
+        response.url().includes('/v1/agreement/search') && decodeURIComponent(response.url()).includes(agreementId),
+    );
+
+    if (attempt === 1) {
+      const rangeNumberFilter = page.getByRole('columnheader', { name: /RAN #/ }).locator('input');
+      await rangeNumberFilter.fill(agreementId);
+      await waitForUiAction(page);
+    } else {
+      await page.reload();
+    }
+
+    await searchResponse;
+    const agreementRow = page.getByRole('row').filter({ hasText: agreementId });
+    if (await agreementRow.isVisible()) {
+      return agreementRow;
+    }
+
+    await page.waitForTimeout(2000);
+  }
+
+  throw new Error(`Agreement ${agreementId} did not appear in the plan list after ${searchAttempts} search attempts.`);
+};
+
+const confirmExtensionAction = async (page: Page) => {
+  const confirmationDialog = page.getByRole('dialog').filter({ hasText: 'Confirm' });
+  await expect(confirmationDialog).toBeVisible();
+  await confirmationDialog.getByRole('button', { name: 'Confirm', exact: true }).click();
+  await waitForUiAction(page);
+};
+
 type ExtensionScenarioContext = {
   seeded: Awaited<ReturnType<typeof createPlanExtensionSeedByDb>>;
   userRecord: Awaited<ReturnType<typeof getSingleUserRecordForDb>>;
@@ -373,7 +413,7 @@ test.describe('Plan extension workflow harness', () => {
     for (const roleCode of roleSequence) {
       const token = await switchRoleAndRelogin({ page, roleCode });
       expect(token.length).toBeGreaterThan(20);
-      await expect(page).toHaveURL(/select-range-use-plan|home/);
+      await expect(page).toHaveURL(/home/);
       logE2E(`validated login+landing for role=${roleCode}`);
     }
   });
@@ -577,6 +617,194 @@ test.describe('Plan extension workflow harness', () => {
     });
     expect(afterExtend.planEndDate).toContain(defaultExpectedDate);
     expect(afterExtend.extensionDate).not.toBeNull();
+  });
+
+  test('PE-UI-000 completes the plan extension workflow through AH, SA, and DM UI actions', async ({ page }) => {
+    const scenario = await createExtensionScenarioContext({
+      page,
+      testCase: 'pe-ui-000-full-workflow',
+      additionalClientCount: 0,
+      onAgreementSeeded: (agreementId) => cleanupAgreementIds.push(agreementId),
+    });
+
+    await scenario.seedRequests();
+
+    await switchRoleAndFreshLogin({ page, roleCode: 'AH' });
+    let agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+    await agreementRow.getByRole('button', { name: 'approve', exact: true }).click();
+    await waitForUiObservation(page);
+    await confirmExtensionAction(page);
+    await expect
+      .poll(async () => {
+        const plan = await scenario.readPlan();
+        return plan.extensionReceivedVotes === plan.extensionRequiredVotes;
+      })
+      .toBe(true);
+
+    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+    await agreementRow.getByRole('button', { name: /Forward Extension\s+For Decision/ }).click();
+    await waitForUiObservation(page);
+    await confirmExtensionAction(page);
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionStatus)
+      .toBe(PLAN_EXTENSION_STATUS.AWAITING_EXTENSION);
+
+    const beforeExtend = await scenario.readPlan();
+    const expectedEndDate = makeFutureDate({ currentPlanEndDate: beforeExtend.planEndDate, yearsToAdd: 5 });
+    await switchRoleAndFreshLogin({ page, roleCode: 'DM' });
+    agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+    await agreementRow.getByRole('button', { name: 'Approve Extension', exact: true }).click();
+    await waitForUiObservation(page);
+
+    const dateDialog = page.getByRole('dialog', { name: 'Select end date' });
+    await expect(dateDialog.getByLabel('Plan End Date')).toHaveValue(expectedEndDate);
+    await dateDialog.getByRole('button', { name: 'Extend', exact: true }).click();
+    await waitForUiObservation(page);
+
+    await expect.poll(async () => (await scenario.readPlan()).extensionStatus).toBe(PLAN_EXTENSION_STATUS.EXTENDED);
+    expect((await scenario.readPlan()).planEndDate).toContain(expectedEndDate);
+  });
+
+  test('PE-UI-001 AH approves an extension by clicking the thumbs-up action', async ({ page }) => {
+    const scenario = await createExtensionScenarioContext({
+      page,
+      testCase: 'pe-ui-001-ah-approve',
+      additionalClientCount: 0,
+      onAgreementSeeded: (agreementId) => cleanupAgreementIds.push(agreementId),
+    });
+
+    await scenario.seedRequests();
+    await switchRoleAndFreshLogin({ page, roleCode: 'AH' });
+    const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+
+    await agreementRow.getByRole('button', { name: 'approve', exact: true }).click();
+    await waitForUiObservation(page);
+    await confirmExtensionAction(page);
+
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionReceivedVotes)
+      .toBe((await scenario.readPlan()).extensionRequiredVotes);
+  });
+
+  test('PE-UI-002 SA forwards an approved extension through the plan list', async ({ page }) => {
+    const scenario = await createExtensionScenarioContext({
+      page,
+      testCase: 'pe-ui-002-sa-forward',
+      additionalClientCount: 0,
+      onAgreementSeeded: (agreementId) => cleanupAgreementIds.push(agreementId),
+    });
+
+    await scenario.seedRequests();
+    await scenario.approvePrimaryAsAh();
+    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+
+    await agreementRow.getByRole('button', { name: /Forward Extension\s+For Decision/ }).click();
+    await waitForUiObservation(page);
+    await confirmExtensionAction(page);
+
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionStatus)
+      .toBe(PLAN_EXTENSION_STATUS.AWAITING_EXTENSION);
+  });
+
+  test('PE-UI-003 DM extends a forwarded plan through the date dialog', async ({ page }) => {
+    const scenario = await createExtensionScenarioContext({
+      page,
+      testCase: 'pe-ui-003-dm-extend',
+      additionalClientCount: 0,
+      onAgreementSeeded: (agreementId) => cleanupAgreementIds.push(agreementId),
+    });
+
+    await scenario.seedRequests();
+    await scenario.approvePrimaryAsAh();
+    await scenario.forwardAsStaff();
+    const beforeExtend = await scenario.readPlan();
+    const defaultExpectedDate = makeFutureDate({ currentPlanEndDate: beforeExtend.planEndDate, yearsToAdd: 5 });
+
+    await switchRoleAndFreshLogin({ page, roleCode: 'DM' });
+    const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+    await agreementRow.getByRole('button', { name: 'Approve Extension', exact: true }).click();
+    await waitForUiObservation(page);
+
+    const dateDialog = page.getByRole('dialog', { name: 'Select end date' });
+    const endDateInput = dateDialog.getByLabel('Plan End Date');
+    await expect(endDateInput).toHaveValue(defaultExpectedDate);
+    await dateDialog.getByRole('button', { name: 'Extend', exact: true }).click();
+    await waitForUiObservation(page);
+
+    await expect.poll(async () => (await scenario.readPlan()).extensionStatus).toBe(PLAN_EXTENSION_STATUS.EXTENDED);
+    expect((await scenario.readPlan()).planEndDate).toContain(defaultExpectedDate);
+  });
+
+  test('PE-UI-004 SA creates a replacement plan after AH rejects the extension', async ({ page }) => {
+    const scenario = await createExtensionScenarioContext({
+      page,
+      testCase: 'pe-ui-004-replacement-plan',
+      additionalClientCount: 0,
+      onAgreementSeeded: (agreementId) => cleanupAgreementIds.push(agreementId),
+    });
+
+    await scenario.seedRequests();
+    await switchRoleAndFreshLogin({ page, roleCode: 'AH' });
+    let agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+    await agreementRow.getByRole('button', { name: 'reject', exact: true }).click();
+    await waitForUiObservation(page);
+    await confirmExtensionAction(page);
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionStatus)
+      .toBe(PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED);
+
+    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+    await agreementRow.getByRole('button', { name: 'Actions', exact: true }).click();
+    await waitForUiObservation(page);
+    await page.getByRole('menuitem', { name: 'Create Replacement Plan', exact: true }).click();
+    await waitForUiObservation(page);
+
+    await expect(page).toHaveURL(new RegExp(`/range-use-plan/\\d+`));
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionStatus)
+      .toBe(PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED);
+
+    const originalPlan = await scenario.readPlan();
+    expect(originalPlan.replacementPlanId).toBeGreaterThan(0);
+    await expect(page).toHaveURL(new RegExp(`/range-use-plan/${originalPlan.replacementPlanId}`));
+  });
+
+  test('PE-UI-005 SA rejects an extension and creates a replacement plan', async ({ page }) => {
+    const scenario = await createExtensionScenarioContext({
+      page,
+      testCase: 'pe-ui-005-staff-replacement-plan',
+      additionalClientCount: 0,
+      onAgreementSeeded: (agreementId) => cleanupAgreementIds.push(agreementId),
+    });
+
+    await scenario.seedRequests();
+    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+    await agreementRow.getByRole('button', { name: 'Reject Extension', exact: true }).click();
+    await waitForUiObservation(page);
+    await confirmExtensionAction(page);
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionStatus)
+      .toBe(PLAN_EXTENSION_STATUS.STAFF_REJECTED);
+
+    await agreementRow.getByRole('button', { name: 'Actions', exact: true }).click();
+    await waitForUiObservation(page);
+    await page.getByRole('menuitem', { name: 'Create Replacement Plan', exact: true }).click();
+    await waitForUiObservation(page);
+
+    await expect(page).toHaveURL(new RegExp(`/range-use-plan/\\d+`));
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionStatus)
+      .toBe(PLAN_EXTENSION_STATUS.REPLACEMENT_PLAN_CREATED);
+
+    const originalPlan = await scenario.readPlan();
+    expect(originalPlan.replacementPlanId).toBeGreaterThan(0);
+    await expect(page).toHaveURL(new RegExp(`/range-use-plan/${originalPlan.replacementPlanId}`));
+    await expect(page.getByText('Error occurred while fetching the range use plan.')).toHaveCount(0);
   });
 
   test('PE-005 AH rejection sets Agreement Holder Rejected and allows replacement plan', async ({ page }) => {

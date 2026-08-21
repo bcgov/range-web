@@ -1,5 +1,6 @@
 import { expect, type APIRequestContext, type Page } from '@playwright/test';
 import type { WorkflowRoleCode } from './authRuntime';
+import { waitForUiAction } from './uiRuntime';
 
 export type PlanStatusHistoryRecord = {
   fromPlanStatusId?: number | null;
@@ -178,6 +179,7 @@ export const submitStaffPlanToAh = async ({
   }
 
   await submitButton.click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Clicked rup-submit-button for plan=${planId}`);
   const noteInput = page.getByTestId('update-status-note-input');
   const noteInputVisible = await noteInput
@@ -187,6 +189,7 @@ export const submitStaffPlanToAh = async ({
 
   if (noteInputVisible) {
     await noteInput.fill(note);
+    await waitForUiAction(page);
     logE2E(`[ACTION] Filled status note for plan=${planId}`);
   }
 
@@ -211,6 +214,7 @@ export const submitStaffPlanToAh = async ({
   }
 
   await confirmButton.click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Confirmed staff submit to AH for plan=${planId}`);
 };
 
@@ -244,6 +248,7 @@ export const submitPlanForFinalDecision = async ({
   }
 
   await submitButton.click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Clicked AH rup-submit-button for plan=${planId}`);
 
   const descriptionInput = page.getByTestId('submission-description-input');
@@ -258,7 +263,9 @@ export const submitPlanForFinalDecision = async ({
   }
 
   await descriptionInput.fill('Automated E2E workflow submission note.');
+  await waitForUiAction(page);
   await page.getByTestId('submission-description-next').click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Completed AH submission description step for plan=${planId}`);
 
   const submissionTypeTestId =
@@ -275,7 +282,9 @@ export const submitPlanForFinalDecision = async ({
   }
 
   await submissionTypeOption.click();
+  await waitForUiAction(page);
   await page.getByTestId('submission-type-next').click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Selected AH submission type '${submissionType}' for plan=${planId}`);
 
   if (submissionType === 'feedback') {
@@ -291,6 +300,7 @@ export const submitPlanForFinalDecision = async ({
     }
 
     await feedbackSubmitButton.click();
+    await waitForUiAction(page);
     logE2E(`[ACTION] Clicked AH feedback-submit for plan=${planId}`);
     return;
   }
@@ -307,6 +317,7 @@ export const submitPlanForFinalDecision = async ({
   }
 
   await agreeCheckbox.check({ force: true });
+  await waitForUiAction(page);
   logE2E(`[ACTION] Checked AH final decision agreement for plan=${planId}`);
 
   const finalSubmitButton = page.getByTestId('submission-final-decision-submit');
@@ -317,6 +328,7 @@ export const submitPlanForFinalDecision = async ({
 
   if (finalSubmitVisible) {
     await finalSubmitButton.click();
+    await waitForUiAction(page);
     logE2E(`[ACTION] Clicked AH final-decision-submit for plan=${planId}`);
     return;
   }
@@ -333,6 +345,7 @@ export const submitPlanForFinalDecision = async ({
   }
 
   await finalNextButton.click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Clicked AH final-decision-next for plan=${planId}`);
 
   const requestEsignButton = page.getByTestId('submission-request-esignatures-submit');
@@ -347,6 +360,7 @@ export const submitPlanForFinalDecision = async ({
   }
 
   await requestEsignButton.click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Clicked AH request-esignatures-submit for plan=${planId}`);
 };
 
@@ -381,6 +395,7 @@ export const runPlanAction = async ({
 
   if (!actionVisible) {
     await page.keyboard.press('Escape').catch(() => undefined);
+    await waitForUiAction(page);
     logE2E(
       `[ACTION] action button '${actionTestId}' unavailable; using API fallback plan=${planId} -> ${toStatusCode}`,
     );
@@ -397,11 +412,13 @@ export const runPlanAction = async ({
   }
 
   await actionButton.click();
+  await waitForUiAction(page);
 
   if (note) {
     const noteInput = page.getByTestId('update-status-note-input');
     if (await noteInput.count()) {
       await noteInput.fill(note);
+      await waitForUiAction(page);
     }
   }
 
@@ -428,6 +445,7 @@ export const runPlanAction = async ({
   }
 
   await confirmButton.click();
+  await waitForUiAction(page);
   logE2E(`[ACTION] Confirmed plan action=${actionTestId} for plan=${planId}`);
 };
 
@@ -503,6 +521,7 @@ export const waitForPlanStatusCode = async ({
 
 export const openPlanActions = async ({ page }: { page: Page }) => {
   await page.getByTestId('rup-options-button').click();
+  await waitForUiAction(page);
   await expect(page.getByRole('heading', { name: 'Plan Actions' })).toBeVisible();
 };
 
@@ -534,4 +553,5 @@ export const expectRoleActions = async ({
   }
 
   await page.keyboard.press('Escape');
+  await waitForUiAction(page);
 };

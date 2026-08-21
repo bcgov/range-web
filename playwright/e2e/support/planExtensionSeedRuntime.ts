@@ -222,11 +222,17 @@ export const createPlanExtensionSeedByDb = async ({
       testCase,
     });
 
+    const approvedStatusResult = await client.query("SELECT id FROM ref_plan_status WHERE code = 'A'");
+    if (approvedStatusResult.rowCount !== 1) {
+      throw new Error("Could not find approved plan status code='A'");
+    }
+
     const planEndDateExpression = computePlanEndDateExpression(eligibility);
     const planUpdate = await client.query(
       `
         UPDATE plan
-        SET plan_end_date = ${planEndDateExpression},
+        SET status_id = $2,
+            plan_end_date = ${planEndDateExpression},
             extension_status = NULL,
             extension_required_votes = 0,
             extension_received_votes = 0,
@@ -237,7 +243,7 @@ export const createPlanExtensionSeedByDb = async ({
         WHERE id = $1
         RETURNING to_char(plan_end_date::date, 'YYYY-MM-DD') AS plan_end_date
       `,
-      [baseSeed.planId],
+      [baseSeed.planId, approvedStatusResult.rows[0].id],
     );
 
     if (planUpdate.rowCount !== 1) {

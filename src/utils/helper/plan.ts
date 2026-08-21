@@ -52,7 +52,11 @@ export const appendUsage = (plan: Plan): Plan => {
   const newPlan: Plan = JSON.parse(JSON.stringify(plan));
 
   if (planEndDate.getFullYear() > agrEndDate.getFullYear()) {
-    const lastYearOfUsage = plan.agreement!.usage[plan.agreement!.usage.length - 1];
+    const lastYearOfUsage = plan.agreement?.usage?.[plan.agreement.usage.length - 1];
+    if (!lastYearOfUsage) {
+      return newPlan;
+    }
+
     let lastYearOfUsageID = lastYearOfUsage.id;
     let lastYear = lastYearOfUsage.year;
 
