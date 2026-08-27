@@ -1,5 +1,4 @@
 import { request, type Page } from '@playwright/test';
-import { waitForUiAction } from './uiRuntime';
 
 export type WorkflowRoleCode = 'SA' | 'DM' | 'AH';
 
@@ -17,7 +16,6 @@ const clickFirstVisible = async (page: Page, selectors: string[]): Promise<boole
     const locator = page.locator(selector).first();
     if ((await locator.count()) > 0 && (await locator.isVisible().catch(() => false))) {
       await locator.click();
-      await waitForUiAction(page);
       return true;
     }
   }
@@ -73,14 +71,11 @@ const fillLoginPopup = async ({
     if (usernameLocator && passwordLocator) {
       logE2E(`[SSO][${roleCode}] submitting credentials for username=${username}`);
       await usernameLocator.fill(username);
-      await waitForUiAction(popup);
       await passwordLocator.fill(password);
-      await waitForUiAction(popup);
 
       const clicked = await clickFirstVisible(popup, submitSelectors);
       if (!clicked) {
         await passwordLocator.press('Enter');
-        await waitForUiAction(popup);
       }
 
       return;
@@ -247,10 +242,8 @@ export const loginThroughPopup = async ({
     const popupPromise = page.waitForEvent('popup');
     if (loginMode === 'bceid') {
       await page.locator('#login_bceid_button').click();
-      await waitForUiAction(page);
     } else {
       await page.getByRole('button', { name: 'Staff Login' }).click();
-      await waitForUiAction(page);
     }
 
     const popup = await popupPromise;
