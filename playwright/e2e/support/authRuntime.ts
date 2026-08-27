@@ -91,10 +91,12 @@ const storeAuthAndProfile = async ({
   page,
   authData,
   apiBaseUrl,
+  roleId,
 }: {
   page: Page;
   authData: AuthData;
   apiBaseUrl: string;
+  roleId?: number;
 }): Promise<void> => {
   const apiContext = await request.newContext();
   try {
@@ -107,6 +109,7 @@ const storeAuthAndProfile = async ({
     }
 
     const user = await userResponse.json();
+    const profile = roleId ? { ...user, roleId } : user;
 
     const persistAuthWithRetry = async () => {
       for (let attempt = 1; attempt <= 2; attempt++) {
@@ -117,7 +120,7 @@ const storeAuthAndProfile = async ({
               window.localStorage.setItem('range-web-auth', JSON.stringify(auth));
               window.localStorage.setItem('range-web-user', JSON.stringify(profile));
             },
-            { auth: authData, profile: user },
+            { auth: authData, profile },
           );
           return;
         } catch (error) {
@@ -355,7 +358,7 @@ export const switchRoleAndRelogin = async ({
   })();
   if (existingAuth && existingAuth.access_token) {
     try {
-      await storeAuthAndProfile({ page, authData: existingAuth, apiBaseUrl });
+      await storeAuthAndProfile({ page, authData: existingAuth, apiBaseUrl, roleId });
       logE2E(`[AUTH] reused existing session for ${roleCode}`);
       return existingAuth.access_token;
     } catch (error) {

@@ -2,7 +2,6 @@ import fs from 'fs/promises';
 import path from 'path';
 import { expect, request, test, type APIRequestContext, type Page } from '@playwright/test';
 import {
-  clearSession,
   loginPageAs as runtimeLoginPageAs,
   switchRoleAndRelogin as runtimeSwitchRoleAndRelogin,
 } from './support/authRuntime';
@@ -85,14 +84,6 @@ const switchRoleAndRelogin = async ({ page, roleCode }: { page: Page; roleCode: 
   });
 };
 
-const switchRoleAndFreshLogin = async ({ page, roleCode }: { page: Page; roleCode: ExtensionRoleCode }) => {
-  const userRecord = cachedSingleUserRecord || (await getSingleUserRecordForDb());
-  cachedSingleUserRecord = userRecord;
-  await setUserRoleById({ userId: userRecord.id, roleId: extensionRoleByCode[roleCode] });
-  await clearSession(page);
-  return loginPageAs({ page, roleCode });
-};
-
 const getCurrentUserId = async (): Promise<number> => {
   if (!cachedSingleUserRecord) {
     cachedSingleUserRecord = await getSingleUserRecordForDb();
@@ -127,7 +118,7 @@ const asRole = async <T>({
   roleCode: ExtensionRoleCode;
   run: (token: string) => Promise<T>;
 }): Promise<T> => {
-  const token = await switchRoleAndFreshLogin({ page, roleCode });
+  const token = await switchRoleAndRelogin({ page, roleCode });
   return run(token);
 };
 
@@ -234,31 +225,22 @@ const createReplacementAs = async ({ page, roleCode, planId }: { page: Page; rol
 const openPlanExtensionInList = async ({ page, agreementId }: { page: Page; agreementId: string }) => {
   await page.goto('/home');
 
-  const searchAttempts = 10;
-  for (let attempt = 1; attempt <= searchAttempts; attempt += 1) {
-    const searchResponse = page.waitForResponse(
-      (response) =>
-        response.url().includes('/v1/agreement/search') && decodeURIComponent(response.url()).includes(agreementId),
-    );
-
-    if (attempt === 1) {
-      const rangeNumberFilter = page.getByRole('columnheader', { name: /RAN #/ }).locator('input');
-      await rangeNumberFilter.fill(agreementId);
-      await waitForUiAction(page);
-    } else {
-      await page.reload();
+  const selectAllZones = page.getByRole('checkbox', { name: 'Select All Zones' });
+  if (await selectAllZones.count()) {
+    if (await selectAllZones.isChecked()) {
+      await selectAllZones.click();
     }
-
-    await searchResponse;
-    const agreementRow = page.getByRole('row').filter({ hasText: agreementId });
-    if (await agreementRow.isVisible()) {
-      return agreementRow;
-    }
-
-    await page.waitForTimeout(2000);
+    await selectAllZones.click();
+    await waitForUiAction(page);
   }
 
-  throw new Error(`Agreement ${agreementId} did not appear in the plan list after ${searchAttempts} search attempts.`);
+  const rangeNumberFilter = page.getByRole('columnheader', { name: /RAN #/ }).locator('input');
+  await rangeNumberFilter.fill(agreementId);
+  await waitForUiAction(page);
+
+  const agreementRow = page.getByRole('row').filter({ hasText: agreementId });
+  await expect(agreementRow).toBeVisible({ timeout: 30000 });
+  return agreementRow;
 };
 
 const confirmExtensionAction = async (page: Page) => {
@@ -391,7 +373,10 @@ test.describe('Plan extension workflow harness', () => {
 
     if (testInfo.status !== testInfo.expectedStatus && lastPlanSnapshot) {
       const safeTitle = testInfo.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-      const outputPath = path.join('playwright', 'artifacts', `${safeTitle}-last-extension-plan-snapshot.json`);
+      const outputPath = path.join(
+        process.env.PLAYWRIGHT_ARTIFACTS_DIR || 'playwright/artifacts',
+        `${safeTitle}-last-extension-plan-snapshot.json`,
+      );
       await fs.mkdir(path.dirname(outputPath), { recursive: true });
       await fs.writeFile(outputPath, JSON.stringify(lastPlanSnapshot, null, 2), 'utf8');
     }
@@ -629,7 +614,7 @@ test.describe('Plan extension workflow harness', () => {
 
     await scenario.seedRequests();
 
-    await switchRoleAndFreshLogin({ page, roleCode: 'AH' });
+    await switchRoleAndRelogin({ page, roleCode: 'AH' });
     let agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
     await agreementRow.getByRole('button', { name: 'approve', exact: true }).click();
     await waitForUiObservation(page);
@@ -641,7 +626,7 @@ test.describe('Plan extension workflow harness', () => {
       })
       .toBe(true);
 
-    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    await switchRoleAndRelogin({ page, roleCode: 'SA' });
     agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
     await agreementRow.getByRole('button', { name: /Forward Extension\s+For Decision/ }).click();
     await waitForUiObservation(page);
@@ -652,7 +637,7 @@ test.describe('Plan extension workflow harness', () => {
 
     const beforeExtend = await scenario.readPlan();
     const expectedEndDate = makeFutureDate({ currentPlanEndDate: beforeExtend.planEndDate, yearsToAdd: 5 });
-    await switchRoleAndFreshLogin({ page, roleCode: 'DM' });
+    await switchRoleAndRelogin({ page, roleCode: 'DM' });
     agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
     await agreementRow.getByRole('button', { name: 'Approve Extension', exact: true }).click();
     await waitForUiObservation(page);
@@ -675,7 +660,7 @@ test.describe('Plan extension workflow harness', () => {
     });
 
     await scenario.seedRequests();
-    await switchRoleAndFreshLogin({ page, roleCode: 'AH' });
+    await switchRoleAndRelogin({ page, roleCode: 'AH' });
     const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
 
     await agreementRow.getByRole('button', { name: 'approve', exact: true }).click();
@@ -697,7 +682,7 @@ test.describe('Plan extension workflow harness', () => {
 
     await scenario.seedRequests();
     await scenario.approvePrimaryAsAh();
-    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    await switchRoleAndRelogin({ page, roleCode: 'SA' });
     const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
 
     await agreementRow.getByRole('button', { name: /Forward Extension\s+For Decision/ }).click();
@@ -723,7 +708,7 @@ test.describe('Plan extension workflow harness', () => {
     const beforeExtend = await scenario.readPlan();
     const defaultExpectedDate = makeFutureDate({ currentPlanEndDate: beforeExtend.planEndDate, yearsToAdd: 5 });
 
-    await switchRoleAndFreshLogin({ page, roleCode: 'DM' });
+    await switchRoleAndRelogin({ page, roleCode: 'DM' });
     const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
     await agreementRow.getByRole('button', { name: 'Approve Extension', exact: true }).click();
     await waitForUiObservation(page);
@@ -747,7 +732,7 @@ test.describe('Plan extension workflow harness', () => {
     });
 
     await scenario.seedRequests();
-    await switchRoleAndFreshLogin({ page, roleCode: 'AH' });
+    await switchRoleAndRelogin({ page, roleCode: 'AH' });
     let agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
     await agreementRow.getByRole('button', { name: 'reject', exact: true }).click();
     await waitForUiObservation(page);
@@ -756,7 +741,7 @@ test.describe('Plan extension workflow harness', () => {
       .poll(async () => (await scenario.readPlan()).extensionStatus)
       .toBe(PLAN_EXTENSION_STATUS.AGREEMENT_HOLDER_REJECTED);
 
-    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    await switchRoleAndRelogin({ page, roleCode: 'SA' });
     agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
     await agreementRow.getByRole('button', { name: 'Actions', exact: true }).click();
     await waitForUiObservation(page);
@@ -782,7 +767,7 @@ test.describe('Plan extension workflow harness', () => {
     });
 
     await scenario.seedRequests();
-    await switchRoleAndFreshLogin({ page, roleCode: 'SA' });
+    await switchRoleAndRelogin({ page, roleCode: 'SA' });
     const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
     await agreementRow.getByRole('button', { name: 'Reject Extension', exact: true }).click();
     await waitForUiObservation(page);
