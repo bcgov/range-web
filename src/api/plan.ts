@@ -10,6 +10,7 @@ import {
 import * as API from '../constants/api';
 import RUPSchema from '../components/rangeUsePlanPage/schema';
 import { getNetworkStatus } from '../utils/helper/network';
+import { downloadBlob, parseFilenameFromContentDisposition } from '../utils/helper/download';
 import { deleteFromQueue } from './delete';
 import {
   saveSchedules as saveSchedules,
@@ -278,6 +279,26 @@ export const generatePDF = async (planId: string | number): Promise<any> => {
     ...getAuthHeaderConfig(),
     responseType: 'blob',
   });
+};
+
+/**
+ * Downloads a schedule as CSV. The API decides the column set (grazing vs hay
+ * cutting) and serializes entries in the schedule's persisted sort order, so the
+ * export always matches what the user sees in the table.
+ */
+export const downloadScheduleCsv = async (
+  planId: string | number,
+  scheduleId: string | number,
+  fallbackFilename = 'schedule.csv',
+): Promise<void> => {
+  const response = await axios.get(API.EXPORT_RUP_SCHEDULE_CSV(planId, scheduleId), {
+    ...getAuthHeaderConfig(),
+    responseType: 'blob',
+  });
+
+  const filename = parseFilenameFromContentDisposition(response.headers?.['content-disposition'], fallbackFilename);
+
+  downloadBlob(response.data, filename, 'text/csv;charset=utf-8;');
 };
 
 export const updateSortOrder = async (

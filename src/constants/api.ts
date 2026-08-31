@@ -252,3 +252,5 @@ export const GET_EMAIL_TEMPLATE = `/v1/emailtemplate`;
 export const UPDATE_EMAIL_TEMPLATE = (templateId: string | number): string => `/v1/emailtemplate/${templateId}`;
 export const UPDATE_SCHEDULE_SORT_ORDER = (planId: string | number, scheduleId: string | number): string =>
   `/v1/plan/${planId}/schedule/${scheduleId}/sortOrder`;
+export const EXPORT_RUP_SCHEDULE_CSV = (planId: string | number, scheduleId: string | number): string =>
+  `/v1/plan/${planId}/schedule/${scheduleId}/csv`;

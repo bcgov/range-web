@@ -85,6 +85,9 @@ src/
 
 Docker build → OpenShift with Caddy as static server. Caddy injects env vars into the built JS bundle at serve time using template syntax.
 
+**Container runtime: `podman` locally, `docker` on OpenShift (dev / test / prod).** Build
+locally with `podman build`; images must stay Docker-compatible for the OpenShift pipeline.
+
 ## Agent skills
 
 ### Issue tracker

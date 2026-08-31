@@ -18,6 +18,7 @@ import TextFieldMui from '@mui/material/TextField';
 import PermissionsField, { IfEditable } from '../../../common/PermissionsField';
 import { SCHEDULE } from '../../../../constants/fields';
 import { deleteScheduleEntry, updateSortOrder } from '../../../../api';
+import useScheduleCsvExport from '../useScheduleCsvExport';
 import MultiParagraphDisplay from '../../../common/MultiParagraphDisplay';
 import { useUser } from '../../../../providers/UserProvider';
 import SortableTableHeaderCell from '../../../common/SortableTableHeaderCell';
@@ -92,6 +93,7 @@ const GrazingScheduleBox = ({
 
   const confirm = useConfirm()!;
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const { exportCsv, isExporting } = useScheduleCsvExport(schedule);
 
   const isError = !!getIn(formik.errors, namespace);
 
@@ -206,46 +208,55 @@ const GrazingScheduleBox = ({
             }
             shouldHideHeaderRightWhenNotActive
             headerRight={
-              <IfEditable permission={[SCHEDULE.COPY, SCHEDULE.DELETE]} any>
-                <>
-                  <IconButton
-                    size="small"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMenuAnchorEl(e.currentTarget);
-                    }}
-                  >
-                    <MuiIcon name="ellipsis vertical" />
-                  </IconButton>
-                  <MenuIcon anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
-                    <IfEditable permission={SCHEDULE.COPY}>
-                      {yearOptions.map((opt: any) => (
-                        <MenuItem
-                          key={opt.key}
-                          onClick={() => {
-                            setMenuAnchorEl(null);
-                            onScheduleCopy(opt.value, schedule.id);
-                          }}
-                          data-testid={`copy-button-${schedule.year}`}
-                        >
-                          Copy To {opt.text}
-                        </MenuItem>
-                      ))}
-                    </IfEditable>
-                    <IfEditable permission={SCHEDULE.DELETE}>
+              <>
+                <IconButton
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMenuAnchorEl(e.currentTarget);
+                  }}
+                  data-testid={`schedule-menu-button-${schedule.year}`}
+                >
+                  <MuiIcon name="ellipsis vertical" />
+                </IconButton>
+                <MenuIcon anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
+                  <IfEditable permission={SCHEDULE.COPY}>
+                    {yearOptions.map((opt: any) => (
                       <MenuItem
+                        key={opt.key}
                         onClick={() => {
                           setMenuAnchorEl(null);
-                          onScheduleDelete();
+                          onScheduleCopy(opt.value, schedule.id);
                         }}
-                        data-testid={`delete-button-${schedule.year}`}
+                        data-testid={`copy-button-${schedule.year}`}
                       >
-                        Delete
+                        Copy To {opt.text}
                       </MenuItem>
-                    </IfEditable>
-                  </MenuIcon>
-                </>
-              </IfEditable>
+                    ))}
+                  </IfEditable>
+                  <MenuItem
+                    disabled={isExporting}
+                    onClick={() => {
+                      setMenuAnchorEl(null);
+                      exportCsv();
+                    }}
+                    data-testid={`export-csv-button-${schedule.year}`}
+                  >
+                    Export CSV
+                  </MenuItem>
+                  <IfEditable permission={SCHEDULE.DELETE}>
+                    <MenuItem
+                      onClick={() => {
+                        setMenuAnchorEl(null);
+                        onScheduleDelete();
+                      }}
+                      data-testid={`delete-button-${schedule.year}`}
+                    >
+                      Delete
+                    </MenuItem>
+                  </IfEditable>
+                </MenuIcon>
+              </>
             }
             collapsibleContent={
               <>
