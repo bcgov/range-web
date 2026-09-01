@@ -242,14 +242,24 @@ export const loginThroughPopup = async ({
       continue;
     }
 
-    const popupPromise = page.waitForEvent('popup');
-    if (loginMode === 'bceid') {
-      await page.locator('#login_bceid_button').click();
-    } else {
-      await page.getByRole('button', { name: 'Staff Login' }).click();
+    let popup: Page;
+    try {
+      const popupPromise = page.waitForEvent('popup', { timeout: LOGIN_ATTEMPT_TIMEOUT_MS });
+      if (loginMode === 'bceid') {
+        await page.locator('#login_bceid_button').click();
+      } else {
+        await page.getByRole('button', { name: 'Staff Login' }).click();
+      }
+
+      popup = await popupPromise;
+    } catch (error) {
+      logE2E(
+        `[AUTH] login popup did not open (${error instanceof Error ? error.message.split('\n')[0] : 'unknown'}) — retrying`,
+      );
+      await page.context().clearCookies();
+      continue;
     }
 
-    const popup = await popupPromise;
     try {
       await fillLoginPopup({
         popup,
