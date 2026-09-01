@@ -133,6 +133,7 @@ const storeAuthAndProfile = async ({
     };
 
     await persistAuthWithRetry();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await page.goto('/home');
   } finally {
     await apiContext.dispose();
