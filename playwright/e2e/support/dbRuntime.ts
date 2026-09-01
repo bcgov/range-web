@@ -152,6 +152,7 @@ export const createPlanSeedByDb = async ({
   singleUserId,
   districtCode,
   sourceAgreementId,
+  agreementTypeId = 1,
 }: {
   getDbPool: GetDbPool;
   testCase: string;
@@ -160,6 +161,8 @@ export const createPlanSeedByDb = async ({
   singleUserId?: number;
   districtCode: string;
   sourceAgreementId: string;
+  /** 1/2 = grazing, 3/4 = hay cutting. Drives which schedule UI the plan renders. */
+  agreementTypeId?: number;
 }): Promise<{ planId: string; agreementId: string; clientNumber: string }> => {
   const pool = getDbPool();
   const client = await pool.connect();
@@ -268,9 +271,9 @@ export const createPlanSeedByDb = async ({
           percentage_use,
           has_current_schedule,
           exemption_status
-        ) VALUES ($1, NOW(), NOW() + INTERVAL '5 years', 1, $2, false, 2, 0, 1, 'NOT_EXEMPTED')
+        ) VALUES ($1, NOW(), NOW() + INTERVAL '5 years', $3, $2, false, 2, 0, 1, 'NOT_EXEMPTED')
       `,
-      [agreementId, zoneId],
+      [agreementId, zoneId, agreementTypeId],
     );
 
     await client.query(
@@ -391,6 +394,25 @@ export const createPlanSeedByDb = async ({
         sourceRow: sourceEntry,
         overrides: {
           grazing_schedule_id: scheduleMap.get(Number(sourceEntry.grazing_schedule_id)),
+          pasture_id: pastureMap.get(Number(sourceEntry.pasture_id)),
+        },
+        excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
+      });
+    }
+
+    // Hay cutting entries hang off the same grazing_schedule rows but live in
+    // their own table, so they need cloning separately from grazing entries.
+    const sourceHayCuttingEntries = await client.query(
+      'SELECT * FROM haycutting_schedule_entry WHERE haycutting_schedule_id = ANY($1::int[]) ORDER BY id',
+      [Array.from(scheduleMap.keys())],
+    );
+    for (const sourceEntry of sourceHayCuttingEntries.rows) {
+      await insertRow({
+        client,
+        table: 'haycutting_schedule_entry',
+        sourceRow: sourceEntry,
+        overrides: {
+          haycutting_schedule_id: scheduleMap.get(Number(sourceEntry.haycutting_schedule_id)),
           pasture_id: pastureMap.get(Number(sourceEntry.pasture_id)),
         },
         excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],

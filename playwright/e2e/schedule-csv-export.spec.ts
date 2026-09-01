@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import {
   createPlanSeedByDb as runtimeCreatePlanSeedByDb,
   cleanupSeedDataByAgreementIds as runtimeCleanupSeedDataByAgreementIds,
@@ -11,23 +11,10 @@ import {
   getSingleUserSsoCandidatesForDb,
   getTestDistrictCode,
 } from './support/extensionRuntime';
+import { GRAZING_CSV_HEADERS, exportScheduleCsv, expandSchedule, sortScheduleBy } from './support/scheduleCsvRuntime';
 
 const E2E_PREFIX = 'E2E-AUTO';
 const TEST_CASE = 'schedule-csv-export';
-
-const GRAZING_CSV_HEADERS = [
-  'RAN',
-  'Year',
-  'Pasture',
-  'Livestock Type',
-  'Number of Animals',
-  'Date In',
-  'Date Out',
-  'Days',
-  'Grace Days',
-  'PLD AUMs',
-  'Crown AUMs',
-];
 
 const logE2E = (message: string) => {
   console.log(`[E2E] ${message}`);
@@ -136,83 +123,6 @@ const resetScheduleSort = async (scheduleId: number): Promise<void> => {
   }
 };
 
-/**
- * Minimal RFC-4180 parser — enough for the values this export emits (quoted
- * fields containing commas, e.g. pasture names).
- */
-const parseCsv = (text: string): string[][] => {
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let field = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < text.length; i += 1) {
-    const char = text[i];
-
-    if (inQuotes) {
-      if (char === '"' && text[i + 1] === '"') {
-        field += '"';
-        i += 1;
-      } else if (char === '"') {
-        inQuotes = false;
-      } else {
-        field += char;
-      }
-      continue;
-    }
-
-    if (char === '"') {
-      inQuotes = true;
-    } else if (char === ',') {
-      row.push(field);
-      field = '';
-    } else if (char === '\n') {
-      row.push(field);
-      rows.push(row);
-      row = [];
-      field = '';
-    } else if (char !== '\r') {
-      field += char;
-    }
-  }
-
-  if (field.length > 0 || row.length > 0) {
-    row.push(field);
-    rows.push(row);
-  }
-
-  return rows;
-};
-
-const expandSchedule = async ({ page, year }: { page: Page; year: number }) => {
-  const menuButton = page.getByTestId(`schedule-menu-button-${year}`);
-
-  if (!(await menuButton.isVisible().catch(() => false))) {
-    // The action menu is only rendered for the expanded schedule box.
-    await page.getByText(`${year} Schedule`).first().click();
-  }
-
-  await expect(menuButton).toBeVisible();
-};
-
-const exportScheduleCsv = async ({ page, year }: { page: Page; year: number }): Promise<string[][]> => {
-  await expandSchedule({ page, year });
-  await page.getByTestId(`schedule-menu-button-${year}`).click();
-
-  const exportItem = page.getByTestId(`export-csv-button-${year}`);
-  await expect(exportItem).toBeVisible();
-
-  const [download] = await Promise.all([page.waitForEvent('download'), exportItem.click()]);
-
-  const stream = await download.createReadStream();
-  const chunks: Buffer[] = [];
-  for await (const chunk of stream) {
-    chunks.push(Buffer.from(chunk));
-  }
-
-  return parseCsv(Buffer.concat(chunks).toString('utf-8'));
-};
-
 test.describe('Schedule CSV export', () => {
   let seeded: { planId: string; agreementId: string; clientNumber: string };
   let schedule: SeededSchedule | null;
@@ -279,10 +189,7 @@ test.describe('Schedule CSV export', () => {
     await expandSchedule({ page, year });
 
     // Sorting the table persists sortBy/sortOrder, which the export must honour.
-    await page.getByText('# of Animals', { exact: false }).first().click();
-    await page.waitForResponse(
-      (response) => response.url().includes('/sortOrder') && response.request().method() === 'PUT',
-    );
+    await sortScheduleBy({ page, label: '# of Animals' });
 
     const rows = await exportScheduleCsv({ page, year });
     const exportedCounts = rows.slice(1).map((row) => Number(row[4]));
