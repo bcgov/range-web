@@ -24,10 +24,15 @@ const TEST_CASE = 'schedule-csv-export-haycutting';
 const HAY_CUTTING_AGREEMENT_TYPE_ID = 3;
 
 /**
- * RAN099935 is the hay cutting counterpart to the grazing seed agreement. Its
- * plan is cloned as the structural template for the seeded plan.
+ * The source plan is only used as a structural template. The new agreement's
+ * type is overridden to hay cutting below, and this spec creates its own
+ * pastures, schedule, and entries. Keep the default on the shared source used
+ * by the other OpenShift specs; RAN099935 is a local-only fixture and is not
+ * present in refreshed dev databases. Environments that provision it can
+ * still opt in explicitly.
  */
-const HAY_CUTTING_SOURCE_AGREEMENT_ID = process.env.PLAYWRIGHT_HAYCUTTING_SEED_AGREEMENT_ID || 'RAN099935';
+const HAY_CUTTING_SOURCE_AGREEMENT_ID =
+  process.env.PLAYWRIGHT_HAYCUTTING_SEED_AGREEMENT_ID || process.env.PLAYWRIGHT_SEED_SOURCE_AGREEMENT_ID || 'RAN099915';
 
 /**
  * Deliberately unsorted so insertion (id) order differs from every sorted
@@ -63,6 +68,7 @@ const seedPlan = async () =>
     districtCode: getTestDistrictCode(),
     sourceAgreementId: HAY_CUTTING_SOURCE_AGREEMENT_ID,
     agreementTypeId: HAY_CUTTING_AGREEMENT_TYPE_ID,
+    copySchedules: false,
   });
 
 interface SeededHayCuttingSchedule {

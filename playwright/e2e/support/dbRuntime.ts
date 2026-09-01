@@ -153,6 +153,7 @@ export const createPlanSeedByDb = async ({
   districtCode,
   sourceAgreementId,
   agreementTypeId = 1,
+  copySchedules = true,
 }: {
   getDbPool: GetDbPool;
   testCase: string;
@@ -163,6 +164,8 @@ export const createPlanSeedByDb = async ({
   sourceAgreementId: string;
   /** 1/2 = grazing, 3/4 = hay cutting. Drives which schedule UI the plan renders. */
   agreementTypeId?: number;
+  /** Whether to clone the source plan's schedules and entries. */
+  copySchedules?: boolean;
 }): Promise<{ planId: string; agreementId: string; clientNumber: string }> => {
   const pool = getDbPool();
   const client = await pool.connect();
@@ -382,56 +385,61 @@ export const createPlanSeedByDb = async ({
       pastureMap.set(Number(sourcePasture.id), Number(inserted.id));
     }
 
-    const scheduleMap = new Map<number, number>();
-    const sourceSchedules = await client.query('SELECT * FROM grazing_schedule WHERE plan_id = $1 ORDER BY id', [
-      sourcePlan.id,
-    ]);
-    for (const sourceSchedule of sourceSchedules.rows) {
-      const inserted = await insertRow({
-        client,
-        table: 'grazing_schedule',
-        sourceRow: sourceSchedule,
-        overrides: { plan_id: newPlanId },
-        excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
-        returnColumns: ['id'],
-      });
-      scheduleMap.set(Number(sourceSchedule.id), Number(inserted.id));
-    }
+    if (copySchedules) {
+      const scheduleMap = new Map<number, number>();
+      const sourceSchedules = await client.query('SELECT * FROM grazing_schedule WHERE plan_id = $1 ORDER BY id', [
+        sourcePlan.id,
+      ]);
+      for (const sourceSchedule of sourceSchedules.rows) {
+        const inserted = await insertRow({
+          client,
+          table: 'grazing_schedule',
+          sourceRow: sourceSchedule,
+          overrides: { plan_id: newPlanId },
+          excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
+          returnColumns: ['id'],
+        });
+        scheduleMap.set(Number(sourceSchedule.id), Number(inserted.id));
+      }
 
-    const sourceScheduleEntries = await client.query(
-      'SELECT * FROM grazing_schedule_entry WHERE grazing_schedule_id = ANY($1::int[]) ORDER BY id',
-      [Array.from(scheduleMap.keys())],
-    );
-    for (const sourceEntry of sourceScheduleEntries.rows) {
-      await insertRow({
-        client,
-        table: 'grazing_schedule_entry',
-        sourceRow: sourceEntry,
-        overrides: {
-          grazing_schedule_id: scheduleMap.get(Number(sourceEntry.grazing_schedule_id)),
-          pasture_id: pastureMap.get(Number(sourceEntry.pasture_id)),
-        },
-        excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
-      });
-    }
+      if (scheduleMap.size > 0) {
+        const sourceScheduleEntries = await client.query(
+          'SELECT * FROM grazing_schedule_entry WHERE grazing_schedule_id = ANY($1::int[]) ORDER BY id',
+          [Array.from(scheduleMap.keys())],
+        );
+        for (const sourceEntry of sourceScheduleEntries.rows) {
+          await insertRow({
+            client,
+            table: 'grazing_schedule_entry',
+            sourceRow: sourceEntry,
+            overrides: {
+              grazing_schedule_id: scheduleMap.get(Number(sourceEntry.grazing_schedule_id)),
+              pasture_id: pastureMap.get(Number(sourceEntry.pasture_id)),
+            },
+            excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
+          });
+        }
 
-    // Hay cutting entries hang off the same grazing_schedule rows but live in
-    // their own table, so they need cloning separately from grazing entries.
-    const sourceHayCuttingEntries = await client.query(
-      'SELECT * FROM haycutting_schedule_entry WHERE haycutting_schedule_id = ANY($1::int[]) ORDER BY id',
-      [Array.from(scheduleMap.keys())],
-    );
-    for (const sourceEntry of sourceHayCuttingEntries.rows) {
-      await insertRow({
-        client,
-        table: 'haycutting_schedule_entry',
-        sourceRow: sourceEntry,
-        overrides: {
-          haycutting_schedule_id: scheduleMap.get(Number(sourceEntry.haycutting_schedule_id)),
-          pasture_id: pastureMap.get(Number(sourceEntry.pasture_id)),
-        },
-        excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
-      });
+        // Hay cutting entries hang off the same grazing_schedule rows but live
+        // in their own table, so they need cloning separately from grazing
+        // entries.
+        const sourceHayCuttingEntries = await client.query(
+          'SELECT * FROM haycutting_schedule_entry WHERE haycutting_schedule_id = ANY($1::int[]) ORDER BY id',
+          [Array.from(scheduleMap.keys())],
+        );
+        for (const sourceEntry of sourceHayCuttingEntries.rows) {
+          await insertRow({
+            client,
+            table: 'haycutting_schedule_entry',
+            sourceRow: sourceEntry,
+            overrides: {
+              haycutting_schedule_id: scheduleMap.get(Number(sourceEntry.haycutting_schedule_id)),
+              pasture_id: pastureMap.get(Number(sourceEntry.pasture_id)),
+            },
+            excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
+          });
+        }
+      }
     }
 
     const issueMap = new Map<number, number>();
