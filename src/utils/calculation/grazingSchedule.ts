@@ -64,6 +64,36 @@ interface LivestockType {
 }
 
 /**
+ * The per-entry AUM calculation. This is the single definition; both the
+ * schedule table rows (`populateGrazingScheduleFields`) and the schedule total
+ * (`calcCrownTotalAUMs`) go through it.
+ *
+ * Behaviour is preserved exactly, quirks included:
+ *  - `pldAUMs` is rounded to a whole number *before* being subtracted, so
+ *    `crownAUMs` is derived from the rounded PLD rather than the raw one.
+ *  - a crown value in the open interval (0, 1) is clamped up to 1, so a pasture
+ *    with real but tiny crown use never displays as zero.
+ *
+ * The API performs the same calculation in src/libs/aumCalculation.ts. The two
+ * are deliberately kept in step - if this changes, that must change too.
+ */
+export const calcEntryAUMs = (
+  entry: GrazingScheduleEntry,
+  pasture?: PastureWithPld,
+  livestockType?: LivestockType,
+): { days: number; totalAUMs: number; pldAUMs: number; crownAUMs: number } => {
+  const { livestockCount, dateIn, dateOut } = entry || {};
+
+  const days = calcDateDiff(dateOut, dateIn, false) as number;
+  const totalAUMs = calcTotalAUMs(livestockCount || 0, days, livestockType?.auFactor);
+  const pldAUMs = round(calcPldAUMs(totalAUMs, pasture?.pldPercent ?? undefined), 0);
+  const crownAUMDecimal = calcCrownAUMs(totalAUMs, pldAUMs);
+  const crownAUMs = crownAUMDecimal > 0 && crownAUMDecimal < 1 ? 1 : round(crownAUMDecimal, 0);
+
+  return { days, totalAUMs, pldAUMs, crownAUMs };
+};
+
+/**
  * @param entries grazing schedule entries
  * @param pastures the array of pastures from the plan
  * @param livestockTypes the array of live stock types
@@ -81,15 +111,11 @@ export const calcCrownTotalAUMs = (
 
   const sumAUM = entries
     .map((entry) => {
-      const { pastureId, livestockTypeId, livestockCount, dateIn, dateOut } = entry || {};
-      const days = calcDateDiff(dateOut, dateIn, false) as number;
+      const { pastureId, livestockTypeId } = entry || {};
       const pasture = pastures.find((p) => p.id === pastureId);
       const livestockType = livestockTypes.find((lt) => lt.id === livestockTypeId);
-      const auFactor = livestockType && livestockType.auFactor;
-      const totalAUMs = calcTotalAUMs(livestockCount || 0, days, auFactor);
-      const pldAUMs = round(calcPldAUMs(totalAUMs, (pasture && pasture.pldPercent) || 0), 0);
-      const crownAUMDecimal = calcCrownAUMs(totalAUMs, pldAUMs);
-      return crownAUMDecimal > 0 && crownAUMDecimal < 1 ? 1 : round(crownAUMDecimal, 0);
+
+      return calcEntryAUMs(entry, pasture, livestockType).crownAUMs;
     })
     .reduce(reducer, 0);
   return sumAUM > 0 && sumAUM < 1 ? 1 : sumAUM;

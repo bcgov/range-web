@@ -236,8 +236,23 @@ export const createPlanSeedByDb = async ({
       await client.query('INSERT INTO user_districts (id, user_id) VALUES ($1, $2)', [districtId, staffUserId]);
     }
 
+    // `client_number` is unique and only 8 characters wide, so a timestamp
+    // alone collides when two workers seed within the same millisecond. Pick a
+    // random number and retry until one is free, matching how the agreement id
+    // is chosen below.
     const timestamp = Date.now();
-    const clientNumber = `9${String(timestamp).slice(-7)}`;
+    let clientNumber = '';
+    for (let i = 0; i < 100; i += 1) {
+      const candidate = `9${String(randomInt(10000000)).padStart(7, '0')}`;
+      const exists = await client.query('SELECT 1 FROM ref_client WHERE client_number = $1', [candidate]);
+      if (exists.rowCount === 0) {
+        clientNumber = candidate;
+        break;
+      }
+    }
+    if (!clientNumber) {
+      throw new Error('Unable to find an unused ref_client client_number for seeding');
+    }
     await client.query('INSERT INTO ref_client (client_number, name) VALUES ($1, $2)', [
       clientNumber,
       `${e2ePrefix}-CLIENT-${testCase}-${timestamp}`,
