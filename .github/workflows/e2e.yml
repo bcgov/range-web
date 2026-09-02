@@ -53,6 +53,11 @@ jobs:
 
   wait-for-dev-deploy:
     name: Wait for dev deployment
+    needs: [build-e2e-image]
+    if: >-
+      always() &&
+      (github.event_name == 'workflow_dispatch' ||
+      needs.build-e2e-image.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - name: Skip deployment wait on manual runs
