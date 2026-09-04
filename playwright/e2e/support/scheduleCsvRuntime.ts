@@ -126,16 +126,17 @@ export const sortScheduleBy = async ({
   const header = page.getByRole('columnheader', { name: label, exact: true }).first();
   await expect(header).toBeVisible();
 
-  await header.locator('.MuiTableSortLabel-root').first().click();
-
-  await page.waitForResponse(
+  const ascendingSort = page.waitForResponse(
     (response) => response.url().includes('/sortOrder') && response.request().method() === 'PUT',
   );
+  await header.locator('.MuiTableSortLabel-root').first().click();
+  await ascendingSort;
 
   if (direction === 'desc') {
-    await header.locator('.MuiTableSortLabel-root').first().click();
-    await page.waitForResponse(
+    const descendingSort = page.waitForResponse(
       (response) => response.url().includes('/sortOrder') && response.request().method() === 'PUT',
     );
+    await header.locator('.MuiTableSortLabel-root').first().click();
+    await descendingSort;
   }
 };
