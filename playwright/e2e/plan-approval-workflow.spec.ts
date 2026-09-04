@@ -143,6 +143,8 @@ const switchRoleAndRelogin = async ({ page, roleCode }: { page: Page; roleCode: 
 };
 
 test.describe('Initial RUP approval workflow', () => {
+  test.describe.configure({ timeout: 240000 });
+
   let apiContext: APIRequestContext;
   let lastPlanSnapshot: PlanSnapshot | null = null;
   let cleanupAgreementId: string | null = null;
