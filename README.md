@@ -1,4 +1,5 @@
 [![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+[![E2E on OpenShift](https://github.com/bcgov/range-web/actions/workflows/e2e.yml/badge.svg)](https://github.com/bcgov/range-web/actions/workflows/e2e.yml)
 
 # About My Range Application (MyRangeBC) for Web
 
@@ -224,7 +225,7 @@ Create React App allows us to dynamically import parts of our app using the `imp
   }
   ```
 
-## Openshift Deployment Cheatsheet:
+## Openshift Deployment Cheatsheet
 
 - image-stream: range-myra-web
 - app build-config: range-myra-web-dev-build
@@ -238,7 +239,7 @@ Create React App allows us to dynamically import parts of our app using the `imp
 - deploy-config: range-myra-web-caddy
 - trigger: range-myra-web-caddy:test
 
-* [Github Action Openshift image build + tag](https://github.com/bcgov/range-web/blob/dev/.github/workflows/deploy-test.yml)
+- [Github Action Openshift image build + tag](https://github.com/bcgov/range-web/blob/dev/.github/workflows/deploy-test.yml)
   Make sure your SA can only build and tag!
 
 ## License
