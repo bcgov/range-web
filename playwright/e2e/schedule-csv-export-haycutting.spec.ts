@@ -155,7 +155,6 @@ const resetScheduleSort = async (scheduleId: number): Promise<void> => {
 };
 
 const TONNES_COLUMN = 6;
-const AREA_COLUMN = 2;
 
 test.describe('Hay cutting schedule CSV export', () => {
   let seeded: { planId: string; agreementId: string; clientNumber: string };
@@ -230,28 +229,48 @@ test.describe('Hay cutting schedule CSV export', () => {
     expect(exportedTonnes).toEqual(schedule.tonnes);
   });
 
-  test('reflects a re-sorted table in the exported row order', async ({ page }) => {
-    const { year } = schedule;
-    await expandSchedule({ page, year });
+  const sortableColumns = [
+    { label: 'Area', index: 2, type: 'string' },
+    { label: 'Stubble Height (cm)', index: 3, type: 'number' },
+    { label: 'Period Start', index: 4, type: 'date' },
+    { label: 'Period End', index: 5, type: 'date' },
+    { label: 'Tonnes', index: 6, type: 'number' },
+  ] as const;
 
-    // Sorting the table persists sortBy/sortOrder, which the export must honour.
-    await sortScheduleBy({ page, label: 'Tonnes' });
+  const sortRows = (
+    rows: string[][],
+    index: number,
+    type: (typeof sortableColumns)[number]['type'],
+    direction: 'asc' | 'desc',
+  ) =>
+    rows
+      .map((row, originalIndex) => ({ row, originalIndex }))
+      .sort((a, b) => {
+        const left =
+          type === 'number' ? Number(a.row[index]) : type === 'date' ? Date.parse(a.row[index]) : a.row[index];
+        const right =
+          type === 'number' ? Number(b.row[index]) : type === 'date' ? Date.parse(b.row[index]) : b.row[index];
+        const comparison = left < right ? -1 : left > right ? 1 : 0;
+        return comparison === 0 ? a.originalIndex - b.originalIndex : direction === 'asc' ? comparison : -comparison;
+      })
+      .map(({ row }) => row);
 
-    const rows = await exportScheduleCsv({ page, year });
-    const exportedTonnes = rows.slice(1).map((row) => Number(row[TONNES_COLUMN]));
+  for (const column of sortableColumns) {
+    for (const direction of ['asc', 'desc'] as const) {
+      test(`exports ${column.label} ${direction} sort order`, async ({ page }) => {
+        await resetScheduleSort(schedule.id);
+        await openPlan({ page, planId: seeded.planId });
 
-    expect(exportedTonnes).toEqual([...schedule.tonnes].sort((a, b) => a - b));
-  });
+        const defaultRows = (await exportScheduleCsv({ page, year: schedule.year })).slice(1);
+        expect(defaultRows.map((row) => Number(row[TONNES_COLUMN]))).toEqual(schedule.tonnes);
 
-  test('honours a sort on the joined area column', async ({ page }) => {
-    const { year } = schedule;
-    await expandSchedule({ page, year });
+        await openPlan({ page, planId: seeded.planId });
+        await expandSchedule({ page, year: schedule.year });
+        await sortScheduleBy({ page, label: column.label, direction });
 
-    await sortScheduleBy({ page, label: 'Area' });
-
-    const rows = await exportScheduleCsv({ page, year });
-    const exportedAreas = rows.slice(1).map((row) => row[AREA_COLUMN]);
-
-    expect(exportedAreas).toEqual([...schedule.areas].sort());
-  });
+        const exportedRows = (await exportScheduleCsv({ page, year: schedule.year })).slice(1);
+        expect(exportedRows).toEqual(sortRows(defaultRows, column.index, column.type, direction));
+      });
+    }
+  }
 });

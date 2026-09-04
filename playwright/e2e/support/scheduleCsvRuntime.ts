@@ -114,7 +114,15 @@ export const exportScheduleCsv = async ({ page, year }: { page: Page; year: numb
  * also appear in page headings and usage tables, so a plain text lookup picks
  * the wrong element.
  */
-export const sortScheduleBy = async ({ page, label }: { page: Page; label: string }) => {
+export const sortScheduleBy = async ({
+  page,
+  label,
+  direction = 'asc',
+}: {
+  page: Page;
+  label: string;
+  direction?: 'asc' | 'desc';
+}) => {
   const header = page.getByRole('columnheader', { name: label, exact: true }).first();
   await expect(header).toBeVisible();
 
@@ -123,4 +131,11 @@ export const sortScheduleBy = async ({ page, label }: { page: Page; label: strin
   await page.waitForResponse(
     (response) => response.url().includes('/sortOrder') && response.request().method() === 'PUT',
   );
+
+  if (direction === 'desc') {
+    await header.locator('.MuiTableSortLabel-root').first().click();
+    await page.waitForResponse(
+      (response) => response.url().includes('/sortOrder') && response.request().method() === 'PUT',
+    );
+  }
 };
