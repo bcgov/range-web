@@ -17,7 +17,11 @@ function NewPlanMenuItem({ agreement }: NewPlanMenuItemProps) {
     navigate(`${RANGE_USE_PLAN}/${plan.id}`);
   };
 
-  return <MenuItem onClick={handleClick}>New plan</MenuItem>;
+  return (
+    <MenuItem onClick={handleClick} data-testid="new-plan-menu-item">
+      New plan
+    </MenuItem>
+  );
 }
 
 export default NewPlanMenuItem;

@@ -294,6 +294,19 @@ export const createPlanSeedByDb = async ({
       [agreementId, zoneId, agreementTypeId],
     );
 
+    const sourceUsageResult = await client.query('SELECT * FROM ref_usage WHERE agreement_id = $1 ORDER BY id', [
+      sourceAgreementId,
+    ]);
+    for (const sourceUsage of sourceUsageResult.rows) {
+      await insertRow({
+        client,
+        table: 'ref_usage',
+        sourceRow: sourceUsage,
+        overrides: { agreement_id: agreementId },
+        excludeColumns: ['id', 'created_at', 'updated_at', 'canonical_id'],
+      });
+    }
+
     await client.query(
       `
         INSERT INTO client_agreement (agreement_id, client_type_id, agent_id, client_id)
@@ -712,6 +725,12 @@ export const cleanupSeedDataByAgreementIds = async ({
           DELETE FROM grazing_schedule_entry gse
           USING target_schedules ts
           WHERE gse.grazing_schedule_id = ts.id
+          RETURNING 1
+        ),
+        deleted_haycutting_schedule_entry AS (
+          DELETE FROM haycutting_schedule_entry hse
+          USING target_schedules ts
+          WHERE hse.haycutting_schedule_id = ts.id
           RETURNING 1
         ),
         deleted_minister_issue_pasture AS (

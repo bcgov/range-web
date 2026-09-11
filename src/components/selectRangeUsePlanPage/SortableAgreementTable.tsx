@@ -195,6 +195,7 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
             {headCell.filterable && (
               <input
                 type="text"
+                data-testid={`agreement-filter-${headCell.id.replace(/\./g, '-')}`}
                 onChange={(e: any) => onColumnFilterChange(e, headCell.id)}
                 value={Object.hasOwn(columnFilters, headCell.id) ? columnFilters[headCell.id] : ''}
                 style={

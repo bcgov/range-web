@@ -60,6 +60,7 @@ export default function PlanActions({
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
+        data-testid={`agreement-actions-${agreement.id}`}
         variant="contained"
         color="primary"
         onClick={handleToggle}
