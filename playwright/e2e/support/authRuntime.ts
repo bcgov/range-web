@@ -9,7 +9,7 @@ type AuthData = {
 
 type LoginMode = 'staff' | 'bceid';
 
-const POPUP_STUCK_TIMEOUT_MS = 25000;
+const POPUP_STUCK_TIMEOUT_MS = 60000;
 
 const clickFirstVisible = async (page: Page, selectors: string[]): Promise<boolean> => {
   for (const selector of selectors) {
@@ -153,6 +153,21 @@ const readAuthFromLocalStorage = async (page: Page): Promise<AuthData | null> =>
   }
 };
 
+const getPopupDiagnostic = async (popup: Page): Promise<string> => {
+  try {
+    const [title, body] = await Promise.all([
+      popup.title().catch(() => ''),
+      popup
+        .locator('body')
+        .innerText({ timeout: 2000 })
+        .catch(() => ''),
+    ]);
+    return `title=${JSON.stringify(title)} body=${JSON.stringify(body.replace(/\s+/g, ' ').slice(0, 300))}`;
+  } catch {
+    return 'popup diagnostic unavailable';
+  }
+};
+
 const pollForAuthOrFail = async ({
   page,
   popup,
@@ -198,7 +213,11 @@ const pollForAuthOrFail = async ({
         lastUrl = currentUrl;
         lastUrlChangedAt = Date.now();
       } else if (lastUrl && Date.now() - lastUrlChangedAt > POPUP_STUCK_TIMEOUT_MS) {
-        logE2E(`[SSO] popup stuck on ${currentUrl.slice(0, 80)} — treating attempt as failed`);
+        logE2E(
+          `[SSO] popup stuck on ${currentUrl.slice(0, 120)} — ${await getPopupDiagnostic(
+            popup,
+          )}; treating attempt as failed`,
+        );
         return null;
       }
     }
@@ -211,7 +230,7 @@ const pollForAuthOrFail = async ({
 };
 
 const LOGIN_ATTEMPTS = 4;
-const LOGIN_ATTEMPT_TIMEOUT_MS = 30000;
+const LOGIN_ATTEMPT_TIMEOUT_MS = 75000;
 
 export const loginThroughPopup = async ({
   page,
@@ -261,6 +280,15 @@ export const loginThroughPopup = async ({
       continue;
     }
 
+    const failedRequests: string[] = [];
+    const onRequestFailed = (request: { url(): string; failure(): { errorText?: string } | null }) => {
+      const failure = request.failure()?.errorText || 'unknown';
+      if (failedRequests.length < 5) {
+        failedRequests.push(`${request.url().slice(0, 160)} (${failure})`);
+      }
+    };
+    popup.on('requestfailed', onRequestFailed);
+
     try {
       await fillLoginPopup({
         popup,
@@ -271,6 +299,7 @@ export const loginThroughPopup = async ({
         timeoutMs: LOGIN_ATTEMPT_TIMEOUT_MS,
       });
     } catch (error) {
+      popup.off('requestfailed', onRequestFailed);
       logE2E(`[AUTH] login fields not found (${error instanceof Error ? error.message : 'unknown'}) — retrying`);
       await popup.close().catch(() => undefined);
       await page.context().clearCookies();
@@ -283,10 +312,14 @@ export const loginThroughPopup = async ({
       logE2E,
       timeoutMs: LOGIN_ATTEMPT_TIMEOUT_MS,
     });
+    popup.off('requestfailed', onRequestFailed);
     if (authData) {
       return authData;
     }
 
+    if (failedRequests.length > 0) {
+      logE2E(`[SSO] failed popup requests: ${failedRequests.join('; ')}`);
+    }
     await popup.close().catch(() => undefined);
     await page.context().clearCookies();
   }
