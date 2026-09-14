@@ -22,7 +22,7 @@ export const submitPlan = async (page: Page): Promise<void> => {
 };
 
 export const expectValidationToast = async (page: Page, message: string | RegExp): Promise<void> => {
-  await expect(page.locator('.toast')).toContainText(message);
+  await expect(page.locator('.toast').filter({ hasText: message })).toContainText(message);
 };
 
 export const expectValidationMessage = async (page: Page, message: string | RegExp): Promise<void> => {
