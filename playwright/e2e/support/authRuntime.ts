@@ -82,25 +82,25 @@ const fillLoginPopup = async ({
         }
 
         await popup.evaluate(
-          ({ instance: formInstance, username: formUsername, password: formPassword }) => {
-            const form = document.createElement('form');
+          ({ username: formUsername, password: formPassword }) => {
+            const form = document.querySelector('form');
+            if (!form) {
+              throw new Error('BCeID login form was not found.');
+            }
+
             form.method = 'POST';
             form.action = '/clp-cgi/preLogon.cgi';
-            for (const [name, value] of [
-              ['instance', formInstance],
-              ['user', formUsername],
-              ['password', formPassword],
-            ]) {
-              const input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = name;
-              input.value = value;
-              form.appendChild(input);
+            const userInput = form.querySelector<HTMLInputElement>('input[name="user"]');
+            const passwordInput = form.querySelector<HTMLInputElement>('input[name="password"]');
+            if (!userInput || !passwordInput) {
+              throw new Error('BCeID login form is missing credential fields.');
             }
+            userInput.value = formUsername;
+            passwordInput.value = formPassword;
             document.body.appendChild(form);
             form.submit();
           },
-          { instance, username, password },
+          { username, password },
         );
         return;
       }
