@@ -28,6 +28,7 @@ const fillLoginPopup = async ({
   username,
   password,
   roleCode,
+  directPost,
   logE2E,
   timeoutMs = 60000,
 }: {
@@ -35,6 +36,7 @@ const fillLoginPopup = async ({
   username: string;
   password: string;
   roleCode: WorkflowRoleCode;
+  directPost: boolean;
   logE2E: (message: string) => void;
   timeoutMs?: number;
 }) => {
@@ -72,6 +74,36 @@ const fillLoginPopup = async ({
       logE2E(`[SSO][${roleCode}] submitting credentials for username=${username}`);
       await usernameLocator.fill(username);
       await passwordLocator.fill(password);
+
+      if (directPost) {
+        const instance = await popup.locator('input[name="instance"]').first().inputValue();
+        if (!instance) {
+          throw new Error('BCeID login form is missing the instance value.');
+        }
+
+        await popup.evaluate(
+          ({ instance: formInstance, username: formUsername, password: formPassword }) => {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/clp-cgi/preLogon.cgi';
+            for (const [name, value] of [
+              ['instance', formInstance],
+              ['user', formUsername],
+              ['password', formPassword],
+            ]) {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = name;
+              input.value = value;
+              form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            form.submit();
+          },
+          { instance, username, password },
+        );
+        return;
+      }
 
       const clicked = await clickFirstVisible(popup, submitSelectors);
       if (!clicked) {
@@ -295,6 +327,7 @@ export const loginThroughPopup = async ({
         username,
         password,
         roleCode,
+        directPost: loginMode === 'bceid',
         logE2E,
         timeoutMs: LOGIN_ATTEMPT_TIMEOUT_MS,
       });
