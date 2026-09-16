@@ -198,6 +198,46 @@ jobs:
         continue-on-error: true
         run: |
           oc logs -c e2e job/range-web-e2e -n "$NAMESPACE_DEV" > e2e-logs.txt || true
+      - name: Retry once on SSO login failure
+        id: retry
+        if: always() && steps.suite.outputs.exit_code != '' && steps.suite.outputs.exit_code != '0'
+        run: |
+          if ! grep -q "SSO login failed" e2e-logs.txt 2>/dev/null; then
+            echo "Failure was not an SSO login failure; not retrying"
+            echo "exit_code=${{ steps.suite.outputs.exit_code }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "::notice::SSO login failed; recreating the e2e job for one retry"
+          oc delete job range-web-e2e -n "$NAMESPACE_DEV" --ignore-not-found=true
+          oc process -f openshift/deployments/e2e.yaml -n "$NAMESPACE_DEV" \
+            -p E2E_IMAGE="image-registry.openshift-image-registry.svc:5000/$NAMESPACE_TOOLS/range-web-e2e:$E2E_IMAGE_TAG" \
+            -p PLAYWRIGHT_BASE_URL="${{ github.event.inputs.base_url || env.E2E_BASE_URL }}" \
+            -p PLAYWRIGHT_API_BASE_URL="${{ github.event.inputs.api_base_url || env.E2E_API_BASE_URL }}" \
+            -p PLAYWRIGHT_TEST_SPEC="${{ github.event.inputs.test_spec || '' }}" \
+            | oc create -f - -n "$NAMESPACE_DEV"
+          pod=""
+          for i in $(seq 1 30); do
+            pod=$(oc get pods -l job-name=range-web-e2e -n "$NAMESPACE_DEV" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+            if [ -n "$pod" ]; then
+              break
+            fi
+            sleep 10
+          done
+          if [ -z "$pod" ]; then
+            echo "::error::retry e2e job pod never scheduled"
+            echo "exit_code=1" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          exit_code=""
+          for i in $(seq 1 90); do
+            exit_code=$(oc get pod "$pod" -n "$NAMESPACE_DEV" -o jsonpath='{.status.containerStatuses[?(@.name=="e2e")].state.terminated.exitCode}' 2>/dev/null || true)
+            if [ -n "$exit_code" ]; then
+              break
+            fi
+            sleep 30
+          done
+          echo "exit_code=${exit_code:-1}" >> "$GITHUB_OUTPUT"
+          oc logs -c e2e job/range-web-e2e -n "$NAMESPACE_DEV" > e2e-logs-retry.txt || true
       - name: Copy report and traces
         if: always()
         continue-on-error: true
@@ -214,6 +254,7 @@ jobs:
           if-no-files-found: warn
           path: |
             e2e-logs.txt
+            e2e-logs-retry.txt
             playwright-report/
             playwright-artifacts/
       - name: Cleanup job
@@ -221,7 +262,7 @@ jobs:
         run: |
           oc delete job range-web-e2e -n "$NAMESPACE_DEV" --ignore-not-found=true
       - name: Fail on suite failure
-        if: always() && steps.suite.outputs.exit_code != '' && steps.suite.outputs.exit_code != '0'
+        if: always() && (steps.retry.outputs.exit_code || steps.suite.outputs.exit_code) != '' && (steps.retry.outputs.exit_code || steps.suite.outputs.exit_code) != '0'
         run: |
-          echo "::error::e2e suite failed (exit code ${{ steps.suite.outputs.exit_code }})"
+          echo "::error::e2e suite failed (exit code ${{ steps.retry.outputs.exit_code || steps.suite.outputs.exit_code }})"
           exit 1

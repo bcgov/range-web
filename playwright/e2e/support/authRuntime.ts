@@ -1,4 +1,4 @@
-import { request, type Page } from '@playwright/test';
+import { request, type Page, type Response } from '@playwright/test';
 
 export type WorkflowRoleCode = 'SA' | 'DM' | 'AH';
 
@@ -50,7 +50,14 @@ const fillLoginPopup = async ({
       return;
     }
 
-    await popup.waitForLoadState('domcontentloaded');
+    try {
+      // BCeID pages can stall under constrained network/CPU; cap the load
+      // wait so a hung page does not kill the attempt outright. Credential
+      // fields are polled below regardless.
+      await popup.waitForLoadState('domcontentloaded', { timeout: 15000 });
+    } catch {
+      // keep polling for the credential fields
+    }
 
     let usernameLocator = null;
     for (const selector of usernameSelectors) {
@@ -76,20 +83,41 @@ const fillLoginPopup = async ({
       await passwordLocator.fill(password);
 
       if (directPost) {
-        const instance = await popup.locator('input[name="instance"]').first().inputValue();
-        if (!instance) {
-          throw new Error('BCeID login form is missing the instance value.');
+        const formInfo = await popup.evaluate(() => {
+          const form = document.querySelector('form');
+          if (!form) {
+            return null;
+          }
+          return {
+            action: form.getAttribute('action') || '',
+            method: (form.getAttribute('method') || '').toUpperCase(),
+            inputs: Array.from(form.querySelectorAll('input')).map((input) => ({
+              name: input.name || '(unnamed)',
+              type: input.type || 'text',
+            })),
+          };
+        });
+        if (!formInfo) {
+          throw new Error('BCeID login form was not found.');
         }
+        logE2E(
+          `[SSO][${roleCode}] BCeID form action=${JSON.stringify(formInfo.action.slice(0, 160))} ` +
+            `method=${formInfo.method} inputs=${formInfo.inputs
+              .map((input) => `${input.name}:${input.type}`)
+              .join(',')}`,
+        );
 
         await popup.evaluate(
           ({ username: formUsername, password: formPassword }) => {
+            // Submit the BCeID form exactly as rendered: keep its original
+            // action (REALMOID/TYPE/TARGET params) and every untouched hidden
+            // input; only the credential inputs are replaced. The submit goes
+            // through the form's own submit control (or requestSubmit) so any
+            // inline submit handling behaves as it does in a real browser.
             const form = document.querySelector('form');
             if (!form) {
               throw new Error('BCeID login form was not found.');
             }
-
-            form.method = 'POST';
-            form.action = '/clp-cgi/preLogon.cgi';
             const userInput = form.querySelector<HTMLInputElement>('input[name="user"]');
             const passwordInput = form.querySelector<HTMLInputElement>('input[name="password"]');
             if (!userInput || !passwordInput) {
@@ -97,8 +125,14 @@ const fillLoginPopup = async ({
             }
             userInput.value = formUsername;
             passwordInput.value = formPassword;
-            document.body.appendChild(form);
-            form.submit();
+            const submit = form.querySelector<HTMLInputElement | HTMLButtonElement>(
+              'input[type="submit"], button[type="submit"]',
+            );
+            if (submit) {
+              submit.click();
+            } else {
+              form.requestSubmit();
+            }
           },
           { username, password },
         );
@@ -194,11 +228,19 @@ const getPopupDiagnostic = async (popup: Page): Promise<string> => {
         .innerText({ timeout: 2000 })
         .catch(() => ''),
     ]);
-    return `title=${JSON.stringify(title)} body=${JSON.stringify(body.replace(/\s+/g, ' ').slice(0, 300))}`;
+    const normalized = body.replace(/\s+/g, ' ');
+    const errorHints = ['incorrect', 'invalid', 'expired', 'session', 'try again', 'locked', 'disabled', 'fail'];
+    const matched = errorHints.filter((hint) => normalized.toLowerCase().includes(hint));
+    return (
+      `title=${JSON.stringify(title)} body=${JSON.stringify(normalized.slice(0, 600))}` +
+      ` errorHints=[${matched.join(',')}]`
+    );
   } catch {
     return 'popup diagnostic unavailable';
   }
 };
+
+const stripQuery = (url: string): string => url.split('?')[0].slice(0, 160);
 
 const pollForAuthOrFail = async ({
   page,
@@ -244,6 +286,7 @@ const pollForAuthOrFail = async ({
       if (currentUrl !== lastUrl) {
         lastUrl = currentUrl;
         lastUrlChangedAt = Date.now();
+        logE2E(`[SSO] popup navigated to ${stripQuery(currentUrl)}`);
       } else if (lastUrl && Date.now() - lastUrlChangedAt > POPUP_STUCK_TIMEOUT_MS) {
         logE2E(
           `[SSO] popup stuck on ${currentUrl.slice(0, 120)} — ${await getPopupDiagnostic(
@@ -321,6 +364,28 @@ export const loginThroughPopup = async ({
     };
     popup.on('requestfailed', onRequestFailed);
 
+    // Trace the BCeID handshake itself: the preLogon POST outcome (status +
+    // redirect target) tells a rejected/malformed submit apart from a network
+    // abort. Only origin+path are logged; query params stay out of the logs.
+    const ssoHandshake: string[] = [];
+    const onResponse = (response: Response) => {
+      const url = response.url();
+      if (!url.includes('logon.cgi') && !url.includes('preLogon.cgi')) {
+        return;
+      }
+      const location = response.headers()['location'];
+      if (ssoHandshake.length < 10) {
+        ssoHandshake.push(
+          `${stripQuery(url)} -> ${response.status()}${location ? ` location=${stripQuery(location)}` : ''}`,
+        );
+      }
+    };
+    popup.on('response', onResponse);
+    const detachPopupListeners = () => {
+      popup.off('requestfailed', onRequestFailed);
+      popup.off('response', onResponse);
+    };
+
     try {
       await fillLoginPopup({
         popup,
@@ -332,7 +397,7 @@ export const loginThroughPopup = async ({
         timeoutMs: LOGIN_ATTEMPT_TIMEOUT_MS,
       });
     } catch (error) {
-      popup.off('requestfailed', onRequestFailed);
+      detachPopupListeners();
       logE2E(`[AUTH] login fields not found (${error instanceof Error ? error.message : 'unknown'}) — retrying`);
       await popup.close().catch(() => undefined);
       await page.context().clearCookies();
@@ -345,11 +410,14 @@ export const loginThroughPopup = async ({
       logE2E,
       timeoutMs: LOGIN_ATTEMPT_TIMEOUT_MS,
     });
-    popup.off('requestfailed', onRequestFailed);
+    detachPopupListeners();
     if (authData) {
       return authData;
     }
 
+    if (ssoHandshake.length > 0) {
+      logE2E(`[SSO] BCeID handshake: ${ssoHandshake.join(' | ')}`);
+    }
     if (failedRequests.length > 0) {
       logE2E(`[SSO] failed popup requests: ${failedRequests.join('; ')}`);
     }
@@ -434,16 +502,27 @@ export const switchRoleAndRelogin = async ({
     }
   })();
   if (existingAuth && existingAuth.access_token) {
-    try {
-      await storeAuthAndProfile({ page, authData: existingAuth, apiBaseUrl, roleId });
-      logE2E(`[AUTH] reused existing session for ${roleCode}`);
-      return existingAuth.access_token;
-    } catch (error) {
-      logE2E(
-        `[AUTH] session reuse failed (${error instanceof Error ? error.message : 'unknown'}) — falling back to popup login`,
-      );
-      await page.context().clearCookies();
+    // Reuse the existing session: the role switch above is server-side, so
+    // re-fetching the profile with the same token is enough — no popup login
+    // needed. A 401/403 means the token itself is dead (popup justified);
+    // anything else is transient, so retry the profile fetch once first.
+    for (let reuseAttempt = 1; reuseAttempt <= 2; reuseAttempt++) {
+      try {
+        await storeAuthAndProfile({ page, authData: existingAuth, apiBaseUrl, roleId });
+        logE2E(`[AUTH] reused existing session for ${roleCode}`);
+        return existingAuth.access_token;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'unknown';
+        const tokenDead = message.includes('(401)') || message.includes('(403)');
+        if (tokenDead || reuseAttempt === 2) {
+          logE2E(`[AUTH] session reuse failed (${message}) — falling back to popup login`);
+          break;
+        }
+        logE2E(`[AUTH] session reuse hit a transient error (${message}) — retrying profile fetch`);
+        await page.waitForTimeout(3000);
+      }
     }
+    await page.context().clearCookies();
   }
 
   await clearSession(page);
