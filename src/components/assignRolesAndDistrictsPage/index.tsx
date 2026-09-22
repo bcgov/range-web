@@ -138,7 +138,7 @@ function AssignRolesAndDistrictsPage() {
           {usersFromData && (
             <>
               <Autocomplete
-                id="user-autocomplete-select"
+                id="assign-roles-select-user"
                 options={users?.length > 0 ? users : usersFromData}
                 value={user}
                 openOnFocus
@@ -177,7 +177,7 @@ function AssignRolesAndDistrictsPage() {
             <>
               {/* Roles */}
               <Autocomplete
-                id="user-autocomplete-select"
+                id="assign-roles-select-role"
                 options={[...(roles || []), { id: -1, description: 'No role in database yet' }]}
                 value={role}
                 openOnFocus
@@ -200,7 +200,7 @@ function AssignRolesAndDistrictsPage() {
 
               {/* Districts */}
               <Autocomplete
-                id="user-autocomplete-select"
+                id="assign-roles-select-districts"
                 multiple
                 options={districts.length > 0 ? districts : districtsFromData || []}
                 value={selectedDistricts}
