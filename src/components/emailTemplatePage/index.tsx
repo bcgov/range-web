@@ -78,7 +78,7 @@ function EmailTemplatePage() {
       );
       setUpdateSuccess('Template updated successfully');
     } catch (e: any) {
-      setUpdateError(`Error updating temaplate: ${e.message ?? e?.data?.error}`);
+      setUpdateError(`Error updating template: ${e.message ?? e?.data?.error}`);
     } finally {
       setIsUpdating(false);
     }
@@ -92,8 +92,13 @@ function EmailTemplatePage() {
           <Grid container direction="column">
             <Grid className={classes.gridRow}>
               <FormControl className={classes.formControl}>
-                <InputLabel>Template Name</InputLabel>
-                <Select value={selectedTemplate.id} onChange={handleTemplateChaneg}>
+                <InputLabel id="email-template-name-label">Template Name</InputLabel>
+                <Select
+                  labelId="email-template-name-label"
+                  id="email-template-name"
+                  value={selectedTemplate.id}
+                  onChange={handleTemplateChaneg}
+                >
                   {emailTemplates.map((emailTemplate) => (
                     <MenuItem key={emailTemplate.id} value={emailTemplate.id}>
                       {emailTemplate.name}
@@ -104,6 +109,7 @@ function EmailTemplatePage() {
             </Grid>
             <Grid className={classes.gridRow}>
               <TextField
+                id="email-template-from-email"
                 label="From Email"
                 variant="outlined"
                 value={selectedTemplate.fromEmail}
@@ -117,6 +123,7 @@ function EmailTemplatePage() {
             </Grid>
             <Grid className={classes.gridRow}>
               <TextField
+                id="email-template-subject"
                 label="Subject"
                 variant="outlined"
                 value={selectedTemplate.subject}
@@ -130,6 +137,8 @@ function EmailTemplatePage() {
             </Grid>
             <Grid className={classes.gridRow}>
               <TextareaAutosize
+                id="email-template-body"
+                aria-label="Email Body (HTML)"
                 placeholder="Email Body (HTML)"
                 rowsMin={10}
                 value={selectedTemplate.body}
