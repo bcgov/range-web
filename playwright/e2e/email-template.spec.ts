@@ -108,7 +108,9 @@ test.describe('Email templates', () => {
       await resetSeedTemplate({ getDbPool, template: seedTemplate, logE2E });
     }
     if (cachedSingleUserRecord) {
-      await setUserRoleById({ userId: cachedSingleUserRecord.id, roleId: ROLE_ID.ADMIN });
+      // Restore the canonical Staff Agrologist baseline like the other role-switching
+      // suites do — don't leave the shared E2E account elevated as Admin.
+      await setUserRoleById({ userId: cachedSingleUserRecord.id, roleId: ROLE_ID.STAFF_AGROLOGIST });
     }
   });
 
