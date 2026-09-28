@@ -46,6 +46,7 @@ type RoleCode = WorkflowRoleCode;
 
 let cachedSingleUserRecord: { id: number; sso_id: string } | null = null;
 let testDistrictId: number | null = null;
+let permissionGrantedBySuite = false;
 
 const loginPageAs = async ({ page, roleCode }: { page: Page; roleCode: RoleCode }): Promise<string> => {
   return runtimeLoginPageAs({
@@ -84,7 +85,7 @@ test.describe('Assign Roles and Districts', () => {
 
   test.beforeAll(async () => {
     apiContext = await request.newContext();
-    await ensureRolePermission({
+    permissionGrantedBySuite = await ensureRolePermission({
       getDbPool,
       roleId: roleByCode.SA,
       permissionId: ASSIGN_ROLES_PERMISSION_ID,
@@ -100,6 +101,17 @@ test.describe('Assign Roles and Districts', () => {
   });
 
   test.afterAll(async () => {
+    // Leave no residue: revoke the grant only when this suite added it, preserving
+    // environments where the permission was already configured.
+    if (permissionGrantedBySuite) {
+      await revokeRolePermission({
+        getDbPool,
+        roleId: roleByCode.SA,
+        permissionId: ASSIGN_ROLES_PERMISSION_ID,
+        logE2E,
+      });
+      permissionGrantedBySuite = false;
+    }
     if (apiContext) {
       await apiContext.dispose();
     }
@@ -174,6 +186,7 @@ test.describe('Assign Roles and Districts', () => {
         page,
         searchText: seedUser.searchToken,
         optionTextContains: seedUser.searchToken,
+        awaitDistrictsForUserId: seedUser.id,
         logE2E,
       });
       await selectRoleFromDropdown({ page, roleDescription: 'Staff Agrologist', logE2E });
@@ -188,7 +201,7 @@ test.describe('Assign Roles and Districts', () => {
         userId: seedUser.id,
       });
       expect(afterFirstAssign.roleId).toBe(ROLE_ID.STAFF_AGROLOGIST);
-      expect(afterFirstAssign.districtIds).toContain(testDistrictId);
+      expect(afterFirstAssign.districtIds).toEqual([testDistrictId]);
 
       // Re-select the user (page state resets districts to the freshly-fetched value) and
       // change the role to a different non-AH role with the same district, to exercise the
@@ -198,6 +211,7 @@ test.describe('Assign Roles and Districts', () => {
         page,
         searchText: seedUser.searchToken,
         optionTextContains: seedUser.searchToken,
+        awaitDistrictsForUserId: seedUser.id,
         logE2E,
       });
       await selectRoleFromDropdown({ page, roleDescription: 'Staff Decision Maker', logE2E });
@@ -211,7 +225,7 @@ test.describe('Assign Roles and Districts', () => {
         userId: seedUser.id,
       });
       expect(afterUpdate.roleId).toBe(ROLE_ID.STAFF_DECISION_MAKER);
-      expect(afterUpdate.districtIds).toContain(testDistrictId);
+      expect(afterUpdate.districtIds).toEqual([testDistrictId]);
     } finally {
       await cleanupSeed({ getDbPool, userId: seedUser.id, logE2E });
     }

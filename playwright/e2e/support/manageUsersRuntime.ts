@@ -29,7 +29,8 @@ type LogE2E = (message: string) => void;
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // ensureRolePermission / revokeRolePermission intentionally mirror manageClientsRuntime.ts so
-// both specs manage role_permissions the same idempotent way.
+// both specs manage role_permissions the same idempotent way. Unlike the mirror, this copy
+// reports whether it inserted the grant so callers can revoke suite-added residue in afterAll.
 export const ensureRolePermission = async ({
   getDbPool,
   roleId,
@@ -40,7 +41,7 @@ export const ensureRolePermission = async ({
   roleId: number;
   permissionId: number;
   logE2E: LogE2E;
-}): Promise<void> => {
+}): Promise<boolean> => {
   const pool = getDbPool();
   try {
     const existing = await pool.query(
@@ -49,10 +50,11 @@ export const ensureRolePermission = async ({
     );
     if ((existing.rowCount ?? 0) > 0) {
       logE2E(`[E2E] role ${roleId} already carries permission ${permissionId}`);
-      return;
+      return false;
     }
     await pool.query('INSERT INTO role_permissions (role_id, permission_id) VALUES ($1, $2)', [roleId, permissionId]);
     logE2E(`[E2E] granted permission ${permissionId} to role ${roleId}`);
+    return true;
   } finally {
     await pool.end();
   }
@@ -265,14 +267,34 @@ export const selectUserFromDropdown = async ({
   page,
   searchText,
   optionTextContains,
+  awaitDistrictsForUserId,
   logE2E,
 }: {
   page: Page;
   searchText: string;
   optionTextContains: string;
+  /**
+   * When set, waits for the page's pullRoleAndDistrict fetch
+   * (GET /v1/district/{userId}) to resolve before returning. That fetch overwrites
+   * the selected-districts state on resolve, so selecting districts or clicking
+   * Assign before it lands silently drops them.
+   */
+  awaitDistrictsForUserId?: number;
   logE2E: LogE2E;
 }): Promise<void> => {
-  await selectFromAutocomplete({ page, inputLabel: 'Select user', searchText, optionTextContains });
+  const select = () => selectFromAutocomplete({ page, inputLabel: 'Select user', searchText, optionTextContains });
+  if (awaitDistrictsForUserId === undefined) {
+    await select();
+  } else {
+    const districtsUrl = `/v1/district/${awaitDistrictsForUserId}`;
+    await Promise.all([
+      page.waitForResponse(
+        (response) => response.url().includes(districtsUrl) && response.request().method() === 'GET',
+        { timeout: 15000 },
+      ),
+      select(),
+    ]);
+  }
   logE2E(`[E2E] selected assign-roles user matching ${optionTextContains}`);
 };
 
