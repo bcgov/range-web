@@ -242,6 +242,7 @@ test.describe('Assign Roles and Districts', () => {
         page,
         searchText: seedUser.searchToken,
         optionTextContains: seedUser.searchToken,
+        awaitDistrictsForUserId: seedUser.id,
         logE2E,
       });
       await selectDistrictFromDropdown({ page, districtCode: testDistrictCode, logE2E });
