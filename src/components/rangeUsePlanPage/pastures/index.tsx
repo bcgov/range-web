@@ -90,8 +90,12 @@ function Pastures({ pastures, formik, agreementType }: PasturesProps) {
                 onClose={() => setImportPastureModalOpen(false)}
                 onImport={(pasture: any) => {
                   setImportPastureModalOpen(false);
-                  pasture.id = uuid();
-                  push(pasture);
+                  // Reset the pasture id AND all nested ids (plant communities,
+                  // actions, indicator plants, monitoring areas) so the import is
+                  // saved as a copy. See #1427: previously only the pasture id was
+                  // replaced and numeric nested ids took the update path against
+                  // the source plan's rows.
+                  push(resetPastureId(pasture));
                 }}
               />
             </IfEditable>
