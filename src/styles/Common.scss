@@ -354,19 +354,52 @@
   display: inline;
 
   .MuiButton-outlined {
-    color: #fff;
-    border: 2px solid #fff;
+    color: #333;
+    border: 2px solid #666;
     font-weight: 700;
     gap: 8px;
 
-    &:hover {
-      background: #fff;
+    .MuiSvgIcon-root,
+    .MuiIcon-root {
       color: #333;
+    }
+
+    &:hover {
+      background: #f5f5f5;
+      color: #222;
+      border: 2px solid #444;
+
+      .MuiSvgIcon-root,
+      .MuiIcon-root {
+        color: #222;
+      }
+    }
+  }
+}
+
+// White inverted treatment for dark surfaces only (action bar, banner).
+// Light-surface buttons (schedules, attachments, dialogs) use the dark default above.
+.banner,
+.rup__actions__background {
+  .inverted-btn {
+    .MuiButton-outlined {
+      color: #fff;
       border: 2px solid #fff;
 
       .MuiSvgIcon-root,
       .MuiIcon-root {
+        color: #fff;
+      }
+
+      &:hover {
+        background: #fff;
         color: #333;
+        border: 2px solid #fff;
+
+        .MuiSvgIcon-root,
+        .MuiIcon-root {
+          color: #333;
+        }
       }
     }
   }
