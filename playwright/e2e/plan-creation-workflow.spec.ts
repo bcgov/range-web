@@ -273,7 +273,7 @@ test.describe('Plan creation validations and successful flows', () => {
     await expectValidationToast(page, TOTAL_AUMS_EXCEEDS);
   });
 
-  test('keeps PLD / Crown AUM and the schedule total numeric for a non-numeric count (#1430)', async ({ page }) => {
+  test('only accepts a numeric livestock count and keeps AUM columns numeric (#1430)', async ({ page }) => {
     const seeded = await seedPlan('grazing-schedule-aum-display', GRAZING_AGREEMENT_TYPE_ID);
     seededAgreements.push(seeded.agreementId);
     await openPlanAndWait({ page, planId: seeded.planId });
@@ -284,25 +284,21 @@ test.describe('Plan creation validations and successful flows', () => {
     const row = page.locator('.rup__grazing-schedule__row').first();
 
     // The field only accepts numeric input, so a non-numeric count cannot be
-    // typed into it in the first place.
+    // entered and can no longer turn the AUMs into "N/P" / the total into "NaN".
     await expect(countInput).toHaveAttribute('type', 'number');
 
-    // Inject a non-numeric value the way the old free-text field allowed it to
-    // be entered. The per-row AUMs and the schedule total must stay numeric -
-    // never "N/P" in the columns nor "NaN" in the total.
-    await countInput.evaluate((element) => {
-      const input = element as HTMLInputElement;
-      // Drop the number constraint so the browser keeps the invalid value.
-      input.setAttribute('type', 'text');
-      const nativeValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-      nativeValueSetter?.call(input, 'abc');
-      input.dispatchEvent(new Event('input', { bubbles: true }));
-    });
+    await countInput.fill('');
+    await expect(countInput).toHaveValue('');
+    await countInput.pressSequentially('abc');
+    await expect(countInput).toHaveValue('');
 
     await expect(row).not.toContainText('N/P');
+    await expect(totalAum).not.toHaveText('NaN');
+
+    // A real count flows through to numeric PLD / Crown AUM and schedule total.
+    await countInput.fill('20');
     await expect(row.locator('td').nth(7)).toHaveText(/^\d+(\.\d+)?$/); // PLD
     await expect(row.locator('td').nth(8)).toHaveText(/^\d+(\.\d+)?$/); // Crown AUMs
-    await expect(totalAum).not.toHaveText('NaN');
     await expect(totalAum).toHaveText(/^\d+(\.\d+)?$/);
   });
 

@@ -48,21 +48,10 @@ export const calcCrownAUMs = (totalAUMs: number, pldAUMs: number): number => tot
 interface GrazingScheduleEntry {
   pastureId?: number | null;
   livestockTypeId?: number | null;
-  livestockCount?: number | string | null;
+  livestockCount?: number | null;
   dateIn?: string | null;
   dateOut?: string | null;
 }
-
-/**
- * Coerce a value that must participate in arithmetic into a finite number.
- *
- * In-progress schedule rows are bound straight to Formik, so `livestockCount`
- * can hold a non-numeric string while the user is typing. Without this guard
- * that input yields `NaN`, which renders as "N/P" in the PLD / Crown AUM cells
- * and poisons the schedule total with "NaN". Mirrors `toNumber` in the API's
- * aumCalculation so the two implementations stay in step.
- */
-const toNumber = (value: unknown): number => Number(value) || 0;
 
 interface PastureWithPld {
   id: number;
@@ -85,10 +74,6 @@ interface LivestockType {
  *  - a crown value in the open interval (0, 1) is clamped up to 1, so a pasture
  *    with real but tiny crown use never displays as zero.
  *
- * Numeric inputs are coerced through `toNumber`, so a non-numeric
- * `livestockCount` (a row that is still being typed) contributes `0` rather
- * than poisoning the entry and the total with `NaN`.
- *
  * The API performs the same calculation in src/libs/aumCalculation.ts. The two
  * are deliberately kept in step - if this changes, that must change too.
  */
@@ -100,8 +85,8 @@ export const calcEntryAUMs = (
   const { livestockCount, dateIn, dateOut } = entry || {};
 
   const days = calcDateDiff(dateOut, dateIn, false) as number;
-  const totalAUMs = calcTotalAUMs(toNumber(livestockCount), days, toNumber(livestockType?.auFactor));
-  const pldAUMs = round(calcPldAUMs(totalAUMs, toNumber(pasture?.pldPercent)), 0);
+  const totalAUMs = calcTotalAUMs(livestockCount || 0, days, livestockType?.auFactor);
+  const pldAUMs = round(calcPldAUMs(totalAUMs, pasture?.pldPercent ?? undefined), 0);
   const crownAUMDecimal = calcCrownAUMs(totalAUMs, pldAUMs);
   const crownAUMs = crownAUMDecimal > 0 && crownAUMDecimal < 1 ? 1 : round(crownAUMDecimal, 0);
 
@@ -130,7 +115,7 @@ export const calcCrownTotalAUMs = (
       const pasture = pastures.find((p) => p.id === pastureId);
       const livestockType = livestockTypes.find((lt) => lt.id === livestockTypeId);
 
-      return toNumber(calcEntryAUMs(entry, pasture, livestockType).crownAUMs);
+      return calcEntryAUMs(entry, pasture, livestockType).crownAUMs;
     })
     .reduce(reducer, 0);
   return sumAUM > 0 && sumAUM < 1 ? 1 : sumAUM;
