@@ -34,6 +34,7 @@ import {
   saveDraft,
   submitPlan,
 } from './support/planCreationUiRuntime';
+import { expandSchedule } from './support/scheduleCsvRuntime';
 
 const E2E_PREFIX = 'E2E-AUTO';
 const GRAZING_AGREEMENT_TYPE_ID = 1;
@@ -270,6 +271,39 @@ test.describe('Plan creation validations and successful flows', () => {
     await page.reload();
     await submitPlan(page);
     await expectValidationToast(page, TOTAL_AUMS_EXCEEDS);
+  });
+
+  test('keeps PLD / Crown AUM and the schedule total numeric for a non-numeric count (#1430)', async ({ page }) => {
+    const seeded = await seedPlan('grazing-schedule-aum-display', GRAZING_AGREEMENT_TYPE_ID);
+    seededAgreements.push(seeded.agreementId);
+    await openPlanAndWait({ page, planId: seeded.planId });
+    await expandSchedule({ page, year: seeded.scheduleYear });
+
+    const countInput = page.locator('input[name$=".livestockCount"]').first();
+    const totalAum = page.locator('.rup__grazing-schedule__AUM-number').nth(1);
+    const row = page.locator('.rup__grazing-schedule__row').first();
+
+    // The field only accepts numeric input, so a non-numeric count cannot be
+    // typed into it in the first place.
+    await expect(countInput).toHaveAttribute('type', 'number');
+
+    // Inject a non-numeric value the way the old free-text field allowed it to
+    // be entered. The per-row AUMs and the schedule total must stay numeric -
+    // never "N/P" in the columns nor "NaN" in the total.
+    await countInput.evaluate((element) => {
+      const input = element as HTMLInputElement;
+      // Drop the number constraint so the browser keeps the invalid value.
+      input.setAttribute('type', 'text');
+      const nativeValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+      nativeValueSetter?.call(input, 'abc');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    await expect(row).not.toContainText('N/P');
+    await expect(row.locator('td').nth(7)).toHaveText(/^\d+(\.\d+)?$/); // PLD
+    await expect(row.locator('td').nth(8)).toHaveText(/^\d+(\.\d+)?$/); // Crown AUMs
+    await expect(totalAum).not.toHaveText('NaN');
+    await expect(totalAum).toHaveText(/^\d+(\.\d+)?$/);
   });
 
   test('covers hay-cutting schedule required fields, year rules, and tonne limits', async ({ page }) => {
