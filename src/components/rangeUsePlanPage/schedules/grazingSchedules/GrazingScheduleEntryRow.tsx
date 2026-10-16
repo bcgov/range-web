@@ -82,6 +82,9 @@ const GrazingScheduleEntryRow = ({
           name={`${namespace}.livestockCount`}
           displayValue={livestockCount}
           inputProps={{
+            type: 'number',
+            min: '0',
+            step: '1',
             'aria-label': 'livestock count',
             onChange,
           }}

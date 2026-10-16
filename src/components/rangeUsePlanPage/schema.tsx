@@ -157,6 +157,9 @@ const RUPSchema = Yup.object().shape({
           livestockCount: Yup.number()
             .transform((v: any, originalValue: any) => (originalValue === '' ? null : v))
             .nullable()
+            .integer('Value must be a whole number')
+            .min(0, 'Value must be 0 or greater')
+            .typeError('Please enter a number')
             .test('livestock-required', 'Livestock count is required', function (value) {
               const { livestockTypeId } = this.parent;
               // If livestockTypeId is provided, then livestockCount is required
