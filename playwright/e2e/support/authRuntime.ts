@@ -153,7 +153,7 @@ const fillLoginPopup = async ({
   throw new Error('Unable to find login username/password fields in SSO popup.');
 };
 
-const storeAuthAndProfile = async ({
+export const storeAuthAndProfile = async ({
   page,
   authData,
   apiBaseUrl,
@@ -163,7 +163,7 @@ const storeAuthAndProfile = async ({
   authData: AuthData;
   apiBaseUrl: string;
   roleId?: number;
-}): Promise<void> => {
+}): Promise<{ id: number; ssoId?: string; [key: string]: unknown }> => {
   const apiContext = await request.newContext();
   try {
     const userResponse = await apiContext.get(`${apiBaseUrl}/v1/user/me`, {
@@ -201,6 +201,7 @@ const storeAuthAndProfile = async ({
     await persistAuthWithRetry();
     await page.reload({ waitUntil: 'domcontentloaded' });
     await page.goto('/home');
+    return profile;
   } finally {
     await apiContext.dispose();
   }

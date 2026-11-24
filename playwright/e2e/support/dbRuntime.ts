@@ -58,6 +58,11 @@ const insertRow = async ({
   return result.rows[0] || null;
 };
 
+// When several user_account rows share an sso_id (e.g. the same username in the
+// dev and test BCeID realms), prefer the most recently authenticated one, which
+// is the account the current e2e session maps to.
+const SINGLE_USER_ORDER_BY = 'ORDER BY last_login_at DESC NULLS LAST, id ASC';
+
 const findUserBySsoCandidates = async ({
   client,
   candidates,
@@ -72,7 +77,7 @@ const findUserBySsoCandidates = async ({
       SELECT id, sso_id
       FROM user_account
       WHERE lower(sso_id) = ANY($1::text[])
-      ORDER BY id ASC
+      ${SINGLE_USER_ORDER_BY}
       LIMIT 1
     `,
     [candidates.map((candidate) => candidate.toLowerCase())],
@@ -88,18 +93,29 @@ const findUserBySsoCandidates = async ({
 export const getSingleUserRecordForDb = async ({
   getDbPool,
   candidates,
+  userId,
 }: {
   getDbPool: GetDbPool;
   candidates: string[];
+  /** Session user id resolved via the API; takes precedence over the sso_id lookup. */
+  userId?: number;
 }) => {
   const pool = getDbPool();
   try {
+    if (userId) {
+      const byId = await pool.query('SELECT id, sso_id FROM user_account WHERE id = $1', [userId]);
+      if (byId.rowCount !== 1) {
+        throw new Error(`Could not find E2E user in user_account by id='${userId}'`);
+      }
+      return byId.rows[0] as { id: number; sso_id: string };
+    }
+
     const result = await pool.query(
       `
         SELECT id, sso_id
         FROM user_account
         WHERE lower(sso_id) = ANY($1::text[])
-        ORDER BY id ASC
+        ${SINGLE_USER_ORDER_BY}
         LIMIT 1
       `,
       [candidates.map((candidate) => candidate.toLowerCase())],

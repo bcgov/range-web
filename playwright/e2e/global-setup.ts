@@ -2,7 +2,8 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import { chromium, type FullConfig } from '@playwright/test';
-import { loginThroughPopup } from './support/authRuntime';
+import { loginThroughPopup, storeAuthAndProfile } from './support/authRuntime';
+import { getApiBaseUrl } from './support/extensionRuntime';
 
 const getStorageStatePath = (): string =>
   process.env.PLAYWRIGHT_STORAGE_STATE || path.join(os.tmpdir(), 'range-web-e2e-state.json');
@@ -47,6 +48,21 @@ export default async function globalSetup(config: FullConfig) {
       loginMode: loginMode === 'staff' ? 'staff' : 'bceid',
       logE2E,
     });
+
+    // The popup login returns as soon as the token lands in localStorage, before
+    // the app has stored the user profile. Store both explicitly so every test
+    // starts from a complete session, regardless of how fast the login was.
+    const profile = await storeAuthAndProfile({ page, authData, apiBaseUrl: getApiBaseUrl() });
+    const storedProfile = await page.evaluate(() => JSON.parse(window.localStorage.getItem('range-web-user') || '{}'));
+    if (!storedProfile.id) {
+      throw new Error('Login succeeded but the user profile was not stored in localStorage');
+    }
+
+    // Pin the DB user to the account the token maps to. The same sso_id can
+    // exist on more than one user_account row (e.g. dev vs test BCeID), and the
+    // tests must switch roles on the row the API actually authenticates.
+    process.env.PLAYWRIGHT_E2E_USER_ID = String(profile.id);
+    logE2E(`resolved session user id=${profile.id} ssoId=${profile.ssoId ?? 'unknown'}`);
 
     const storageStatePath = getStorageStatePath();
     await context.storageState({ path: storageStatePath });

@@ -121,7 +121,12 @@ export const isSingleUserMode = (): boolean => {
 };
 
 export const getSingleUserRecordForDb = async () => {
-  return runtimeGetSingleUserRecordForDb({ getDbPool, candidates: getSingleUserSsoCandidatesForDb() });
+  const sessionUserId = Number(process.env.PLAYWRIGHT_E2E_USER_ID) || undefined;
+  return runtimeGetSingleUserRecordForDb({
+    getDbPool,
+    candidates: getSingleUserSsoCandidatesForDb(),
+    userId: sessionUserId,
+  });
 };
 
 export const setUserRoleById = async ({ userId, roleId }: { userId: number; roleId: number }) => {

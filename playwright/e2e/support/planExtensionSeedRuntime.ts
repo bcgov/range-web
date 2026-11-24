@@ -53,7 +53,7 @@ const getUserIdBySsoCandidates = async ({
       SELECT id
       FROM user_account
       WHERE lower(sso_id) = ANY($1::text[])
-      ORDER BY id ASC
+      ORDER BY last_login_at DESC NULLS LAST, id ASC
       LIMIT 1
     `,
     [candidates.map((candidate) => candidate.toLowerCase())],
