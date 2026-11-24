@@ -236,6 +236,17 @@ export default function ExtensionColumn({ user, currentPage, agreement }: Extens
                   <br />
                   For Decision
                 </PrimaryButton>
+                <Button
+                  variant="outlined"
+                  style={{ margin: '4px' }}
+                  disabled={loading}
+                  startIcon={loading ? <CircularProgress size="1em" color="inherit" /> : undefined}
+                  onClick={() => {
+                    handleReject(agreement.plan.id);
+                  }}
+                >
+                  Reject Extension
+                </Button>
               </>
             );
           }

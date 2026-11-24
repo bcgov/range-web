@@ -792,6 +792,33 @@ test.describe('Plan extension workflow harness', () => {
     await expect(page.getByText('Error occurred while fetching the range use plan.')).toHaveCount(0);
   });
 
+  test('PE-UI-006 SA can reject an extension after all agreement holders voted yes', async ({ page }) => {
+    const scenario = await createExtensionScenarioContext({
+      page,
+      testCase: 'pe-ui-006-sa-reject-after-unanimous-yes',
+      additionalClientCount: 0,
+      onAgreementSeeded: (agreementId) => cleanupAgreementIds.push(agreementId),
+    });
+
+    await scenario.seedRequests();
+    await scenario.approvePrimaryAsAh();
+    const beforeReject = await scenario.readPlan();
+    expect(beforeReject.extensionStatus).toBe(PLAN_EXTENSION_STATUS.AWAITING_VOTES);
+    expect(beforeReject.extensionReceivedVotes).toBe(beforeReject.extensionRequiredVotes);
+
+    await switchRoleAndRelogin({ page, roleCode: 'SA' });
+    const agreementRow = await openPlanExtensionInList({ page, agreementId: scenario.seeded.agreementId });
+
+    await expect(agreementRow.getByRole('button', { name: /Forward Extension\s+For Decision/ })).toBeVisible();
+    await agreementRow.getByRole('button', { name: 'Reject Extension', exact: true }).click();
+    await waitForUiObservation(page);
+    await confirmExtensionAction(page);
+
+    await expect
+      .poll(async () => (await scenario.readPlan()).extensionStatus)
+      .toBe(PLAN_EXTENSION_STATUS.STAFF_REJECTED);
+  });
+
   test('PE-005 AH rejection sets Agreement Holder Rejected and allows replacement plan', async ({ page }) => {
     const scenario = await createExtensionScenarioContext({
       page,
